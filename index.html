@@ -1,656 +1,429 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-room="sea">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0b1026">
-<meta name="description" content="Hand-painted original artwork, created to your vision.">
+<meta name="theme-color" content="#0a1322">
+<meta name="description" content="Original paintings in acrylic and watercolor, made to order. No prints, no AI.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="ciesielska.art | Hand-Painted Original Artwork">
-<meta property="og:description" content="Original paintings, made by hand and created with your vision in mind.">
+<meta property="og:title" content="ciesielska.art | Original paintings, made to order">
+<meta property="og:description" content="Original paintings in acrylic and watercolor, made to order. No prints, no AI.">
+<meta property="og:image" content="https://ciesielska.art/images/01-nebula-turtles.jpg">
 
-<title>ciesielska.art | Hand-Painted Original Artwork</title>
+<title>ciesielska.art | Original paintings, made to order</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a1322'/%3E%3Cpath d='M7 20c2-9 9-13 17-11-1 8-6 14-14 15-2 0-3-2-3-4z' fill='%23e2633c'/%3E%3C/svg%3E">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<script>
+/* Motion effects are opt-in: without JS, or with reduced motion, the page is a plain static layout. */
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]motion=on\b/.test(location.search)) document.documentElement.classList.add('motion');
+</script>
 
 <style>
-:root {
-  --bg: #faf9f5;
-  --ink: #16181d;
-  --ink-soft: #5c6470;
-  --ink-faint: #9aa1ac;
-  --accent: #2547e8;
-  --accent-deep: #16298a;
-  --line: #e8e6df;
-  --gold: #c9a24b;
+/* The wall colour is a registered property, so it can fade from room to room. */
+@property --wall { syntax: "<color>"; inherits: true; initial-value: #0a1322; }
+@property --glow { syntax: "<color>"; inherits: true; initial-value: #1c6a86; }
 
-  --font-display: "Fraunces", Georgia, serif;
-  --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+:root {
+  --fg: #f3eee3;
+  --fg-soft: rgba(243, 238, 227, .72);
+  --fg-faint: rgba(243, 238, 227, .45);
+  --rule: rgba(243, 238, 227, .2);
+  --ochre: #e3b667;
+  --ember: #e2633c;
+  --paper: #f1eadb;
+  --ink: #1b1a22;
+  --ink-soft: #5b5763;
+
+  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --sans: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  --pad: clamp(20px, 5vw, 72px);
+  --hung-w: min(92vw, 1080px, calc((100svh - 300px) * 1.438));
 }
+
+html {
+  --wall: #0a1322;
+  --glow: #1c6a86;
+  transition: --wall 1.4s ease, --glow 1.4s ease;
+  -webkit-text-size-adjust: 100%;
+  scrollbar-gutter: stable;
+}
+html[data-room="violet"] { --wall: #120f2a; --glow: #5b3fae; }
+html[data-room="dusk"]   { --wall: #1c1220; --glow: #c4523a; }
+html[data-room="ink"]    { --wall: #0e0f14; --glow: #3a3f66; }
+html[data-room="ember"]  { --wall: #17110f; --glow: #a8742a; }
+html.motion { scroll-behavior: smooth; }
+html:has(dialog[open]) { overflow: hidden; }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
-
 body {
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font-body);
-  line-height: 1.6;
+  background: var(--wall);
+  color: var(--fg);
+  font-family: var(--sans);
+  font-size: 1.0625rem;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
 }
 
-::selection { background: var(--accent); color: #fff; }
+::selection { background: var(--ember); color: #fff; }
+:focus-visible { outline: 2px solid var(--ochre); outline-offset: 4px; border-radius: 2px; }
 
-:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 4px; }
+button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+img { display: block; }
+h1, h2, h3 { font-family: var(--serif); font-weight: 400; }
+em { font-style: italic; }
 
-.wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+/* Light pooling on the wall, tinted by the painting in view. */
+.wash {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(90vmax 70vmax at 85% -10%, color-mix(in oklab, var(--glow) 42%, transparent), transparent 70%),
+    radial-gradient(70vmax 60vmax at 0% 110%, color-mix(in oklab, var(--glow) 24%, transparent), transparent 70%);
+}
 
-/* Polish type is a touch denser, with slightly tighter tracking. */
-html[lang="pl"] body { letter-spacing: 0; }
-html[lang="pl"] .hero h1,
-html[lang="pl"] .caption h2 { letter-spacing: -.01em; }
+/* Fine grain over everything, like tooth on a canvas. */
+.grain {
+  position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: .11;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
 
-/* ============================================
-   TOP BAR
-   ============================================ */
+.progress { display: none; }
+@supports (animation-timeline: scroll()) {
+  .motion .progress {
+    display: block; position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60;
+    background: var(--ochre); transform-origin: 0 50%;
+    animation: grow linear both; animation-timeline: scroll(root);
+  }
+}
+@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+
+/* ============ TOP BAR ============ */
 .topbar {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  padding: calc(14px + env(safe-area-inset-top, 0px)) 20px 14px;
-  background: linear-gradient(rgba(10, 12, 24, .55), rgba(10, 12, 24, 0));
-  color: #fff;
-  transition: background .3s;
+  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding: calc(16px + env(safe-area-inset-top, 0px)) var(--pad) 12px;
+  color: var(--fg);
+  transition: transform .45s cubic-bezier(.2, .7, .2, 1);
 }
-
-.topbar.scrolled { background: rgba(12, 14, 26, .85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-
-.topbar-left { display: flex; align-items: center; gap: 16px; }
-
-.wordmark {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 1rem;
-  letter-spacing: .02em;
-  color: #fff;
-  text-decoration: none;
-  white-space: nowrap;
+/* A feathered veil in the wall colour, so text scrolling underneath never tangles with the header. */
+.topbar::before {
+  content: ""; position: absolute; inset: 0 0 -26px; z-index: -1; pointer-events: none;
+  background: linear-gradient(color-mix(in srgb, var(--wall) 88%, transparent) 30%, transparent);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  -webkit-mask-image: linear-gradient(#000 55%, transparent); mask-image: linear-gradient(#000 55%, transparent);
 }
-.wordmark em { font-style: normal; color: #9db1ff; }
-
-.topbar-right { display: flex; align-items: center; gap: 10px; }
-
-/* Language switch */
-.lang-switch {
-  display: flex;
-  border: 1px solid rgba(255,255,255,.35);
-  border-radius: 999px;
-  overflow: hidden;
-  background: rgba(255,255,255,.08);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+/* Past the hero the header tucks away on the way down and returns on the way up. */
+.topbar.tucked { transform: translateY(-130%); }
+.topbar.tucked:focus-within { transform: none; }
+.wordmark { font-family: var(--serif); font-size: 1.35rem; color: inherit; text-decoration: none; white-space: nowrap; }
+.wordmark em { opacity: .7; }
+.topbar-right { display: flex; align-items: center; gap: clamp(12px, 3vw, 26px); }
+.lang { display: flex; gap: 2px; }
+.lang button {
+  font-size: .78rem; font-weight: 600; letter-spacing: .08em;
+  min-width: 40px; min-height: 40px; opacity: .55; transition: opacity .2s;
 }
-
-.lang-switch button {
-  border: none;
-  background: transparent;
-  color: rgba(255,255,255,.75);
-  font-family: var(--font-body);
-  font-size: .74rem;
-  font-weight: 600;
-  letter-spacing: .08em;
-  padding: 8px 13px;
-  cursor: pointer;
-  transition: background .2s, color .2s;
-  min-height: 36px;
-}
-
-.lang-switch button.active {
-  background: #fff;
-  color: var(--ink);
-}
-
+.lang button:hover { opacity: 1; }
+.lang button[aria-pressed="true"] { opacity: 1; text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1.5px; }
 .topbar-cta {
-  font-family: var(--font-body);
-  font-size: .8rem;
-  font-weight: 600;
-  color: #fff;
-  text-decoration: none;
-  border: 1px solid rgba(255,255,255,.35);
-  border-radius: 999px;
-  padding: 9px 18px;
-  background: rgba(255,255,255,.08);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  transition: background .2s, border-color .2s;
-  cursor: pointer;
-  white-space: nowrap;
+  font-size: .85rem; font-weight: 500; white-space: nowrap;
+  min-height: 40px; padding: 0 18px; border: 1px solid currentColor; border-radius: 999px;
+  transition: background .2s, color .2s;
 }
-.topbar-cta:hover { background: rgba(255,255,255,.18); border-color: rgba(255,255,255,.6); }
+.topbar-cta:hover { background: var(--fg); color: #14151c; }
 
-/* ============================================
-   HERO: fullscreen, first painting as backdrop
-   ============================================ */
-.hero {
-  position: relative;
-  min-height: 100dvh;
-  display: flex;
-  align-items: flex-end;
-  color: #fff;
-  isolation: isolate;
-  overflow: hidden;
-  background: #0b1026;
-}
-
-.hero-bg {
-  position: absolute;
-  inset: -12% 0 -6%;
-  z-index: -2;
-  background:
-    url("images/01-nebula-turtles.jpg") center 30% / cover no-repeat,
-    radial-gradient(120% 90% at 70% 10%, #2a3f8f 0%, #101736 55%, #07091a 100%);
-}
-
-.hero::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background:
-    linear-gradient(180deg, rgba(7,9,26,.35) 0%, rgba(7,9,26,0) 35%, rgba(7,9,26,.82) 88%);
-}
-
-.hero-content {
-  width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 24px calc(72px + env(safe-area-inset-bottom, 0px));
-}
-
-.kicker {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: .74rem;
-  font-weight: 600;
-  letter-spacing: .16em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 18px;
-}
-.kicker::before { content: ""; width: 26px; height: 1px; background: currentColor; opacity: .6; }
-html[lang="pl"] .kicker { letter-spacing: .12em; }
-
-.hero h1 {
-  font-family: var(--font-display);
-  font-size: clamp(2.5rem, 8.5vw, 5.4rem);
-  font-weight: 430;
-  line-height: 1.03;
-  letter-spacing: -.02em;
-  max-width: 16ch;
-  margin-bottom: 18px;
-  text-wrap: balance;
-}
-
-.hero h1 .accent {
-  font-style: italic;
-  font-weight: 470;
-  background: linear-gradient(120deg, #9db8ff, #c9a24b);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-}
-
-.hero .lede {
-  max-width: 44ch;
-  font-size: 1rem;
-  color: rgba(255,255,255,.82);
-  margin-bottom: 30px;
-}
-
-.hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
-
+/* ============ BUTTONS ============ */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 48px;
-  padding: 0 26px;
-  border-radius: 999px;
-  font-family: var(--font-body);
-  font-size: .92rem;
-  font-weight: 600;
-  text-decoration: none;
-  cursor: pointer;
-  border: none;
-  transition: transform .2s, box-shadow .2s, background .2s, border-color .2s;
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 50px; padding: 0 28px; border-radius: 999px;
+  font-size: .95rem; font-weight: 600; text-decoration: none;
+  transition: transform .25s cubic-bezier(.2,.7,.2,1), background .2s, color .2s, border-color .2s;
+}
+.btn:hover { transform: translateY(-2px); }
+.btn-solid { background: var(--fg); color: #14151c; }
+.btn-solid:hover { background: #fff; }
+.btn-line { color: var(--fg); border: 1px solid rgba(243, 238, 227, .5); }
+.btn-line:hover { border-color: var(--fg); }
+
+.text-btn {
+  font-size: .92rem; font-weight: 500; text-align: left;
+  padding: 10px 0; border-bottom: 1px solid var(--rule);
+  transition: border-color .2s, color .2s;
+}
+.text-btn::after { content: "\2192"; display: inline-block; margin-left: .5em; transition: transform .25s; }
+.text-btn:hover { border-color: var(--ochre); color: var(--ochre); }
+.text-btn:hover::after { transform: translateX(4px); }
+
+/* ============ HERO ============
+   With motion on, the page opens inside the paint and scrolling steps you
+   back until the canvas hangs on the wall. Without it: copy, then canvas. */
+.hero { position: relative; }
+.hero-stage {
+  position: relative; min-height: 100svh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px;
+  padding: 110px 4vw 56px;
+}
+.hero-copy { width: min(100%, 1080px); order: -1; margin-bottom: 20px; }
+.hero-scrim, .scroll-hint { display: none; }
+
+.kicker { font-size: .78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ochre); margin-bottom: 18px; }
+.hero h1 { font-size: clamp(2.9rem, 11vw, 7.5rem); line-height: .96; letter-spacing: -.015em; margin-bottom: 22px; text-wrap: balance; }
+.hero h1 em { color: var(--ochre); }
+.lede { max-width: 46ch; color: var(--fg-soft); margin-bottom: 30px; text-wrap: pretty; }
+.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
+
+.hero-canvas { width: var(--hung-w); flex: none; }
+.hero-label { width: var(--hung-w); container-type: inline-size; }
+
+.motion .hero { height: 250svh; }
+.motion .hero-stage { position: sticky; top: 0; height: 100svh; min-height: 0; overflow: clip; padding: 76px 4vw 28px; }
+.motion .hero-canvas { transform: scale(var(--s, 1)); pointer-events: none; }
+.motion .hero.hung .hero-canvas { pointer-events: auto; }
+.motion .hero-scrim {
+  display: block; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: var(--scrim, 1);
+  background:
+    linear-gradient(180deg, rgba(6, 9, 20, .5) 0%, rgba(6, 9, 20, 0) 26%),
+    linear-gradient(8deg, rgba(6, 9, 20, .92) 8%, rgba(6, 9, 20, .5) 42%, rgba(6, 9, 20, 0) 70%);
+}
+.motion .hero-copy {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; width: auto; margin: 0;
+  padding: 0 var(--pad) clamp(84px, 13svh, 130px);
+  opacity: var(--copy, 1); transform: translateY(calc((1 - var(--copy, 1)) * -40px));
+}
+.motion .hero.past .hero-copy, .motion .hero.past .scroll-hint { visibility: hidden; }
+.motion .hero-label { opacity: var(--label, 0); transform: translateY(calc((1 - var(--label, 0)) * 16px)); }
+.motion .hero:not(.hung) .hero-label { pointer-events: none; }
+
+.motion .scroll-hint {
+  position: absolute; left: 50%; bottom: 20px; z-index: 3; transform: translateX(-50%);
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap;
+  color: var(--fg-soft); opacity: var(--copy, 1);
+}
+.motion .scroll-hint::after { content: ""; width: 1px; height: 30px; background: linear-gradient(var(--fg), transparent); animation: drip 2s ease-in-out infinite; }
+@keyframes drip {
+  0% { transform: scaleY(0); transform-origin: top; }
+  55% { transform: scaleY(1); transform-origin: top; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
 }
 
-.btn-light { background: #fff; color: var(--ink); }
-.btn-light:hover { transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,0,0,.35); }
-
-.btn-ghost-light {
-  background: rgba(255,255,255,.06);
-  color: #fff;
-  border: 1px solid rgba(255,255,255,.35);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
+/* ============ A PAINTING ON THE WALL ============ */
+.art {
+  position: relative; display: block; width: 100%; overflow: hidden; cursor: zoom-in;
+  aspect-ratio: var(--ratio);
+  box-shadow: 0 2px 0 rgba(255, 255, 255, .06) inset, 0 30px 50px -18px rgba(0, 0, 0, .65), 0 70px 120px -40px rgba(0, 0, 0, .7);
+  transform: perspective(1100px) rotateX(calc(var(--ty, 0) * -3.5deg)) rotateY(calc(var(--tx, 0) * 3.5deg));
+  transition: transform .6s cubic-bezier(.2, .7, .2, 1);
 }
-.btn-ghost-light:hover { border-color: #fff; transform: translateY(-2px); }
-
-.scroll-hint {
-  position: absolute;
-  bottom: 22px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: .72rem;
-  letter-spacing: .18em;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.82);
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
+/* The photos include a sliver of easel; a slight crop keeps only the canvas. */
+.art img, .viewer-frame img {
+  width: 100%; height: 100%; object-fit: cover;
+  transform: scale(var(--crop, 1)); transform-origin: var(--origin, 50% 50%);
 }
-html[lang="pl"] .scroll-hint { letter-spacing: .14em; }
-
-.scroll-hint::after {
-  content: "";
-  width: 1px;
-  height: 34px;
-  background: linear-gradient(rgba(255,255,255,.6), transparent);
-  animation: drip 1.8s ease-in-out infinite;
+/* Raking light that follows the pointer. */
+.sheen {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .4s;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 250, 235, .5), transparent 46%);
+  mix-blend-mode: soft-light;
 }
+.art:hover .sheen { opacity: 1; }
+.closer {
+  position: absolute; right: 12px; bottom: 12px;
+  font-size: .72rem; font-weight: 600; letter-spacing: .06em; color: #fff;
+  padding: 7px 12px; border-radius: 999px; background: rgba(8, 10, 20, .6);
+  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
+  opacity: 0; transform: translateY(6px); transition: opacity .3s, transform .3s;
+}
+.art:hover .closer, .art:focus-visible .closer { opacity: 1; transform: none; }
+@media (hover: none) { .closer { opacity: 1; transform: none; } }
 
-@keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 55% { transform: scaleY(1); transform-origin: top; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+.placard { display: grid; gap: 14px; border-top: 1px solid var(--rule); padding-top: 18px; }
+.placard h2 { font-size: clamp(1.9rem, 4.2vw, 2.9rem); line-height: 1.02; text-wrap: balance; }
+.medium { font-size: .82rem; color: var(--fg-faint); margin-top: 6px; }
+.desc { color: var(--fg-soft); max-width: 38ch; text-wrap: pretty; }
+.placard-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 22px; }
+.status { display: inline-flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-soft); }
+.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ember); }
+.status.is-available::before { background: #86d6a0; box-shadow: 0 0 0 4px rgba(134, 214, 160, .18); }
 
-/* ============================================
-   SHOWCASE: full-bleed painting chapters
-   ============================================ */
-.showcase { position: relative; }
+@container (min-width: 640px) {
+  .hero-label .placard { grid-template-columns: 1fr 1.25fr auto; gap: 36px; align-items: start; }
+  .hero-label .placard h2 { font-size: 2.3rem; }
+  .hero-label .placard-foot { flex-direction: column; align-items: flex-end; }
+}
+@container (max-width: 420px) {
+  .hero-label .placard { gap: 8px; padding-top: 14px; }
+  .hero-label .placard h2 { font-size: 1.8rem; }
+  .hero-label .desc { font-size: .95rem; }
+}
 
 .piece {
-  position: relative;
-  min-height: 100dvh;
-  display: flex;
-  align-items: center;
-  overflow: clip;
-  isolation: isolate;
+  max-width: 1240px; margin: 0 auto;
+  padding: clamp(90px, 16svh, 190px) var(--pad);
+  display: grid; gap: 32px; align-items: end;
+}
+.work { justify-self: center; width: 100%; }
+.piece--portrait .work { width: min(100%, 470px, 72svh); }
+
+@media (min-width: 860px) {
+  .piece { gap: clamp(40px, 6vw, 90px); }
+  .piece--portrait { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
+  .piece--portrait .work { justify-self: end; }
+  .piece--landscape { grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
+  .piece--landscape .placard { order: -1; }
+  .piece .placard { padding-bottom: 6px; }
 }
 
-.piece-bg {
-  position: absolute;
-  inset: -10% 0 -10%;
-  z-index: -2;
-  background-position: center;
-  background-size: cover;
-  will-change: transform;
+/* Scroll reveals (only when motion is on, so nothing can get stuck invisible). */
+.motion .reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
+.motion .reveal.in { opacity: 1; transform: none; }
+/* The clip sits on the painting, not on the observed figure: a fully clipped target never reports as visible. */
+.motion .unveil .art { clip-path: inset(0 0 100% 0); transition: clip-path 1.3s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
+.motion .unveil.in .art { clip-path: inset(-140px); }
+
+@supports (animation-timeline: view()) {
+  .motion .piece .work { animation: drift linear both; animation-timeline: view(); }
+  @keyframes drift { from { translate: 0 44px; } to { translate: 0 -44px; } }
 }
 
-.piece[data-piece="1"] .piece-bg {
-  background-image: url("images/01-nebula-turtles.jpg"),
-    radial-gradient(130% 100% at 60% 20%, #3d5fae 0%, #16244d 55%, #090d1f 100%);
+/* ============ STATEMENT ============ */
+.statement { padding: clamp(100px, 20svh, 220px) var(--pad); max-width: 1240px; margin: 0 auto; }
+.statement-text { font-family: var(--serif); font-size: clamp(2.3rem, 7vw, 5.6rem); line-height: 1.04; letter-spacing: -.01em; max-width: 17ch; text-wrap: balance; }
+@supports (animation-timeline: view()) {
+  .motion .statement-text { view-timeline: --say block; }
+  .motion .statement-text .w {
+    opacity: .16; animation: ink-in linear both; animation-timeline: --say;
+    animation-range: cover calc(12% + var(--i) * 2.2%) cover calc(24% + var(--i) * 2.2%);
+  }
+  @keyframes ink-in { to { opacity: 1; } }
 }
-.piece[data-piece="2"] .piece-bg {
-  background-image: url("images/02-watercolor-galaxies.jpg"),
-    radial-gradient(130% 100% at 30% 30%, #b9c2e8 0%, #6d79c9 45%, #2a2f66 100%);
-  background-size: contain, cover;
-  background-repeat: no-repeat;
-}
-.piece[data-piece="3"] .piece-bg {
-  background-image: url("images/03-sunset-mountains.jpg"),
-    radial-gradient(130% 100% at 50% 15%, #ffb45c 0%, #e8604c 35%, #2b2d55 75%, #16171d 100%);
-}
-
-.piece::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(180deg, rgba(8,10,22,.55), rgba(8,10,22,.12) 40%, rgba(8,10,22,.78));
+.facts { list-style: none; display: grid; gap: 0; margin-top: clamp(40px, 7vw, 80px); border-top: 1px solid var(--rule); }
+.facts li { padding: 18px 0; border-bottom: 1px solid var(--rule); font-size: .82rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-soft); }
+@media (min-width: 760px) {
+  .facts { grid-template-columns: repeat(3, 1fr); }
+  .facts li { border-bottom: 0; }
 }
 
-.piece-inner {
-  width: 100%;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 120px 24px;
-  color: #fff;
-  display: grid;
-  gap: 40px;
+/* ============ PROCESS: a sheet of paper ============ */
+.paper { position: relative; background: var(--paper); color: var(--ink); padding: clamp(80px, 13vw, 150px) 0; overflow-x: clip; }
+.paper::before, .paper::after {
+  content: ""; position: absolute; left: -3%; right: -3%; height: 34px; background: inherit;
+  filter: url(#torn); /* torn edge instead of a ruler-straight one */
+}
+.paper::before { top: -14px; }
+.paper::after { bottom: -14px; }
+.paper-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 var(--pad); display: grid; gap: 44px; }
+.paper h2 { font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1; letter-spacing: -.01em; max-width: 9ch; text-wrap: balance; }
+.paper h2 em { color: var(--ember); }
+
+.steps { list-style: none; position: relative; padding-left: 30px; }
+.steps::before { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 3px; background: var(--ember); filter: url(#torn); }
+@supports (animation-timeline: view()) {
+  .motion .steps { view-timeline: --steps block; }
+  .motion .steps::before { transform-origin: 50% 0; animation: draw linear both; animation-timeline: --steps; animation-range: cover 12% cover 62%; }
+  @keyframes draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+}
+.step { display: grid; grid-template-columns: 54px 1fr; gap: 6px 14px; padding: 22px 0; border-bottom: 1px solid rgba(27, 26, 34, .14); }
+.step:first-child { padding-top: 0; }
+.step:last-child { border-bottom: 0; padding-bottom: 0; }
+.num { font-family: var(--serif); font-style: italic; font-size: 2.7rem; line-height: .9; color: var(--ember); }
+.step h3 { font-size: 1.75rem; line-height: 1.1; margin-bottom: 6px; }
+.step p { color: var(--ink-soft); max-width: 46ch; }
+.step .note { margin-top: 10px; font-size: .84rem; font-weight: 600; color: var(--ink); padding-left: 12px; border-left: 2px solid var(--ember); }
+
+@media (min-width: 860px) {
+  .paper-inner { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 60px; align-items: start; }
+  .paper h2 { position: sticky; top: 110px; }
+  .step { grid-template-columns: 72px 1fr; padding: 28px 0; }
 }
 
-.piece[data-piece="2"] .piece-inner { justify-items: end; text-align: right; }
-.piece[data-piece="2"] .caption-meta { justify-content: flex-end; }
+/* ============ CLOSING + FOOTER ============ */
+.closing { max-width: 1240px; margin: 0 auto; padding: clamp(110px, 20svh, 220px) var(--pad) clamp(70px, 11svh, 120px); }
+.closing h2 { font-size: clamp(2.9rem, 10vw, 7.5rem); line-height: .96; letter-spacing: -.015em; margin-bottom: 34px; text-wrap: balance; }
+.closing h2 em { color: var(--ochre); }
+.closing-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 26px; }
+.open-note { display: inline-flex; align-items: center; gap: 10px; font-size: .92rem; color: var(--fg-soft); }
+.open-note::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #86d6a0; box-shadow: 0 0 0 4px rgba(134, 214, 160, .18); }
 
-.caption {
-  width: min(100%, 620px);
-  padding: clamp(22px, 4vw, 38px);
-  background: rgba(8, 11, 25, .82);
-  border: 1px solid rgba(255, 255, 255, .24);
-  border-radius: 24px;
-  box-shadow: 0 18px 58px rgba(0, 0, 0, .3);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+footer { max-width: 1240px; margin: 0 auto; padding: 26px var(--pad) calc(34px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--rule); display: grid; gap: 10px; }
+footer .wordmark { color: var(--fg); }
+footer p { font-size: .78rem; color: var(--fg-faint); max-width: 74ch; }
+
+/* ============ DIALOGS ============ */
+dialog { border: 0; padding: 0; color: inherit; }
+
+/* Close-up viewer */
+.viewer { width: 100vw; height: 100dvh; max-width: none; max-height: none; background: rgba(5, 6, 12, .97); color: var(--fg); overflow: hidden; }
+.viewer::backdrop { background: #05060c; }
+.viewer-scroll { position: absolute; inset: 0; overflow: auto; display: flex; padding: 64px 16px 70px; overscroll-behavior: contain; }
+.viewer-frame {
+  flex: none; margin: auto; overflow: hidden; cursor: zoom-in;
+  aspect-ratio: var(--ratio);
+  width: min(100vw - 32px, (100dvh - 134px) * var(--ratio));
+  box-shadow: 0 40px 100px -30px #000;
 }
-
-
-.caption h2 {
-  font-family: var(--font-display);
-  font-size: clamp(2.1rem, 6.5vw, 4rem);
-  font-weight: 450;
-  line-height: 1.05;
-  letter-spacing: -.015em;
-  margin-bottom: 14px;
-  max-width: 14ch;
-  text-wrap: balance;
+.viewer.zoomed .viewer-frame { cursor: zoom-out; width: calc(min(100vw - 32px, (100dvh - 134px) * var(--ratio)) * 2.4); }
+.viewer-bar {
+  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; pointer-events: none;
+  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 20px;
+  padding: 26px var(--pad) calc(16px + env(safe-area-inset-bottom, 0px));
+  background: linear-gradient(transparent, rgba(5, 6, 12, .9) 55%);
 }
-
-.caption .desc {
-  max-width: 40ch;
-  color: rgba(255,255,255,.8);
-  font-size: .95rem;
-  margin-bottom: 22px;
-}
-
-.caption-meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 24px;
-}
-
-.meta-pill {
-  font-size: .76rem;
-  font-weight: 500;
-  color: #fff;
-  background: rgba(255,255,255,.12);
-  border: 1px solid rgba(255,255,255,.22);
-  padding: 6px 14px;
-  border-radius: 999px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-
-.price-tag {
-  display: flex;
-  align-items: baseline;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.price-tag strong {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 550;
-}
-
-.status {
-  font-size: .74rem;
-  font-weight: 600;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  border-radius: 999px;
-}
-.status.available { color: #9ff0b5; border: 1px solid rgba(159,240,181,.5); }
-.status.sold { color: #ffd9a0; border: 1px solid rgba(255,217,160,.5); }
-
-.caption .btn { margin-top: 6px; }
-
-.reveal {
-  opacity: 0;
-  transform: translateY(34px);
-  transition: opacity .8s cubic-bezier(.2,.7,.3,1), transform .8s cubic-bezier(.2,.7,.3,1);
-}
-.reveal.in { opacity: 1; transform: none; }
-
-/* ============================================
-   USP
-   ============================================ */
-.usp {
-  background: var(--bg);
-  position: relative;
-  padding: clamp(80px, 14vw, 150px) 0;
-  text-align: center;
-}
-
-.usp::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  opacity: .5;
-  pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-}
-
-.usp h2 {
-  font-family: var(--font-display);
-  font-size: clamp(1.9rem, 5vw, 3.4rem);
-  font-weight: 460;
-  line-height: 1.1;
-  letter-spacing: -.015em;
-  max-width: 22ch;
-  margin: 0 auto 16px;
-  text-wrap: balance;
-}
-
-.usp h2 em {
-  font-style: italic;
-  background: linear-gradient(120deg, var(--accent), var(--accent-deep));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  -webkit-text-fill-color: transparent;
-}
-
-.usp p { color: var(--ink-soft); max-width: 52ch; margin: 0 auto 30px; }
-
-.usp-row {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  flex-wrap: wrap;
-}
-
-.trust-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: .82rem;
-  font-weight: 500;
-  color: var(--ink);
-  background: #fff;
-  border: 1px solid var(--line);
-  padding: 10px 18px;
-  border-radius: 999px;
-  box-shadow: 0 1px 2px rgba(22,24,29,.04), 0 6px 18px rgba(22,24,29,.05);
-}
-
-/* ============================================
-   PROCESS
-   ============================================ */
-.process { background: var(--bg); padding: 0 0 clamp(80px, 12vw, 140px); }
-
-.section-head { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-bottom: 34px; }
-.section-head h2 { font-family: var(--font-display); font-size: clamp(1.6rem, 3.5vw, 2.3rem); font-weight: 520; letter-spacing: -.01em; }
-
-.timeline { display: grid; }
-
-.step {
-  display: grid;
-  grid-template-columns: 64px 1fr;
-  gap: 18px;
-  padding: 24px 0;
-  border-bottom: 1px solid var(--line);
-}
-.step:last-child { border-bottom: none; }
-
-.step-num {
-  font-family: var(--font-display);
-  font-style: italic;
-  font-size: 1.7rem;
-  font-weight: 400;
-  color: var(--accent);
-  line-height: 1.1;
-}
-
-.step h3 { font-size: 1rem; font-weight: 600; margin-bottom: 4px; }
-.step p { font-size: .9rem; color: var(--ink-soft); max-width: 60ch; }
-
-.step .note {
-  display: inline-block;
-  margin-top: 8px;
-  font-size: .75rem;
-  font-weight: 500;
-  color: #8a6a20;
-  background: rgba(201,162,75,.1);
-  border: 1px solid rgba(201,162,75,.25);
-  padding: 4px 12px;
-  border-radius: 999px;
-}
-
-/* ============================================
-   FOOTER
-   ============================================ */
-footer {
-  background: #10121c;
-  color: rgba(255,255,255,.7);
-  padding: 52px 0 calc(52px + env(safe-area-inset-bottom, 0px));
-}
-
-.foot-inner { display: flex; align-items: flex-start; justify-content: space-between; gap: 24px; flex-wrap: wrap; }
-footer .wordmark { font-size: 1.2rem; }
-footer p { font-size: .82rem; max-width: 46ch; }
-footer small { display: block; margin-top: 8px; font-size: .72rem; color: rgba(255,255,255,.45); }
-
-/* ============================================
-   MODAL: Tally embed
-   ============================================ */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(10, 12, 22, .6);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-  display: none;
-  z-index: 100;
-}
-
-.overlay.open { display: flex; align-items: flex-end; justify-content: center; animation: fade .25s ease; }
-
-@keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-
-.modal {
-  background: #fff;
-  width: 100%;
-  max-width: 560px;
-  height: 92dvh;
-  max-height: 92dvh;
-  overflow-y: auto;
-  overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
-  border-radius: 26px 26px 0 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  animation: rise .35s cubic-bezier(.2,.9,.3,1);
-}
-
-@keyframes rise { from { transform: translateY(60px); opacity: 0; } to { transform: none; opacity: 1; } }
-
-.modal-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 24px 12px;
-  position: sticky;
-  top: 0;
-  z-index: 2;
-  background: #fff;
-}
-
-.modal-head h3 { font-family: var(--font-display); font-size: 1.4rem; font-weight: 530; }
-
-.modal-sub {
-  font-size: .84rem;
-  color: var(--ink-soft);
-  padding: 0 24px 14px;
-}
-
+.viewer-bar strong { font-family: var(--serif); font-weight: 400; font-size: 1.35rem; }
+.viewer-bar span { font-size: .78rem; color: var(--fg-faint); }
 .x {
-  width: 40px; height: 40px;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  background: var(--bg);
-  font-size: 1.1rem;
-  color: var(--ink-soft);
-  cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; flex: none;
+  font-size: 1.3rem; line-height: 1; border: 1px solid currentColor; opacity: .75; transition: opacity .2s;
 }
-.x:hover { border-color: var(--ink); color: var(--ink); }
+.x:hover { opacity: 1; }
+.viewer .x { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: var(--pad); z-index: 3; background: rgba(5, 6, 12, .6); }
 
-.tally-frame {
-  width: 100%;
-  flex: 0 0 auto;
-  min-height: 60dvh;
-  border: 0;
+::view-transition-group(art) { animation-duration: .55s; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
+
+/* Inquiry sheet (Tally embed) */
+.sheet {
+  width: 100%; max-width: 560px; height: 92dvh; max-height: 92dvh;
+  margin: auto auto 0; border-radius: 22px 22px 0 0; overflow: hidden;
+  background: #fbf8f1; color: var(--ink);
+  opacity: 0; translate: 0 40px;
+  transition: opacity .3s, translate .35s cubic-bezier(.2, .9, .3, 1);
+  transition: opacity .3s, translate .35s cubic-bezier(.2, .9, .3, 1), overlay .35s allow-discrete, display .35s allow-discrete;
 }
+.sheet[open] { display: flex; flex-direction: column; opacity: 1; translate: 0 0; }
+@starting-style { .sheet[open] { opacity: 0; translate: 0 40px; } }
+.sheet::backdrop { background: rgba(6, 8, 16, .62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
+.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px 8px; }
+.sheet-head h3 { font-size: 1.9rem; line-height: 1.1; }
+.sheet-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
+.sheet-sub { font-size: .9rem; color: var(--ink-soft); padding: 0 24px 14px; }
+.tally-frame { display: block; width: calc(100% - 32px); margin: 0 16px; min-height: 60dvh; border: 0; }
+.sheet-fallback { padding: 14px 24px calc(18px + env(safe-area-inset-bottom, 0px)); text-align: center; font-size: .78rem; color: var(--ink-soft); }
+.sheet-fallback a { color: var(--ink); font-weight: 600; }
 
-.modal-fallback {
-  padding: 14px 24px calc(18px + env(safe-area-inset-bottom, 0px));
-  text-align: center;
-  font-size: .75rem;
-  color: var(--ink-faint);
-}
-.modal-fallback a { color: var(--accent); font-weight: 600; text-decoration: none; }
-.modal-fallback a:hover { text-decoration: underline; }
-
-/* ============================================
-   MOTION / RESPONSIVE
-   ============================================ */
 @media (min-width: 768px) {
-  .overlay.open { align-items: center; padding: 24px; }
-  .modal { border-radius: 26px; height: min(720px, 92dvh); }
-  .step { grid-template-columns: 80px 1fr; gap: 24px; }
+  .sheet { margin: auto; border-radius: 22px; height: min(720px, 92dvh); }
 }
 
-@media (max-width: 640px) {
+/* ============ SMALL / SHORT SCREENS ============ */
+@media (max-width: 560px) {
   .topbar-cta { display: none; }
-  .hero {
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: stretch;
-  }
-  .hero-content { padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
-  .scroll-hint {
-    position: static;
-    align-self: center;
-    margin: 0 auto 18px;
-    transform: none;
-  }
+  .hero-actions .btn { flex: 1 1 100%; }
 }
-
-@media (max-width: 480px) {
-  .piece-inner { padding: 100px 20px; }
-  .hero-actions .btn { width: 100%; justify-content: center; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
-  html { scroll-behavior: auto; }
-  .reveal { opacity: 1; transform: none; }
+@media (max-height: 540px) and (orientation: landscape) {
+  :root { --hung-w: min(54vw, calc((100svh - 100px) * 1.438)); }
+  .hero-stage, .motion .hero-stage { flex-direction: row; gap: 28px; }
+  .hero-label { width: auto; flex: 1; min-width: 0; }
+  .hero h1 { font-size: clamp(2.4rem, 12svh, 4rem); }
+  .motion .hero-copy { padding-bottom: 28px; }
+  .lede { margin-bottom: 18px; }
+  .scroll-hint { display: none !important; }
 }
 </style>
 
@@ -659,7 +432,7 @@ footer small { display: block; margin-top: 8px; font-size: .72rem; color: rgba(2
   "@context": "https://schema.org",
   "@type": "Person",
   "name": "ciesielska.art",
-  "description": "Painter creating hand-painted original artwork. No AI-generated content.",
+  "description": "Painter. Original acrylic and watercolor paintings, made to order. No prints, no AI.",
   "url": "https://ciesielska.art",
   "jobTitle": "Painter"
 }
@@ -667,187 +440,212 @@ footer small { display: block; margin-top: 8px; font-size: .72rem; color: rgba(2
 </head>
 <body>
 
+<!-- Filter used for the torn paper edges and the hand-drawn line -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <filter id="torn" x="-5%" y="-60%" width="110%" height="220%">
+    <feTurbulence type="fractalNoise" baseFrequency=".022" numOctaves="3" seed="7" result="n"/>
+    <feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</svg>
+
+<div class="wash" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"></div>
+
 <!-- ================= TOP BAR ================= -->
-<header class="topbar" id="topbar">
-  <div class="topbar-left">
-    <a class="wordmark" href="#top">ciesielska<em>.art</em></a>
-  </div>
+<header class="topbar">
+  <a class="wordmark" href="#top">ciesielska<em>.art</em></a>
   <div class="topbar-right">
-    <div class="lang-switch" role="group" aria-label="Language / Język" data-i18n-attr="aria-label:language_group">
-      <button id="lang-en" class="active" onclick="setLang('en')" aria-label="Switch to English" aria-pressed="true">EN</button>
-      <button id="lang-pl" onclick="setLang('pl')" aria-label="Przełącz na polski" aria-pressed="false">PL</button>
+    <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label:language_group">
+      <button type="button" data-lang="en" aria-pressed="true" aria-label="Switch to English">EN</button>
+      <button type="button" data-lang="pl" aria-pressed="false" aria-label="Switch to Polish">PL</button>
     </div>
-    <button class="topbar-cta" data-i18n="cta_top" onclick="openModal()">Commission a piece</button>
+    <button type="button" class="topbar-cta" data-commission data-i18n="cta_top">Commission</button>
   </div>
 </header>
 
-<!-- ================= HERO ================= -->
-<section class="hero" id="top">
-  <div class="hero-bg" aria-hidden="true"></div>
-  <div class="hero-content">
-    <p class="kicker" data-i18n="hero_kicker">Hand-painted originals</p>
-    <h1 data-i18n-html="hero_title">The painting you imagined, <span class="accent">made by hand.</span></h1>
-    <p class="lede" data-i18n="hero_lede">No prints. Each painting is one of a kind, made by hand to your brief and accompanied by a certificate of originality.</p>
-    <div class="hero-actions">
-      <button class="btn btn-light" data-i18n="hero_cta1" onclick="openModal()">Commission a painting</button>
-      <a class="btn btn-ghost-light" href="#works" data-i18n="hero_cta2">See the works</a>
+<main>
+
+<!-- Artwork details (titles, media, availability) live in the I18N dictionary at the bottom of this file. -->
+
+<!-- ================= HERO + PAINTING 1 ================= -->
+<section class="hero" id="top" data-room="sea">
+  <div class="hero-stage">
+    <div class="hero-canvas" id="works">
+      <button type="button" class="art" data-view data-title="p1_title" style="--ratio:2100/1460; --crop:1.07; --origin:55% 30%">
+        <img src="images/01-nebula-turtles.jpg" width="2100" height="1460" alt="Six sea turtles swimming through a blue nebula" data-i18n-attr="alt:p1_alt" fetchpriority="high" decoding="async">
+        <span class="sheen" aria-hidden="true"></span>
+        <span class="closer" aria-hidden="true" data-i18n="look_closer">Look closer</span>
+      </button>
     </div>
+
+    <div class="hero-scrim" aria-hidden="true"></div>
+
+    <div class="hero-copy">
+      <p class="kicker" data-i18n="hero_kicker">Acrylic &amp; watercolor, made to order</p>
+      <h1 data-i18n-html="hero_title">Your idea, <em>in real paint.</em></h1>
+      <p class="lede" data-i18n="hero_lede">Original paintings, made to order. No prints, no AI. Every piece is a one-off and comes with a certificate of originality.</p>
+      <div class="hero-actions">
+        <button type="button" class="btn btn-solid" data-commission data-i18n="hero_cta1">Commission a painting</button>
+        <a class="btn btn-line" href="#works" id="seeWork" data-i18n="hero_cta2">See the work</a>
+      </div>
+    </div>
+
+    <div class="hero-label">
+      <div class="placard">
+        <div>
+          <h2 data-i18n="p1_title">Nebula Turtles</h2>
+          <p class="medium" data-i18n="p1_m1">Acrylic on canvas</p>
+        </div>
+        <p class="desc" data-i18n="p1_desc">Six sea turtles, one nebula. Deep water and deep space turn out to be the same blue.</p>
+        <div class="placard-foot">
+          <span class="status" data-i18n="status_sold">Sold</span>
+          <button type="button" class="text-btn" data-commission="p1_title" data-i18n="commission_similar">Commission one like this</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true" data-i18n="scroll_hint">Scroll to step back</div>
   </div>
-  <div class="scroll-hint" aria-hidden="true" data-i18n="scroll_hint">Scroll</div>
 </section>
 
-<!-- Replace the sample artwork copy, prices, dimensions, dates, and availability with confirmed details before publishing. -->
-<!-- Add the matching images under images/ before publishing. -->
-<!-- ================= SHOWCASE ================= -->
-<main id="works" class="showcase">
-
-  <!-- Piece 1 -->
-  <section class="piece" data-piece="1">
-    <div class="piece-bg" data-parallax="0.12" role="img" aria-label="Sea turtles drifting through a nebula" data-i18n-attr="aria-label:p1_alt"></div>
-    <div class="piece-inner">
-      <div class="caption reveal">
-        <h2 data-i18n="p1_title">Nebula Turtles</h2>
-        <p class="desc" data-i18n="p1_desc">Sea turtles drift through a cosmic ocean, where deep water meets deep space.</p>
-        <div class="caption-meta">
-          <span class="meta-pill" data-i18n="p1_m1">Acrylic on canvas</span>
-        </div>
-        <div class="price-tag">
-          <span class="status sold" data-i18n="status_sold_out">Sold out</span>
-        </div>
-        <br>
-        <button class="btn btn-ghost-light" data-i18n="commission_similar" onclick="openModal(I18N[document.documentElement.lang].p1_title)">Commission a similar piece</button>
-      </div>
+<!-- ================= PAINTING 2 ================= -->
+<section class="piece piece--portrait" data-room="violet">
+  <figure class="work unveil">
+    <button type="button" class="art" data-view data-title="p2_title" style="--ratio:1275/1400; --crop:1.12; --origin:55% 30%">
+      <img src="images/02-watercolor-galaxies.jpg" width="1275" height="1400" alt="Three bookmarks painted with watercolor galaxies" data-i18n-attr="alt:p2_alt" loading="lazy" decoding="async">
+      <span class="sheen" aria-hidden="true"></span>
+      <span class="closer" aria-hidden="true" data-i18n="look_closer">Look closer</span>
+    </button>
+  </figure>
+  <div class="placard reveal">
+    <div>
+      <h2 data-i18n="p2_title">Galaxy Bookmarks</h2>
+      <p class="medium" data-i18n="p2_m1">Watercolor on paper, set of three</p>
     </div>
-  </section>
-
-  <!-- Piece 2 -->
-  <section class="piece" data-piece="2">
-    <div class="piece-bg" data-parallax="0.12" role="img" aria-label="Three galaxy bookmarks painted in watercolor" data-i18n-attr="aria-label:p2_alt"></div>
-    <div class="piece-inner">
-      <div class="caption reveal">
-        <h2 data-i18n="p2_title">Watercolor Galaxy Bookmarks</h2>
-        <p class="desc" data-i18n="p2_desc">Three watercolor bookmarks, each with its own star-filled galaxy.</p>
-        <div class="caption-meta">
-          <span class="meta-pill" data-i18n="p2_m1">Watercolor on paper</span>
-          <span class="meta-pill" data-i18n="p2_m2">Set of three bookmarks</span>
-        </div>
-        <div class="price-tag">
-          <strong data-i18n="p2_price">Available as a set</strong>
-          <span class="status available" data-i18n="status_available">Available</span>
-        </div>
-        <br>
-        <button class="btn btn-ghost-light" data-i18n="commission_similar" onclick="openModal(I18N[document.documentElement.lang].p2_title)">Commission a similar piece</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Piece 3 -->
-  <section class="piece" data-piece="3">
-    <div class="piece-bg" data-parallax="0.12" role="img" aria-label="Mountains at sunset, painted with a palette knife" data-i18n-attr="aria-label:p3_alt"></div>
-    <div class="piece-inner">
-      <div class="caption reveal">
-        <h2 data-i18n="p3_title">Sunset Mountains</h2>
-        <p class="desc" data-i18n="p3_desc">Layers of blue mountains rise beneath a warm sunset, painted in textured acrylic.</p>
-        <div class="caption-meta">
-          <span class="meta-pill" data-i18n="p3_m1">Acrylic and palette knife</span>
-        </div>
-        <div class="price-tag">
-          <span class="status sold" data-i18n="status_sold_out">Sold out</span>
-        </div>
-        <br>
-        <button class="btn btn-ghost-light" data-i18n="commission_similar" onclick="openModal(I18N[document.documentElement.lang].p3_title)">Commission a similar piece</button>
-      </div>
-    </div>
-  </section>
-
-</main>
-
-<!-- ================= USP ================= -->
-<section class="usp">
-  <div class="wrap reveal">
-    <h2 data-i18n-html="usp_title">The painting you've imagined, <em>made by hand.</em></h2>
-    <p data-i18n="usp_text">Each work is painted by hand, stroke by stroke. Original craft, made with your vision in mind.</p>
-    <div class="usp-row">
-      <span class="trust-pill" data-i18n="usp_pill1">🖌 100% hand-painted</span>
-      <span class="trust-pill" data-i18n="usp_pill2">📜 Certificate of originality</span>
-      <span class="trust-pill" data-i18n="usp_pill3">🎨 Made to your vision</span>
+    <p class="desc" data-i18n="p2_desc">Three strips of night sky, small enough to live in a book.</p>
+    <div class="placard-foot">
+      <span class="status is-available" data-i18n="status_available">Available</span>
+      <button type="button" class="text-btn" data-commission="p2_title" data-i18n="commission_similar">Commission one like this</button>
     </div>
   </div>
+</section>
+
+<!-- ================= PAINTING 3 ================= -->
+<section class="piece piece--landscape" data-room="dusk">
+  <figure class="work unveil">
+    <button type="button" class="art" data-view data-title="p3_title" style="--ratio:1980/1370; --crop:1.09; --origin:60% 25%">
+      <img src="images/03-sunset-mountains.jpg" width="1980" height="1370" alt="Layered blue mountain ridges under an orange and pink sunset" data-i18n-attr="alt:p3_alt" loading="lazy" decoding="async">
+      <span class="sheen" aria-hidden="true"></span>
+      <span class="closer" aria-hidden="true" data-i18n="look_closer">Look closer</span>
+    </button>
+  </figure>
+  <div class="placard reveal">
+    <div>
+      <h2 data-i18n="p3_title">Sunset Mountains</h2>
+      <p class="medium" data-i18n="p3_m1">Acrylic on canvas, palette knife</p>
+    </div>
+    <p class="desc" data-i18n="p3_desc">Ridge after ridge of blue under an orange sky, laid on thick with a palette knife.</p>
+    <div class="placard-foot">
+      <span class="status" data-i18n="status_sold">Sold</span>
+      <button type="button" class="text-btn" data-commission="p3_title" data-i18n="commission_similar">Commission one like this</button>
+    </div>
+  </div>
+</section>
+
+<!-- ================= STATEMENT ================= -->
+<section class="statement" data-room="ink">
+  <p class="statement-text" data-i18n="statement" data-split>No prints. No AI. Just paint, a brush and a few weeks of patience.</p>
+  <ul class="facts reveal">
+    <li data-i18n="fact1">Painted by hand</li>
+    <li data-i18n="fact2">Certificate of originality</li>
+    <li data-i18n="fact3">Your subject, size and colors</li>
+  </ul>
 </section>
 
 <!-- ================= PROCESS ================= -->
-<section class="process">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <h2 data-i18n="process_title">How a commission works</h2>
-    </div>
-    <div class="timeline reveal">
-      <div class="step">
-        <span class="step-num" aria-hidden="true">01</span>
+<section class="paper" data-room="ink">
+  <div class="paper-inner">
+    <h2 data-i18n-html="process_title">From idea <em>to your wall</em></h2>
+    <ol class="steps">
+      <li class="step reveal">
+        <span class="num" aria-hidden="true">1</span>
         <div>
-          <h3 data-i18n="s1_title">The conversation</h3>
-          <p data-i18n="s1_desc">Coffee, or a Google Meet / WhatsApp call. We define the theme, dimensions, and palette of your piece.</p>
+          <h3 data-i18n="s1_title">We talk</h3>
+          <p data-i18n="s1_desc">Over coffee, Google Meet or WhatsApp. We settle the subject, the size and the colors.</p>
         </div>
-      </div>
-      <div class="step">
-        <span class="step-num" aria-hidden="true">02</span>
+      </li>
+      <li class="step reveal">
+        <span class="num" aria-hidden="true">2</span>
         <div>
-          <h3 data-i18n="s2_title">Digital sketch</h3>
-          <p data-i18n="s2_desc">You receive an initial digital concept, then we refine the composition before painting begins.</p>
+          <h3 data-i18n="s2_title">I sketch</h3>
+          <p data-i18n="s2_desc">You get a digital sketch. We adjust it until the composition is right.</p>
         </div>
-      </div>
-      <div class="step">
-        <span class="step-num" aria-hidden="true">03</span>
+      </li>
+      <li class="step reveal">
+        <span class="num" aria-hidden="true">3</span>
         <div>
-          <h3 data-i18n="s3_title">Deposit</h3>
-          <p data-i18n="s3_desc">A 20% deposit after sketch approval secures your slot in the studio calendar.</p>
+          <h3 data-i18n="s3_title">You book a slot</h3>
+          <p data-i18n="s3_desc">Once you approve the sketch, a 20% deposit holds your place in the calendar.</p>
         </div>
-      </div>
-      <div class="step">
-        <span class="step-num" aria-hidden="true">04</span>
+      </li>
+      <li class="step reveal">
+        <span class="num" aria-hidden="true">4</span>
         <div>
-          <h3 data-i18n="s4_title">Painting</h3>
-          <p data-i18n="s4_desc">Several weeks of work. Progress photos if you'd like to follow along.</p>
-          <span class="note" data-i18n="s4_note">No revisions after this stage begins</span>
+          <h3 data-i18n="s4_title">I paint</h3>
+          <p data-i18n="s4_desc">A few weeks at the easel. I can send progress photos along the way.</p>
+          <p class="note" data-i18n="s4_note">No changes once painting starts.</p>
         </div>
-      </div>
-      <div class="step">
-        <span class="step-num" aria-hidden="true">05</span>
+      </li>
+      <li class="step reveal">
+        <span class="num" aria-hidden="true">5</span>
         <div>
-          <h3 data-i18n="s5_title">Varnish &amp; delivery</h3>
-          <p data-i18n="s5_desc">After varnishing, the painting is shipped with insurance or handed over in person with its certificate.</p>
+          <h3 data-i18n="s5_title">It comes home</h3>
+          <p data-i18n="s5_desc">Varnished, then shipped insured or handed over in person, certificate included.</p>
         </div>
-      </div>
-    </div>
+      </li>
+    </ol>
   </div>
 </section>
 
-<!-- ================= FOOTER ================= -->
-<footer>
-  <div class="wrap foot-inner">
-    <div>
-      <a class="wordmark" href="#top">ciesielska<em>.art</em></a>
-      <p><span data-i18n="footer_text">Hand-painted originals. Commissions open.</span>
-        <small data-i18n="footer_legal">© 2026 ciesielska.art. Prices are indicative; final details are agreed individually.</small>
-        <small data-i18n="privacy_note">No analytics or ad tracking. Language preference is saved in this browser. The inquiry form is provided by Tally.</small>
-      </p>
-    </div>
-    <button class="btn btn-ghost-light" data-i18n="cta_footer" onclick="openModal()">Commission a piece</button>
+<!-- ================= CLOSING ================= -->
+<section class="closing" data-room="ember">
+  <h2 class="reveal" data-i18n-html="closing_title">Got an idea? <em>Tell me about it.</em></h2>
+  <div class="closing-row reveal">
+    <button type="button" class="btn btn-solid" data-commission data-i18n="cta_footer">Commission a painting</button>
+    <span class="open-note" data-i18n="footer_text">Commissions are open.</span>
   </div>
+</section>
+
+</main>
+
+<footer>
+  <a class="wordmark" href="#top">ciesielska<em>.art</em></a>
+  <p data-i18n="footer_legal">© 2026 ciesielska.art. Prices are agreed individually.</p>
+  <p data-i18n="privacy_note">No analytics, no ad tracking. Your language choice is stored in this browser. Fonts load from Google Fonts; the inquiry form is run by Tally.</p>
 </footer>
 
-<!-- ================= MODAL (Tally embed) ================= -->
-<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title" aria-hidden="true">
-  <div class="modal">
-    <div class="modal-head">
-      <h3 id="modal-title" data-i18n="modal_title">Commission inquiry</h3>
-      <button class="x" onclick="closeModal()" aria-label="Close dialog">×</button>
-    </div>
-    <p class="modal-sub" data-i18n="modal_sub">Tell me what you're dreaming of. I'll get back to you to work out the details.</p>
+<!-- ================= CLOSE-UP VIEWER ================= -->
+<dialog class="viewer" id="viewer" aria-labelledby="viewerTitle">
+  <button type="button" class="x" id="viewerClose" aria-label="Close" data-i18n-attr="aria-label:close">×</button>
+  <div class="viewer-scroll" id="viewerScroll">
+    <button type="button" class="viewer-frame" id="viewerFrame" aria-label="Zoom" data-i18n-attr="aria-label:zoom_hint">
+      <img id="viewerImg" alt="">
+    </button>
+  </div>
+  <p class="viewer-bar"><strong id="viewerTitle"></strong><span data-i18n="zoom_hint">Click the painting to zoom</span></p>
+</dialog>
 
-    <!--
-      This bilingual form is shared by both language modes.
-    -->
+<!-- ================= INQUIRY (Tally embed) ================= -->
+<dialog class="sheet" id="inquiry" aria-labelledby="inquiryTitle">
+  <div class="sheet-head">
+    <h3 id="inquiryTitle" data-i18n="modal_title">Commission inquiry</h3>
+    <button type="button" class="x" id="inquiryClose" aria-label="Close" data-i18n-attr="aria-label:close">×</button>
+  </div>
+  <div class="sheet-body">
+    <p class="sheet-sub" data-i18n="modal_sub">Tell me what you have in mind. I'll write back and we'll sort out the details.</p>
+
+    <!-- This bilingual form is shared by both language modes. -->
     <iframe
       class="tally-frame"
       id="tallyFrame"
@@ -856,82 +654,85 @@ footer small { display: block; margin-top: 8px; font-size: .72rem; color: rgba(2
       data-i18n-attr="title:form_title"
       loading="lazy"></iframe>
 
-    <p class="modal-fallback">
+    <p class="sheet-fallback">
       <span data-i18n="modal_fallback">Form not loading?</span>
-      <a id="tallyFallbackLink" href="https://tally.so/r/YjRN2J" target="_blank" rel="noopener"><span data-i18n="modal_open_tab">Open it in a new tab →</span></a>
+      <a id="tallyFallbackLink" href="https://tally.so/r/YjRN2J" target="_blank" rel="noopener" data-i18n="modal_open_tab">Open it in a new tab →</a>
     </p>
   </div>
-</div>
+</dialog>
 
 <script>
 /* =====================================================
-   I18N DICTIONARY: edit texts here, both languages
+   I18N DICTIONARY: edit texts here, both languages.
+   The English strings are also in the HTML above (for
+   crawlers and no-JS); keep the two in sync.
    ===================================================== */
 const I18N = {
   en: {
-    desc: "Hand-painted original artwork. No AI. Each piece uniquely crafted by human hands according to your vision.",
-    page_title: "ciesielska.art | Hand-Painted Original Artwork",
-    og_desc: "Original paintings, made by hand and created with your vision in mind.",
+    desc: "Original paintings in acrylic and watercolor, made to order. No prints, no AI.",
+    page_title: "ciesielska.art | Original paintings, made to order",
+    og_desc: "Original paintings in acrylic and watercolor, made to order. No prints, no AI.",
     lang_label_en: "Switch to English",
     lang_label_pl: "Switch to Polish",
-    cta_top: "Commission a piece",
-    hero_kicker: "Hand-painted originals",
-    hero_title: 'The painting you imagined, <span class="accent">made by hand.</span>',
-    hero_lede: "No prints. Each painting is one of a kind, made by hand to your brief and accompanied by a certificate of originality.",
+    language_group: "Language",
+    cta_top: "Commission",
+
+    hero_kicker: "Acrylic & watercolor, made to order",
+    hero_title: 'Your idea, <em>in real paint.</em>',
+    hero_lede: "Original paintings, made to order. No prints, no AI. Every piece is a one-off and comes with a certificate of originality.",
     hero_cta1: "Commission a painting",
-    hero_cta2: "See the works",
-    scroll_hint: "Scroll",
+    hero_cta2: "See the work",
+    scroll_hint: "Scroll to step back",
 
     p1_title: "Nebula Turtles",
-    p1_desc: "Sea turtles drift through a cosmic ocean, where deep water meets deep space.",
+    p1_desc: "Six sea turtles, one nebula. Deep water and deep space turn out to be the same blue.",
     p1_m1: "Acrylic on canvas",
-    p1_alt: "Sea turtles drifting through a nebula",
+    p1_alt: "Six sea turtles swimming through a blue nebula",
 
-    p2_title: "Watercolor Galaxy Bookmarks",
-    p2_desc: "Three watercolor bookmarks, each with its own star-filled galaxy.",
-    p2_m1: "Watercolor on paper",
-    p2_m2: "Set of three bookmarks",
-    p2_alt: "Three galaxy bookmarks painted in watercolor",
-    p2_price: "Available as a set",
+    p2_title: "Galaxy Bookmarks",
+    p2_desc: "Three strips of night sky, small enough to live in a book.",
+    p2_m1: "Watercolor on paper, set of three",
+    p2_alt: "Three bookmarks painted with watercolor galaxies",
 
     p3_title: "Sunset Mountains",
-    p3_desc: "Layers of blue mountains rise beneath a warm sunset, painted in textured acrylic.",
-    p3_m1: "Acrylic and palette knife",
-    p3_alt: "Mountains at sunset, painted with a palette knife",
+    p3_desc: "Ridge after ridge of blue under an orange sky, laid on thick with a palette knife.",
+    p3_m1: "Acrylic on canvas, palette knife",
+    p3_alt: "Layered blue mountain ridges under an orange and pink sunset",
 
     status_available: "Available",
     status_sold: "Sold",
-    status_sold_out: "Sold out",
-    commission_similar: "Commission a similar piece",
+    commission_similar: "Commission one like this",
+    look_closer: "Look closer",
+    zoom_hint: "Click the painting to zoom",
+    close: "Close",
 
-    usp_title: 'The painting you\'ve imagined, <em>made by hand.</em>',
-    usp_text: "Each work is painted by hand, stroke by stroke. Original craft, made with your vision in mind.",
-    usp_pill1: "🖌 100% hand-painted",
-    usp_pill2: "📜 Certificate of originality",
-    usp_pill3: "🎨 Made to your vision",
+    statement: "No prints. No AI. Just paint, a brush and a few weeks of patience.",
+    fact1: "Painted by hand",
+    fact2: "Certificate of originality",
+    fact3: "Your subject, size and colors",
 
-    process_title: "How a commission works",
-    s1_title: "The conversation",
-    s1_desc: "A coffee or a call on Google Meet or WhatsApp. We define the theme, dimensions, and palette for your painting.",
-    s2_title: "Digital sketch",
-    s2_desc: "You receive an initial digital concept, then we refine the composition before painting begins.",
-    s3_title: "Deposit",
-    s3_desc: "A 20% deposit after sketch approval secures your slot in the studio calendar.",
-    s4_title: "Painting",
-    s4_desc: "Several weeks of work. Progress photos if you'd like to follow along.",
-    s4_note: "No revisions after this stage begins",
-    s5_title: "Varnish & delivery",
-    s5_desc: "After varnishing, the painting is shipped with insurance or handed over in person with its certificate.",
+    process_title: 'From idea <em>to your wall</em>',
+    s1_title: "We talk",
+    s1_desc: "Over coffee, Google Meet or WhatsApp. We settle the subject, the size and the colors.",
+    s2_title: "I sketch",
+    s2_desc: "You get a digital sketch. We adjust it until the composition is right.",
+    s3_title: "You book a slot",
+    s3_desc: "Once you approve the sketch, a 20% deposit holds your place in the calendar.",
+    s4_title: "I paint",
+    s4_desc: "A few weeks at the easel. I can send progress photos along the way.",
+    s4_note: "No changes once painting starts.",
+    s5_title: "It comes home",
+    s5_desc: "Varnished, then shipped insured or handed over in person, certificate included.",
 
-    footer_text: "Hand-painted originals. Commissions open.",
-    footer_legal: "© 2026 ciesielska.art. Prices are indicative; final details are agreed individually.",
-    privacy_note: "No analytics or ad tracking. Language preference is saved here. Google Fonts and the inquiry form load from their providers; form submissions go to Tally and the site owner.",
-    language_group: "Language",
+    closing_title: 'Got an idea? <em>Tell me about it.</em>',
+    cta_footer: "Commission a painting",
+    footer_text: "Commissions are open.",
+    footer_legal: "© 2026 ciesielska.art. Prices are agreed individually.",
+    privacy_note: "No analytics, no ad tracking. Your language choice is stored in this browser. Fonts load from Google Fonts; the inquiry form is run by Tally.",
+
     form_title: "Commission inquiry form",
-    cta_footer: "Commission a piece",
-
     modal_title: "Commission inquiry",
-    modal_sub: "Tell me what you're dreaming of. I'll get back to you to work out the details.",
+    modal_sub: "Tell me what you have in mind. I'll write back and we'll sort out the details.",
     modal_fallback: "Form not loading?",
     modal_open_tab: "Open it in a new tab →",
 
@@ -940,69 +741,70 @@ const I18N = {
   },
 
   pl: {
-    desc: "Ręcznie malowane, oryginalne obrazy. Zero AI. Każde dzieło powstaje ludzkimi rękami, zgodnie z Twoją wizją.",
-    page_title: "ciesielska.art | ręcznie malowane obrazy",
-    og_desc: "Autorskie obrazy malowane ręcznie z myślą o Twojej wizji.",
+    desc: "Obrazy akrylowe i akwarele malowane na zamówienie. Bez wydruków, bez AI.",
+    page_title: "ciesielska.art | Obrazy malowane na zamówienie",
+    og_desc: "Obrazy akrylowe i akwarele malowane na zamówienie. Bez wydruków, bez AI.",
     lang_label_en: "Przełącz na angielski",
     lang_label_pl: "Przełącz na polski",
+    language_group: "Język",
     cta_top: "Zamów obraz",
-    hero_kicker: "Ręcznie malowane oryginały",
-    hero_title: 'Obraz z Twojej wyobraźni, <span class="accent">namalowany ręcznie.</span>',
-    hero_lede: "Bez AI. Bez reprodukcji. Każdy obraz jest unikatowy, malowany ręcznie według Twojej wizji i dostarczany z certyfikatem oryginalności.",
+
+    hero_kicker: "Akryl i akwarela na zamówienie",
+    hero_title: 'Twój pomysł, <em>prawdziwą farbą.</em>',
+    hero_lede: "Obrazy malowane na zamówienie. Bez wydruków, bez AI. Każdy powstaje w jednym egzemplarzu i ma certyfikat oryginalności.",
     hero_cta1: "Zamów obraz",
     hero_cta2: "Zobacz prace",
-    scroll_hint: "Przewiń",
+    scroll_hint: "Przewiń i zrób krok w tył",
 
     p1_title: "Żółwie w mgławicy",
-    p1_desc: "Morskie żółwie dryfują przez kosmiczny ocean, gdzie głębiny spotykają się z bezkresem kosmosu.",
+    p1_desc: "Sześć żółwi morskich i jedna mgławica. Głębia oceanu i głębia kosmosu mają ten sam błękit.",
     p1_m1: "Akryl na płótnie",
-    p1_alt: "Morskie żółwie dryfujące wśród mgławic",
+    p1_alt: "Sześć żółwi morskich płynących przez niebieską mgławicę",
 
-    p2_title: "Galaktyczne zakładki z akwareli",
-    p2_desc: "Trzy zakładki malowane akwarelą, każda z własną galaktyką pełną gwiazd.",
-    p2_m1: "Akwarela na papierze",
-    p2_m2: "Zestaw trzech zakładek",
-    p2_alt: "Trzy zakładki z galaktycznymi wzorami malowanymi akwarelą",
-    p2_price: "Dostępne jako zestaw",
+    p2_title: "Galaktyczne zakładki",
+    p2_desc: "Trzy paski nocnego nieba, w sam raz do książki.",
+    p2_m1: "Akwarela na papierze, zestaw trzech",
+    p2_alt: "Trzy zakładki z galaktykami malowanymi akwarelą",
 
     p3_title: "Góry o zachodzie słońca",
-    p3_desc: "Warstwy niebieskich gór wznoszą się pod ciepłym zachodzącym słońcem. Obraz namalowany teksturowanym akrylem.",
-    p3_m1: "Akryl i szpachla malarska",
-    p3_alt: "Warstwowe góry pod ciepłym zachodzącym słońcem",
+    p3_desc: "Pasmo za pasmem błękitnych gór pod pomarańczowym niebem, kładzione grubo szpachelką.",
+    p3_m1: "Akryl na płótnie, szpachelka",
+    p3_alt: "Warstwy błękitnych gór pod pomarańczowo-różowym zachodem słońca",
 
     status_available: "Dostępne",
     status_sold: "Sprzedany",
-    status_sold_out: "Wyprzedany",
-    commission_similar: "Zamów podobny obraz",
+    commission_similar: "Zamów podobny",
+    look_closer: "Zobacz z bliska",
+    zoom_hint: "Kliknij obraz, żeby przybliżyć",
+    close: "Zamknij",
 
-    usp_title: 'Obraz, który sobie wyobrażasz, <em>namalowany ręcznie.</em>',
-    usp_text: "Każdy obraz powstaje ręcznie, pociągnięcie po pociągnięciu. To autorskie rzemiosło stworzone z myślą o Twojej wizji.",
-    usp_pill1: "🖌 100% ręcznie malowane",
-    usp_pill2: "📜 Certyfikat oryginalności",
-    usp_pill3: "🎨 Według Twojej wizji",
+    statement: "Bez wydruków. Bez AI. Tylko farba, pędzel i kilka tygodni cierpliwości.",
+    fact1: "Malowane ręcznie",
+    fact2: "Certyfikat oryginalności",
+    fact3: "Twój temat, format i kolory",
 
-    process_title: "Jak wygląda zamówienie",
-    s1_title: "Rozmowa",
-    s1_desc: "Kawa albo rozmowa przez Google Meet lub WhatsApp. Ustalamy temat, wymiary i paletę barw obrazu.",
-    s2_title: "Projekt cyfrowy",
-    s2_desc: "Otrzymujesz pierwszą cyfrową koncepcję, a następnie dopracowujemy kompozycję przed rozpoczęciem malowania.",
-    s3_title: "Zaliczka",
-    s3_desc: "20% zaliczki po zatwierdzeniu projektu rezerwuje termin w kalendarzu pracowni.",
-    s4_title: "Malowanie",
-    s4_desc: "Kilka tygodni pracy. Zdjęcia postępów, jeśli chcesz być na bieżąco.",
-    s4_note: "Bez poprawek po rozpoczęciu tego etapu",
-    s5_title: "Werniks i odbiór",
-    s5_desc: "Obraz zostaje zabezpieczony werniksem, a następnie wysłany z ubezpieczeniem lub przekazany osobiście wraz z certyfikatem oryginalności.",
+    process_title: 'Od pomysłu <em>do ściany</em>',
+    s1_title: "Rozmawiamy",
+    s1_desc: "Przy kawie, na Google Meet albo WhatsAppie. Ustalamy temat, wymiary i kolory.",
+    s2_title: "Szkicuję",
+    s2_desc: "Dostajesz cyfrowy szkic. Poprawiamy go, aż kompozycja będzie taka, jak trzeba.",
+    s3_title: "Rezerwujesz termin",
+    s3_desc: "Po akceptacji szkicu 20% zaliczki rezerwuje miejsce w kalendarzu.",
+    s4_title: "Maluję",
+    s4_desc: "Kilka tygodni przy sztaludze. Jeśli chcesz, wysyłam zdjęcia postępów.",
+    s4_note: "Na tym etapie nie wprowadzam już zmian.",
+    s5_title: "Obraz jedzie do Ciebie",
+    s5_desc: "Zawerniksowany, wysłany z ubezpieczeniem albo przekazany osobiście, razem z certyfikatem.",
 
-    footer_text: "Ręcznie malowane oryginały. Zamówienia otwarte.",
-    footer_legal: "© 2026 ciesielska.art. Ceny są orientacyjne, a szczegóły ustalamy indywidualnie.",
-    privacy_note: "Nie używamy analityki ani reklamowych narzędzi śledzących. Wybrany język zapisuje się w tej przeglądarce. Google Fonts i formularz łączą się z zewnętrznymi dostawcami; odpowiedzi z formularza trafiają do Tally i właściciela strony.",
-    language_group: "Język",
-    form_title: "Formularz zapytania o zamówienie",
+    closing_title: 'Masz pomysł? <em>Opowiedz mi o nim.</em>',
     cta_footer: "Zamów obraz",
+    footer_text: "Przyjmuję zamówienia.",
+    footer_legal: "© 2026 ciesielska.art. Ceny ustalamy indywidualnie.",
+    privacy_note: "Bez analityki i śledzenia reklamowego. Wybór języka zapisuje się w tej przeglądarce. Czcionki ładują się z Google Fonts, a formularz obsługuje Tally.",
 
+    form_title: "Formularz zapytania o zamówienie",
     modal_title: "Zapytanie o zamówienie",
-    modal_sub: "Powiedz, o czym marzysz. Odezwę się, żeby ustalić szczegóły.",
+    modal_sub: "Napisz, co masz na myśli. Odpiszę i ustalimy szczegóły.",
     modal_fallback: "Formularz się nie ładuje?",
     modal_open_tab: "Otwórz w nowej karcie →",
 
@@ -1011,133 +813,271 @@ const I18N = {
   }
 };
 
+const $ = (sel, root = document) => root.querySelector(sel);
+const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+const root = document.documentElement;
+const motion = root.classList.contains('motion');
+const clamp = (v, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
+const currentCopy = () => I18N[root.lang] || I18N.en;
+// A view transition that gets skipped (hidden tab, interrupted) rejects its promises; the DOM change still applies.
+const quiet = transition => {
+  [transition.ready, transition.finished, transition.updateCallbackDone].forEach(p => p.catch(() => {}));
+  return transition;
+};
+
 /* =====================================================
-   LANGUAGE SWITCHING
+   LANGUAGE
    ===================================================== */
-function setLang(lang, persist = true) {
-  if (!Object.prototype.hasOwnProperty.call(I18N, lang)) lang = 'en';
+function applyLang(lang) {
   const copy = I18N[lang];
-  document.documentElement.lang = lang;
+  root.lang = lang;
 
-  document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (copy[key] !== undefined) el.textContent = copy[key];
+  $$('[data-i18n]').forEach(el => {
+    const value = copy[el.dataset.i18n];
+    if (value !== undefined) el.textContent = value;
   });
-
-  // elements containing inline HTML (gradients in headings)
-  document.querySelectorAll('[data-i18n-html]').forEach(el => {
-    const key = el.getAttribute('data-i18n-html');
-    if (copy[key] !== undefined) el.innerHTML = copy[key];
+  $$('[data-i18n-html]').forEach(el => {
+    const value = copy[el.dataset.i18nHtml];
+    if (value !== undefined) el.innerHTML = value;
   });
-
-  document.querySelectorAll('[data-i18n-attr]').forEach(el => {
-    const [attribute, key] = el.getAttribute('data-i18n-attr').split(':');
+  $$('[data-i18n-attr]').forEach(el => {
+    const [attribute, key] = el.dataset.i18nAttr.split(':');
     if (attribute && copy[key] !== undefined) el.setAttribute(attribute, copy[key]);
   });
 
-  // Keep the document and social preview in the selected language.
+  // Each word of the statement gets its own span so it can ink in on scroll.
+  $$('[data-split]').forEach(el => {
+    const words = el.textContent.trim().split(/\s+/);
+    el.textContent = '';
+    words.forEach((word, i) => {
+      const span = document.createElement('span');
+      span.className = 'w';
+      span.style.setProperty('--i', i);
+      span.textContent = word;
+      el.append(span, ' ');
+    });
+  });
+
+  $$('[data-view]').forEach(el => {
+    el.setAttribute('aria-label', `${copy.look_closer}: ${copy[el.dataset.title]}`);
+  });
+
   document.title = copy.page_title;
-  const meta = document.querySelector('meta[name="description"]');
-  if (meta) meta.setAttribute('content', copy.desc);
-  const ogTitle = document.querySelector('meta[property="og:title"]');
-  const ogDescription = document.querySelector('meta[property="og:description"]');
-  if (ogTitle) ogTitle.setAttribute('content', copy.page_title);
-  if (ogDescription) ogDescription.setAttribute('content', copy.og_desc);
+  $('meta[name="description"]')?.setAttribute('content', copy.desc);
+  $('meta[property="og:title"]')?.setAttribute('content', copy.page_title);
+  $('meta[property="og:description"]')?.setAttribute('content', copy.og_desc);
 
   // Tally form per language
-  const frame = document.getElementById('tallyFrame');
-  const fallback = document.getElementById('tallyFallbackLink');
+  const frame = $('#tallyFrame');
   const formId = copy[lang === 'pl' ? 'tally_pl' : 'tally_en'];
-  if (frame && formId && !formId.includes('YOUR_TALLY')) {
+  if (frame && formId) {
     frame.dataset.tallySrc = `https://tally.so/embed/${encodeURIComponent(formId)}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
-    if (fallback) fallback.href = `https://tally.so/r/${formId}`;
+    $('#tallyFallbackLink').href = `https://tally.so/r/${formId}`;
   }
 
-  // toggle button states
-  const enButton = document.getElementById('lang-en');
-  const plButton = document.getElementById('lang-pl');
-  enButton.classList.toggle('active', lang === 'en');
-  plButton.classList.toggle('active', lang === 'pl');
-  enButton.setAttribute('aria-pressed', String(lang === 'en'));
-  plButton.setAttribute('aria-pressed', String(lang === 'pl'));
-  enButton.setAttribute('aria-label', copy.lang_label_en);
-  plButton.setAttribute('aria-label', copy.lang_label_pl);
+  $$('.lang button').forEach(button => {
+    button.setAttribute('aria-pressed', String(button.dataset.lang === lang));
+    button.setAttribute('aria-label', copy[`lang_label_${button.dataset.lang}`]);
+  });
+}
 
+function setLang(lang, { persist = true, animate = true } = {}) {
+  if (!Object.hasOwn(I18N, lang)) lang = 'en';
+  if (animate && motion && document.startViewTransition && lang !== root.lang) {
+    quiet(document.startViewTransition(() => applyLang(lang)));
+  } else {
+    applyLang(lang);
+  }
   if (persist) {
     try { localStorage.setItem('lang', lang); } catch (_) { /* Storage may be disabled. */ }
   }
 }
 
-// restore saved language, else use browser preference
-let saved = null;
-try { saved = localStorage.getItem('lang'); } catch (_) { /* Storage may be disabled. */ }
-const browser = (navigator.language || 'en').toLowerCase().startsWith('pl') ? 'pl' : 'en';
-setLang(saved || browser, false);
+let savedLang = null;
+try { savedLang = localStorage.getItem('lang'); } catch (_) { /* Storage may be disabled. */ }
+const browserLang = (navigator.language || 'en').toLowerCase().startsWith('pl') ? 'pl' : 'en';
+setLang(savedLang || browserLang, { persist: false, animate: false });
+
+$$('.lang button').forEach(button => button.addEventListener('click', () => setLang(button.dataset.lang)));
 
 /* =====================================================
-   TOP BAR
+   HERO: scroll steps you back from the paint to the wall
    ===================================================== */
-const topbar = document.getElementById('topbar');
-const hero = document.querySelector('.hero');
-new IntersectionObserver(([e]) => {
-  topbar.classList.toggle('scrolled', !e.isIntersecting);
-}, { threshold: 0.4 }).observe(hero);
+const hero = $('.hero');
+const stage = $('.hero-stage');
+const canvas = $('.hero-canvas');
 
-/* =====================================================
-   SCROLL REVEAL
-   ===================================================== */
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('in'); });
-}, { threshold: 0.25 });
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+if (motion) {
+  let coverScale = 1;
+  let span = 1;
+  let queued = false;
 
-/* =====================================================
-   PARALLAX (rAF-throttled, respects reduced motion)
-   ===================================================== */
-const prefersReduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const layers = document.querySelectorAll('[data-parallax]');
-if (!prefersReduced && layers.length) {
-  let ticking = false;
-  const update = () => {
-    const vh = innerHeight;
-    layers.forEach(el => {
-      const r = el.parentElement.getBoundingClientRect();
-      if (r.bottom < 0 || r.top > vh) return;
-      const progress = (r.top + r.height / 2 - vh / 2) / vh;
-      const speed = parseFloat(el.dataset.parallax);
-      el.style.transform = `translateY(${(progress * speed * 100).toFixed(2)}%)`;
-    });
-    ticking = false;
+  const render = () => {
+    queued = false;
+    const p = clamp(-hero.getBoundingClientRect().top / span);
+    const zoom = clamp(p / 0.8);
+    // Interpolating the exponent keeps the zoom speed even to the eye.
+    hero.style.setProperty('--s', Math.pow(coverScale, 1 - zoom).toFixed(4));
+    hero.style.setProperty('--copy', (1 - clamp(p / 0.2)).toFixed(3));
+    hero.style.setProperty('--scrim', (1 - clamp(p / 0.45)).toFixed(3));
+    hero.style.setProperty('--label', clamp((p - 0.7) / 0.18).toFixed(3));
+    hero.classList.toggle('past', p > 0.2);
+    hero.classList.toggle('hung', p > 0.8);
   };
+
+  const measure = () => {
+    const vw = stage.clientWidth, vh = stage.clientHeight;
+    const w = canvas.offsetWidth, h = canvas.offsetHeight;
+    const cx = canvas.offsetLeft + w / 2, cy = canvas.offsetTop + h / 2;
+    // Smallest scale at which the canvas, growing from its own centre, covers the viewport.
+    coverScale = Math.max(2 * Math.max(cx, vw - cx) / w, 2 * Math.max(cy, vh - cy) / h, 1) * 1.03;
+    span = Math.max(1, hero.offsetHeight - vh);
+    render();
+  };
+
   addEventListener('scroll', () => {
-    if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    if (!queued) { queued = true; requestAnimationFrame(render); }
   }, { passive: true });
-  update();
+  new ResizeObserver(measure).observe(stage);
+  new ResizeObserver(measure).observe($('.hero-label'));
+  measure();
+
+  $('#seeWork').addEventListener('click', e => {
+    e.preventDefault();
+    scrollTo({ top: hero.offsetTop + span * 0.94, behavior: 'smooth' });
+  });
 }
 
 /* =====================================================
-   MODAL (accessible)
+   TOP BAR: tucks away while scrolling down past the hero
    ===================================================== */
-const overlay = document.getElementById('overlay');
-let lastFocus = null;
-let inertBackground = [];
-
-function setBackgroundInert(inert) {
-  if (inert) {
-    inertBackground = [...document.body.children].filter(el => el !== overlay);
-    inertBackground.forEach(el => { el.inert = true; });
-  } else {
-    inertBackground.forEach(el => { el.inert = false; });
-    inertBackground = [];
-  }
+{
+  const topbar = $('.topbar');
+  let lastY = scrollY;
+  addEventListener('scroll', () => {
+    const y = scrollY;
+    if (Math.abs(y - lastY) < 6) return;
+    topbar.classList.toggle('tucked', y > lastY && y > hero.offsetTop + hero.offsetHeight - innerHeight * 0.5);
+    lastY = y;
+  }, { passive: true });
 }
+
+/* =====================================================
+   ROOMS: the wall takes its colour from the painting in view
+   ===================================================== */
+const ROOM_COLORS = { sea: '#0a1322', violet: '#120f2a', dusk: '#1c1220', ink: '#0e0f14', ember: '#17110f' };
+const themeMeta = $('meta[name="theme-color"]');
+const roomWatcher = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    const room = entry.target.dataset.room;
+    root.dataset.room = room;
+    themeMeta.setAttribute('content', ROOM_COLORS[room]);
+  });
+}, { rootMargin: '-50% 0px -50% 0px' });
+$$('main [data-room]').forEach(el => roomWatcher.observe(el));
+
+/* =====================================================
+   SCROLL REVEALS
+   ===================================================== */
+if (motion) {
+  const revealer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('in');
+      revealer.unobserve(entry.target);
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  $$('.reveal, .unveil').forEach(el => revealer.observe(el));
+}
+
+/* =====================================================
+   GALLERY LIGHT: sheen and a slight tilt under the pointer
+   ===================================================== */
+if (motion && matchMedia('(hover: hover) and (pointer: fine)').matches) {
+  $$('.art').forEach(art => {
+    art.addEventListener('pointermove', e => {
+      const r = art.getBoundingClientRect();
+      const x = clamp((e.clientX - r.left) / r.width), y = clamp((e.clientY - r.top) / r.height);
+      art.style.setProperty('--mx', `${(x * 100).toFixed(1)}%`);
+      art.style.setProperty('--my', `${(y * 100).toFixed(1)}%`);
+      art.style.setProperty('--tx', (x - 0.5).toFixed(3));
+      art.style.setProperty('--ty', (y - 0.5).toFixed(3));
+    });
+    art.addEventListener('pointerleave', () => {
+      art.style.setProperty('--tx', 0);
+      art.style.setProperty('--ty', 0);
+    });
+  });
+}
+
+/* =====================================================
+   CLOSE-UP VIEWER
+   ===================================================== */
+const viewer = $('#viewer');
+const viewerFrame = $('#viewerFrame');
+const viewerImg = $('#viewerImg');
+const viewerScroll = $('#viewerScroll');
+let viewerSource = null;
+
+// Morph one element into another with a view transition where available.
+function morph(from, to, change) {
+  if (!motion || !document.startViewTransition || !from || !to) { change(); return; }
+  from.style.viewTransitionName = 'art';
+  const transition = document.startViewTransition(() => {
+    from.style.viewTransitionName = '';
+    to.style.viewTransitionName = 'art';
+    change();
+  });
+  // A skipped transition (hidden tab, interrupted) rejects; the change itself has still been applied.
+  quiet(transition);
+  transition.finished.catch(() => {}).finally(() => { to.style.viewTransitionName = ''; });
+}
+
+function openViewer(art) {
+  const img = $('img', art);
+  viewerSource = art;
+  viewerImg.src = img.currentSrc || img.src;
+  viewerImg.alt = img.alt;
+  ['--ratio', '--crop', '--origin'].forEach(name => viewerFrame.style.setProperty(name, art.style.getPropertyValue(name)));
+  $('#viewerTitle').textContent = currentCopy()[art.dataset.title];
+  viewer.classList.remove('zoomed');
+  morph(art, viewerFrame, () => viewer.showModal());
+}
+
+function closeViewer() {
+  if (!viewer.open) return;
+  viewer.classList.remove('zoomed');
+  morph(viewerFrame, viewerSource, () => viewer.close());
+}
+
+$$('[data-view]').forEach(art => art.addEventListener('click', () => openViewer(art)));
+$('#viewerClose').addEventListener('click', closeViewer);
+viewer.addEventListener('cancel', e => { e.preventDefault(); closeViewer(); });
+viewerScroll.addEventListener('click', e => { if (e.target === viewerScroll) closeViewer(); });
+
+viewerFrame.addEventListener('click', e => {
+  const r = viewerFrame.getBoundingClientRect();
+  // Keyboard activation has no pointer position; zoom on the centre then.
+  const fx = e.detail ? clamp((e.clientX - r.left) / r.width) : 0.5;
+  const fy = e.detail ? clamp((e.clientY - r.top) / r.height) : 0.5;
+  if (viewer.classList.toggle('zoomed')) {
+    viewerScroll.scrollLeft = fx * viewerScroll.scrollWidth - viewerScroll.clientWidth / 2;
+    viewerScroll.scrollTop = fy * viewerScroll.scrollHeight - viewerScroll.clientHeight / 2;
+  }
+});
+
+/* =====================================================
+   INQUIRY DIALOG (Tally embed)
+   ===================================================== */
+const inquiry = $('#inquiry');
 
 function loadTallyEmbed() {
   if (window.Tally && typeof window.Tally.loadEmbeds === 'function') {
     window.Tally.loadEmbeds();
     return;
   }
-  if (document.querySelector('script[data-tally-embed]')) return;
+  if ($('script[data-tally-embed]')) return;
   const script = document.createElement('script');
   script.src = 'https://tally.so/widgets/embed.js';
   script.async = true;
@@ -1145,64 +1085,30 @@ function loadTallyEmbed() {
   document.body.appendChild(script);
 }
 
-function openModal(artwork = '') {
-  if (overlay.classList.contains('open')) return;
-  lastFocus = document.activeElement;
+function openInquiry(artwork = '') {
+  if (inquiry.open) return;
+  if (viewer.open) viewer.close();
 
-  const frame = document.getElementById('tallyFrame');
-  const base = frame.dataset.tallySrc;
-  if (base && !base.includes('YOUR_TALLY')) {
-    const formUrl = new URL(base);
-    if (artwork) formUrl.searchParams.set('reference', artwork);
-    else formUrl.searchParams.delete('reference');
-    frame.dataset.tallySrc = formUrl.toString();
-    frame.removeAttribute('src');
-    loadTallyEmbed();
-  }
+  const frame = $('#tallyFrame');
+  const formUrl = new URL(frame.dataset.tallySrc);
+  if (artwork) formUrl.searchParams.set('reference', artwork);
+  else formUrl.searchParams.delete('reference');
+  frame.dataset.tallySrc = formUrl.toString();
+  frame.removeAttribute('src');
+  loadTallyEmbed();
 
-  overlay.classList.add('open');
-  overlay.setAttribute('aria-hidden', 'false');
-  setBackgroundInert(true);
-  document.body.style.overflow = 'hidden';
-  setTimeout(() => overlay.querySelector('.x').focus(), 80);
+  inquiry.showModal();
 }
 
-function closeModal() {
-  if (!overlay.classList.contains('open')) return;
-  overlay.classList.remove('open');
-  overlay.setAttribute('aria-hidden', 'true');
-  setBackgroundInert(false);
-  document.body.style.overflow = '';
-  if (lastFocus) lastFocus.focus();
-}
-
-overlay.addEventListener('click', e => { if (e.target === overlay) closeModal(); });
-
-document.addEventListener('keydown', e => {
-  if (!overlay.classList.contains('open')) return;
-  if (e.key === 'Escape') {
-    e.preventDefault();
-    closeModal();
-  }
-  if (e.key === 'Tab') {
-    const focusable = [...overlay.querySelectorAll('button:not([disabled]), a[href], iframe, [tabindex]:not([tabindex="-1"])')]
-      .filter(el => el.offsetParent !== null);
-    const first = focusable[0];
-    const last = focusable[focusable.length - 1];
-    if (!first || !last) return;
-    if (e.shiftKey && (document.activeElement === first || document.activeElement === overlay)) {
-      e.preventDefault();
-      last.focus();
-    } else if (!e.shiftKey && document.activeElement === last) {
-      e.preventDefault();
-      first.focus();
-    }
-  }
+$$('[data-commission]').forEach(button => {
+  button.addEventListener('click', () => openInquiry(currentCopy()[button.dataset.commission] || ''));
 });
+$('#inquiryClose').addEventListener('click', () => inquiry.close());
+inquiry.addEventListener('click', e => { if (e.target === inquiry) inquiry.close(); });
 
 /* ---- Auto-close after Tally submission ---- */
 window.addEventListener('Tally.FormSubmitted', () => {
-  if (overlay.classList.contains('open')) setTimeout(closeModal, 1200);
+  if (inquiry.open) setTimeout(() => inquiry.close(), 1200);
 });
 </script>
 
