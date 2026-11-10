@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" data-room="ink">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#0e0f14">
+<meta name="description" content="Paintings in acrylic and watercolor: a few for sale, the rest a record of finished work.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Gallery | ciesielska.art">
+<meta property="og:description" content="Paintings in acrylic and watercolor: a few for sale, the rest a record of finished work.">
+<meta property="og:image" content="https://ciesielska.art/images/01-nebula-turtles.jpg">
+
+<title>Gallery | ciesielska.art</title>
+
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a1322'/%3E%3Cpath d='M7 20c2-9 9-13 17-11-1 8-6 14-14 15-2 0-3-2-3-4z' fill='%23e2633c'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+
+<script>
+/* Motion effects are opt-in: without JS, or with reduced motion, the page is a plain static layout. */
+if (!matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]motion=on\b/.test(location.search)) document.documentElement.classList.add('motion');
+</script>
+
+<link rel="stylesheet" href="site.css">
+</head>
+<body data-page="gallery">
+
+<div class="wash" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+<div class="progress" aria-hidden="true"></div>
+
+<!-- ================= TOP BAR ================= -->
+<header class="topbar">
+  <a class="wordmark" href="./">ciesielska<em>.art</em></a>
+  <div class="topbar-right">
+    <a class="nav-link" href="gallery.html" aria-current="page" data-i18n="nav_gallery">Gallery</a>
+    <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label:language_group">
+      <button type="button" data-lang="en" aria-pressed="true" aria-label="Switch to English">EN</button>
+      <button type="button" data-lang="pl" aria-pressed="false" aria-label="Switch to Polish">PL</button>
+    </div>
+    <button type="button" class="topbar-cta" data-commission data-i18n="cta_top">Commission</button>
+  </div>
+</header>
+
+<main>
+
+<section class="page-head" data-room="ink">
+  <h1 data-i18n-html="gallery_title">The <em>gallery</em></h1>
+  <p data-i18n="gallery_intro">Everything painted so far. Some pieces are for sale, the rest already hang on someone's wall.</p>
+</section>
+
+<!-- Filters and paintings are drawn by site.js from the list in works.js. -->
+<div class="filters" id="filters" role="group" aria-label="Filter paintings" data-i18n-attr="aria-label:filter_group"></div>
+
+<section class="wall" id="wall" data-room="ink">
+  <noscript><p>The gallery needs JavaScript to show the paintings.</p></noscript>
+</section>
+
+<!-- ================= CLOSING ================= -->
+<section class="closing" data-room="ember">
+  <h2 class="reveal" data-i18n-html="closing_title">Got an idea? <em>Tell me about it.</em></h2>
+  <div class="closing-row reveal">
+    <button type="button" class="btn btn-solid" data-commission data-i18n="cta_footer">Commission a painting</button>
+    <span class="open-note" data-i18n="footer_text">Commissions are open.</span>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <a class="wordmark" href="./">ciesielska<em>.art</em></a>
+  <p data-i18n="footer_legal">© 2026 ciesielska.art. Prices are agreed individually.</p>
+  <p data-i18n="privacy_note">No analytics, no ad tracking. Your language choice is stored in this browser. Fonts load from Google Fonts; the inquiry form is run by Tally.</p>
+</footer>
+
+<!-- The close-up viewer and the inquiry form dialog are created by site.js, shared with index.html. -->
+
+<script src="works.js"></script>
+<script src="site.js"></script>
+
+</body>
+</html>

@@ -23,409 +23,7 @@
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]motion=on\b/.test(location.search)) document.documentElement.classList.add('motion');
 </script>
 
-<style>
-/* The wall colour is a registered property, so it can fade from room to room. */
-@property --wall { syntax: "<color>"; inherits: true; initial-value: #0a1322; }
-@property --glow { syntax: "<color>"; inherits: true; initial-value: #1c6a86; }
-
-:root {
-  --fg: #f3eee3;
-  --fg-soft: rgba(243, 238, 227, .72);
-  --fg-faint: rgba(243, 238, 227, .45);
-  --rule: rgba(243, 238, 227, .2);
-  --ochre: #e3b667;
-  --ember: #e2633c;
-  --paper: #f1eadb;
-  --ink: #1b1a22;
-  --ink-soft: #5b5763;
-
-  --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
-  --sans: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-
-  --pad: clamp(20px, 5vw, 72px);
-  --hung-w: min(92vw, 1080px, calc((100svh - 300px) * 1.438));
-}
-
-html {
-  --wall: #0a1322;
-  --glow: #1c6a86;
-  transition: --wall 1.4s ease, --glow 1.4s ease;
-  -webkit-text-size-adjust: 100%;
-  scrollbar-gutter: stable;
-}
-html[data-room="violet"] { --wall: #120f2a; --glow: #5b3fae; }
-html[data-room="dusk"]   { --wall: #1c1220; --glow: #c4523a; }
-html[data-room="ink"]    { --wall: #0e0f14; --glow: #3a3f66; }
-html[data-room="ember"]  { --wall: #17110f; --glow: #a8742a; }
-html.motion { scroll-behavior: smooth; }
-html:has(dialog[open]) { overflow: hidden; }
-
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-  background: var(--wall);
-  color: var(--fg);
-  font-family: var(--sans);
-  font-size: 1.0625rem;
-  line-height: 1.55;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: clip;
-}
-
-::selection { background: var(--ember); color: #fff; }
-:focus-visible { outline: 2px solid var(--ochre); outline-offset: 4px; border-radius: 2px; }
-
-button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
-img { display: block; }
-h1, h2, h3 { font-family: var(--serif); font-weight: 400; }
-em { font-style: italic; }
-
-/* Light pooling on the wall, tinted by the painting in view. */
-.wash {
-  position: fixed; inset: 0; z-index: -1; pointer-events: none;
-  background:
-    radial-gradient(90vmax 70vmax at 85% -10%, color-mix(in oklab, var(--glow) 42%, transparent), transparent 70%),
-    radial-gradient(70vmax 60vmax at 0% 110%, color-mix(in oklab, var(--glow) 24%, transparent), transparent 70%);
-}
-
-/* Fine grain over everything, like tooth on a canvas. */
-.grain {
-  position: fixed; inset: 0; z-index: 40; pointer-events: none; opacity: .11;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .5 0 0 0 0 .5 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-}
-
-.progress { display: none; }
-@supports (animation-timeline: scroll()) {
-  .motion .progress {
-    display: block; position: fixed; top: 0; left: 0; right: 0; height: 2px; z-index: 60;
-    background: var(--ochre); transform-origin: 0 50%;
-    animation: grow linear both; animation-timeline: scroll(root);
-  }
-}
-@keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
-
-/* ============ TOP BAR ============ */
-.topbar {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 50;
-  display: flex; align-items: center; justify-content: space-between; gap: 16px;
-  padding: calc(16px + env(safe-area-inset-top, 0px)) var(--pad) 12px;
-  color: var(--fg);
-  transition: transform .45s cubic-bezier(.2, .7, .2, 1);
-}
-/* A feathered veil in the wall colour, so text scrolling underneath never tangles with the header. */
-.topbar::before {
-  content: ""; position: absolute; inset: 0 0 -26px; z-index: -1; pointer-events: none;
-  background: linear-gradient(color-mix(in srgb, var(--wall) 88%, transparent) 30%, transparent);
-  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
-  -webkit-mask-image: linear-gradient(#000 55%, transparent); mask-image: linear-gradient(#000 55%, transparent);
-}
-/* Past the hero the header tucks away on the way down and returns on the way up. */
-.topbar.tucked { transform: translateY(-130%); }
-.topbar.tucked:focus-within { transform: none; }
-.wordmark { font-family: var(--serif); font-size: 1.35rem; color: inherit; text-decoration: none; white-space: nowrap; }
-.wordmark em { opacity: .7; }
-.topbar-right { display: flex; align-items: center; gap: clamp(12px, 3vw, 26px); }
-.lang { display: flex; gap: 2px; }
-.lang button {
-  font-size: .78rem; font-weight: 600; letter-spacing: .08em;
-  min-width: 40px; min-height: 40px; opacity: .55; transition: opacity .2s;
-}
-.lang button:hover { opacity: 1; }
-.lang button[aria-pressed="true"] { opacity: 1; text-decoration: underline; text-underline-offset: 6px; text-decoration-thickness: 1.5px; }
-.topbar-cta {
-  font-size: .85rem; font-weight: 500; white-space: nowrap;
-  min-height: 40px; padding: 0 18px; border: 1px solid currentColor; border-radius: 999px;
-  transition: background .2s, color .2s;
-}
-.topbar-cta:hover { background: var(--fg); color: #14151c; }
-
-/* ============ BUTTONS ============ */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  min-height: 50px; padding: 0 28px; border-radius: 999px;
-  font-size: .95rem; font-weight: 600; text-decoration: none;
-  transition: transform .25s cubic-bezier(.2,.7,.2,1), background .2s, color .2s, border-color .2s;
-}
-.btn:hover { transform: translateY(-2px); }
-.btn-solid { background: var(--fg); color: #14151c; }
-.btn-solid:hover { background: #fff; }
-.btn-line { color: var(--fg); border: 1px solid rgba(243, 238, 227, .5); }
-.btn-line:hover { border-color: var(--fg); }
-
-.text-btn {
-  font-size: .92rem; font-weight: 500; text-align: left;
-  padding: 10px 0; border-bottom: 1px solid var(--rule);
-  transition: border-color .2s, color .2s;
-}
-.text-btn::after { content: "\2192"; display: inline-block; margin-left: .5em; transition: transform .25s; }
-.text-btn:hover { border-color: var(--ochre); color: var(--ochre); }
-.text-btn:hover::after { transform: translateX(4px); }
-
-/* ============ HERO ============
-   With motion on, the page opens inside the paint and scrolling steps you
-   back until the canvas hangs on the wall. Without it: copy, then canvas. */
-.hero { position: relative; }
-.hero-stage {
-  position: relative; min-height: 100svh;
-  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 26px;
-  padding: 110px 4vw 56px;
-}
-.hero-copy { width: min(100%, 1080px); order: -1; margin-bottom: 20px; }
-.hero-scrim, .scroll-hint { display: none; }
-
-.kicker { font-size: .78rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--ochre); margin-bottom: 18px; }
-.hero h1 { font-size: clamp(2.9rem, 11vw, 7.5rem); line-height: .96; letter-spacing: -.015em; margin-bottom: 22px; text-wrap: balance; }
-.hero h1 em { color: var(--ochre); }
-.lede { max-width: 46ch; color: var(--fg-soft); margin-bottom: 30px; text-wrap: pretty; }
-.hero-actions { display: flex; flex-wrap: wrap; gap: 12px; }
-
-.hero-canvas { width: var(--hung-w); flex: none; }
-.hero-label { width: var(--hung-w); container-type: inline-size; }
-
-.motion .hero { height: 250svh; }
-.motion .hero-stage { position: sticky; top: 0; height: 100svh; min-height: 0; overflow: clip; padding: 76px 4vw 28px; }
-.motion .hero-canvas { transform: scale(var(--s, 1)); pointer-events: none; }
-.motion .hero.hung .hero-canvas { pointer-events: auto; }
-.motion .hero-scrim {
-  display: block; position: absolute; inset: 0; z-index: 2; pointer-events: none; opacity: var(--scrim, 1);
-  background:
-    linear-gradient(180deg, rgba(6, 9, 20, .5) 0%, rgba(6, 9, 20, 0) 26%),
-    linear-gradient(8deg, rgba(6, 9, 20, .92) 8%, rgba(6, 9, 20, .5) 42%, rgba(6, 9, 20, 0) 70%);
-}
-.motion .hero-copy {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 3; width: auto; margin: 0;
-  padding: 0 var(--pad) clamp(84px, 13svh, 130px);
-  opacity: var(--copy, 1); transform: translateY(calc((1 - var(--copy, 1)) * -40px));
-}
-.motion .hero.past .hero-copy, .motion .hero.past .scroll-hint { visibility: hidden; }
-.motion .hero-label { opacity: var(--label, 0); transform: translateY(calc((1 - var(--label, 0)) * 16px)); }
-.motion .hero:not(.hung) .hero-label { pointer-events: none; }
-
-.motion .scroll-hint {
-  position: absolute; left: 50%; bottom: 20px; z-index: 3; transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 8px;
-  font-size: .7rem; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; white-space: nowrap;
-  color: var(--fg-soft); opacity: var(--copy, 1);
-}
-.motion .scroll-hint::after { content: ""; width: 1px; height: 30px; background: linear-gradient(var(--fg), transparent); animation: drip 2s ease-in-out infinite; }
-@keyframes drip {
-  0% { transform: scaleY(0); transform-origin: top; }
-  55% { transform: scaleY(1); transform-origin: top; }
-  100% { transform: scaleY(0); transform-origin: bottom; }
-}
-
-/* ============ A PAINTING ON THE WALL ============ */
-.art {
-  position: relative; display: block; width: 100%; overflow: hidden; cursor: zoom-in;
-  aspect-ratio: var(--ratio);
-  box-shadow: 0 2px 0 rgba(255, 255, 255, .06) inset, 0 30px 50px -18px rgba(0, 0, 0, .65), 0 70px 120px -40px rgba(0, 0, 0, .7);
-  transform: perspective(1100px) rotateX(calc(var(--ty, 0) * -3.5deg)) rotateY(calc(var(--tx, 0) * 3.5deg));
-  transition: transform .6s cubic-bezier(.2, .7, .2, 1);
-}
-/* The photos include a sliver of easel; a slight crop keeps only the canvas. */
-.art img, .viewer-frame img {
-  width: 100%; height: 100%; object-fit: cover;
-  transform: scale(var(--crop, 1)); transform-origin: var(--origin, 50% 50%);
-}
-/* Raking light that follows the pointer. */
-.sheen {
-  position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .4s;
-  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(255, 250, 235, .5), transparent 46%);
-  mix-blend-mode: soft-light;
-}
-.art:hover .sheen { opacity: 1; }
-.closer {
-  position: absolute; right: 12px; bottom: 12px;
-  font-size: .72rem; font-weight: 600; letter-spacing: .06em; color: #fff;
-  padding: 7px 12px; border-radius: 999px; background: rgba(8, 10, 20, .6);
-  -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
-  opacity: 0; transform: translateY(6px); transition: opacity .3s, transform .3s;
-}
-.art:hover .closer, .art:focus-visible .closer { opacity: 1; transform: none; }
-@media (hover: none) { .closer { opacity: 1; transform: none; } }
-
-.placard { display: grid; gap: 14px; border-top: 1px solid var(--rule); padding-top: 18px; }
-.placard h2 { font-size: clamp(1.9rem, 4.2vw, 2.9rem); line-height: 1.02; text-wrap: balance; }
-.medium { font-size: .82rem; color: var(--fg-faint); margin-top: 6px; }
-.desc { color: var(--fg-soft); max-width: 38ch; text-wrap: pretty; }
-.placard-foot { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 22px; }
-.status { display: inline-flex; align-items: center; gap: 8px; font-size: .78rem; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: var(--fg-soft); }
-.status::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ember); }
-.status.is-available::before { background: #86d6a0; box-shadow: 0 0 0 4px rgba(134, 214, 160, .18); }
-
-@container (min-width: 640px) {
-  .hero-label .placard { grid-template-columns: 1fr 1.25fr auto; gap: 36px; align-items: start; }
-  .hero-label .placard h2 { font-size: 2.3rem; }
-  .hero-label .placard-foot { flex-direction: column; align-items: flex-end; }
-}
-@container (max-width: 420px) {
-  .hero-label .placard { gap: 8px; padding-top: 14px; }
-  .hero-label .placard h2 { font-size: 1.8rem; }
-  .hero-label .desc { font-size: .95rem; }
-}
-
-.piece {
-  max-width: 1240px; margin: 0 auto;
-  padding: clamp(90px, 16svh, 190px) var(--pad);
-  display: grid; gap: 32px; align-items: end;
-}
-.work { justify-self: center; width: 100%; }
-.piece--portrait .work { width: min(100%, 470px, 72svh); }
-
-@media (min-width: 860px) {
-  .piece { gap: clamp(40px, 6vw, 90px); }
-  .piece--portrait { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); }
-  .piece--portrait .work { justify-self: end; }
-  .piece--landscape { grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); }
-  .piece--landscape .placard { order: -1; }
-  .piece .placard { padding-bottom: 6px; }
-}
-
-/* Scroll reveals (only when motion is on, so nothing can get stuck invisible). */
-.motion .reveal { opacity: 0; transform: translateY(26px); transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1); transition-delay: var(--d, 0s); }
-.motion .reveal.in { opacity: 1; transform: none; }
-/* The clip sits on the painting, not on the observed figure: a fully clipped target never reports as visible. */
-.motion .unveil .art { clip-path: inset(0 0 100% 0); transition: clip-path 1.3s cubic-bezier(.2,.7,.2,1), transform .6s cubic-bezier(.2,.7,.2,1); }
-.motion .unveil.in .art { clip-path: inset(-140px); }
-
-@supports (animation-timeline: view()) {
-  .motion .piece .work { animation: drift linear both; animation-timeline: view(); }
-  @keyframes drift { from { translate: 0 44px; } to { translate: 0 -44px; } }
-}
-
-/* ============ STATEMENT ============ */
-.statement { padding: clamp(100px, 20svh, 220px) var(--pad); max-width: 1240px; margin: 0 auto; }
-.statement-text { font-family: var(--serif); font-size: clamp(2.3rem, 7vw, 5.6rem); line-height: 1.04; letter-spacing: -.01em; max-width: 17ch; text-wrap: balance; }
-@supports (animation-timeline: view()) {
-  .motion .statement-text { view-timeline: --say block; }
-  .motion .statement-text .w {
-    opacity: .16; animation: ink-in linear both; animation-timeline: --say;
-    animation-range: cover calc(12% + var(--i) * 2.2%) cover calc(24% + var(--i) * 2.2%);
-  }
-  @keyframes ink-in { to { opacity: 1; } }
-}
-.facts { list-style: none; display: grid; gap: 0; margin-top: clamp(40px, 7vw, 80px); border-top: 1px solid var(--rule); }
-.facts li { padding: 18px 0; border-bottom: 1px solid var(--rule); font-size: .82rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--fg-soft); }
-@media (min-width: 760px) {
-  .facts { grid-template-columns: repeat(3, 1fr); }
-  .facts li { border-bottom: 0; }
-}
-
-/* ============ PROCESS: a sheet of paper ============ */
-.paper { position: relative; background: var(--paper); color: var(--ink); padding: clamp(80px, 13vw, 150px) 0; overflow-x: clip; }
-.paper::before, .paper::after {
-  content: ""; position: absolute; left: -3%; right: -3%; height: 34px; background: inherit;
-  filter: url(#torn); /* torn edge instead of a ruler-straight one */
-}
-.paper::before { top: -14px; }
-.paper::after { bottom: -14px; }
-.paper-inner { position: relative; z-index: 1; max-width: 1240px; margin: 0 auto; padding: 0 var(--pad); display: grid; gap: 44px; }
-.paper h2 { font-size: clamp(2.4rem, 6vw, 4.4rem); line-height: 1; letter-spacing: -.01em; max-width: 9ch; text-wrap: balance; }
-.paper h2 em { color: var(--ember); }
-
-.steps { list-style: none; position: relative; padding-left: 30px; }
-.steps::before { content: ""; position: absolute; left: 0; top: 8px; bottom: 8px; width: 3px; border-radius: 3px; background: var(--ember); filter: url(#torn); }
-@supports (animation-timeline: view()) {
-  .motion .steps { view-timeline: --steps block; }
-  .motion .steps::before { transform-origin: 50% 0; animation: draw linear both; animation-timeline: --steps; animation-range: cover 12% cover 62%; }
-  @keyframes draw { from { transform: scaleY(0); } to { transform: scaleY(1); } }
-}
-.step { display: grid; grid-template-columns: 54px 1fr; gap: 6px 14px; padding: 22px 0; border-bottom: 1px solid rgba(27, 26, 34, .14); }
-.step:first-child { padding-top: 0; }
-.step:last-child { border-bottom: 0; padding-bottom: 0; }
-.num { font-family: var(--serif); font-style: italic; font-size: 2.7rem; line-height: .9; color: var(--ember); }
-.step h3 { font-size: 1.75rem; line-height: 1.1; margin-bottom: 6px; }
-.step p { color: var(--ink-soft); max-width: 46ch; }
-.step .note { margin-top: 10px; font-size: .84rem; font-weight: 600; color: var(--ink); padding-left: 12px; border-left: 2px solid var(--ember); }
-
-@media (min-width: 860px) {
-  .paper-inner { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 60px; align-items: start; }
-  .paper h2 { position: sticky; top: 110px; }
-  .step { grid-template-columns: 72px 1fr; padding: 28px 0; }
-}
-
-/* ============ CLOSING + FOOTER ============ */
-.closing { max-width: 1240px; margin: 0 auto; padding: clamp(110px, 20svh, 220px) var(--pad) clamp(70px, 11svh, 120px); }
-.closing h2 { font-size: clamp(2.9rem, 10vw, 7.5rem); line-height: .96; letter-spacing: -.015em; margin-bottom: 34px; text-wrap: balance; }
-.closing h2 em { color: var(--ochre); }
-.closing-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px 26px; }
-.open-note { display: inline-flex; align-items: center; gap: 10px; font-size: .92rem; color: var(--fg-soft); }
-.open-note::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #86d6a0; box-shadow: 0 0 0 4px rgba(134, 214, 160, .18); }
-
-footer { max-width: 1240px; margin: 0 auto; padding: 26px var(--pad) calc(34px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--rule); display: grid; gap: 10px; }
-footer .wordmark { color: var(--fg); }
-footer p { font-size: .78rem; color: var(--fg-faint); max-width: 74ch; }
-
-/* ============ DIALOGS ============ */
-dialog { border: 0; padding: 0; color: inherit; }
-
-/* Close-up viewer */
-.viewer { width: 100vw; height: 100dvh; max-width: none; max-height: none; background: rgba(5, 6, 12, .97); color: var(--fg); overflow: hidden; }
-.viewer::backdrop { background: #05060c; }
-.viewer-scroll { position: absolute; inset: 0; overflow: auto; display: flex; padding: 64px 16px 70px; overscroll-behavior: contain; }
-.viewer-frame {
-  flex: none; margin: auto; overflow: hidden; cursor: zoom-in;
-  aspect-ratio: var(--ratio);
-  width: min(100vw - 32px, (100dvh - 134px) * var(--ratio));
-  box-shadow: 0 40px 100px -30px #000;
-}
-.viewer.zoomed .viewer-frame { cursor: zoom-out; width: calc(min(100vw - 32px, (100dvh - 134px) * var(--ratio)) * 2.4); }
-.viewer-bar {
-  position: absolute; left: 0; right: 0; bottom: 0; z-index: 2; pointer-events: none;
-  display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 2px 20px;
-  padding: 26px var(--pad) calc(16px + env(safe-area-inset-bottom, 0px));
-  background: linear-gradient(transparent, rgba(5, 6, 12, .9) 55%);
-}
-.viewer-bar strong { font-family: var(--serif); font-weight: 400; font-size: 1.35rem; }
-.viewer-bar span { font-size: .78rem; color: var(--fg-faint); }
-.x {
-  width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; flex: none;
-  font-size: 1.3rem; line-height: 1; border: 1px solid currentColor; opacity: .75; transition: opacity .2s;
-}
-.x:hover { opacity: 1; }
-.viewer .x { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: var(--pad); z-index: 3; background: rgba(5, 6, 12, .6); }
-
-::view-transition-group(art) { animation-duration: .55s; animation-timing-function: cubic-bezier(.2, .8, .2, 1); }
-
-/* Inquiry sheet (Tally embed) */
-.sheet {
-  width: 100%; max-width: 560px; height: 92dvh; max-height: 92dvh;
-  margin: auto auto 0; border-radius: 22px 22px 0 0; overflow: hidden;
-  background: #fbf8f1; color: var(--ink);
-  opacity: 0; translate: 0 40px;
-  transition: opacity .3s, translate .35s cubic-bezier(.2, .9, .3, 1);
-  transition: opacity .3s, translate .35s cubic-bezier(.2, .9, .3, 1), overlay .35s allow-discrete, display .35s allow-discrete;
-}
-.sheet[open] { display: flex; flex-direction: column; opacity: 1; translate: 0 0; }
-@starting-style { .sheet[open] { opacity: 0; translate: 0 40px; } }
-.sheet::backdrop { background: rgba(6, 8, 16, .62); -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px); }
-.sheet-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px 8px; }
-.sheet-head h3 { font-size: 1.9rem; line-height: 1.1; }
-.sheet-body { flex: 1; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; }
-.sheet-sub { font-size: .9rem; color: var(--ink-soft); padding: 0 24px 14px; }
-.tally-frame { display: block; width: calc(100% - 32px); margin: 0 16px; min-height: 60dvh; border: 0; }
-.sheet-fallback { padding: 14px 24px calc(18px + env(safe-area-inset-bottom, 0px)); text-align: center; font-size: .78rem; color: var(--ink-soft); }
-.sheet-fallback a { color: var(--ink); font-weight: 600; }
-
-@media (min-width: 768px) {
-  .sheet { margin: auto; border-radius: 22px; height: min(720px, 92dvh); }
-}
-
-/* ============ SMALL / SHORT SCREENS ============ */
-@media (max-width: 560px) {
-  .topbar-cta { display: none; }
-  .hero-actions .btn { flex: 1 1 100%; }
-}
-@media (max-height: 540px) and (orientation: landscape) {
-  :root { --hung-w: min(54vw, calc((100svh - 100px) * 1.438)); }
-  .hero-stage, .motion .hero-stage { flex-direction: row; gap: 28px; }
-  .hero-label { width: auto; flex: 1; min-width: 0; }
-  .hero h1 { font-size: clamp(2.4rem, 12svh, 4rem); }
-  .motion .hero-copy { padding-bottom: 28px; }
-  .lede { margin-bottom: 18px; }
-  .scroll-hint { display: none !important; }
-}
-</style>
+<link rel="stylesheet" href="site.css">
 
 <script type="application/ld+json">
 {
@@ -438,7 +36,7 @@ dialog { border: 0; padding: 0; color: inherit; }
 }
 </script>
 </head>
-<body>
+<body data-page="home">
 
 <!-- Filter used for the torn paper edges and the hand-drawn line -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
@@ -456,6 +54,7 @@ dialog { border: 0; padding: 0; color: inherit; }
 <header class="topbar">
   <a class="wordmark" href="#top">ciesielska<em>.art</em></a>
   <div class="topbar-right">
+    <a class="nav-link" href="gallery.html" data-i18n="nav_gallery">Gallery</a>
     <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label:language_group">
       <button type="button" data-lang="en" aria-pressed="true" aria-label="Switch to English">EN</button>
       <button type="button" data-lang="pl" aria-pressed="false" aria-label="Switch to Polish">PL</button>
@@ -466,14 +65,14 @@ dialog { border: 0; padding: 0; color: inherit; }
 
 <main>
 
-<!-- Artwork details (titles, media, availability) live in the I18N dictionary at the bottom of this file. -->
+<!-- Titles, media and availability come from works.js; the English text here is the no-JS fallback. -->
 
 <!-- ================= HERO + PAINTING 1 ================= -->
 <section class="hero" id="top" data-room="sea">
   <div class="hero-stage">
     <div class="hero-canvas" id="works">
-      <button type="button" class="art" data-view data-title="p1_title" style="--ratio:2100/1460; --crop:1.07; --origin:55% 30%">
-        <img src="images/01-nebula-turtles.jpg" width="2100" height="1460" alt="Six sea turtles swimming through a blue nebula" data-i18n-attr="alt:p1_alt" fetchpriority="high" decoding="async">
+      <button type="button" class="art" data-view data-work="nebula-turtles" style="--ratio:2100/1460; --crop:1.07; --origin:55% 30%">
+        <img src="images/01-nebula-turtles.jpg" width="2100" height="1460" alt="Six sea turtles swimming through a blue nebula" data-work="nebula-turtles" data-field="alt" fetchpriority="high" decoding="async">
         <span class="sheen" aria-hidden="true"></span>
         <span class="closer" aria-hidden="true" data-i18n="look_closer">Look closer</span>
       </button>
@@ -494,13 +93,13 @@ dialog { border: 0; padding: 0; color: inherit; }
     <div class="hero-label">
       <div class="placard">
         <div>
-          <h2 data-i18n="p1_title">Nebula Turtles</h2>
-          <p class="medium" data-i18n="p1_m1">Acrylic on canvas</p>
+          <h2 data-work="nebula-turtles" data-field="title">Nebula Turtles</h2>
+          <p class="medium" data-work="nebula-turtles" data-field="medium">Acrylic on canvas</p>
         </div>
-        <p class="desc" data-i18n="p1_desc">Six sea turtles, one nebula. Deep water and deep space turn out to be the same blue.</p>
+        <p class="desc" data-work="nebula-turtles" data-field="desc">Six sea turtles, one nebula. Deep water and deep space turn out to be the same blue.</p>
         <div class="placard-foot">
-          <span class="status" data-i18n="status_sold">Sold</span>
-          <button type="button" class="text-btn" data-commission="p1_title" data-i18n="commission_similar">Commission one like this</button>
+          <span class="status" data-work="nebula-turtles" data-field="status">Sold</span>
+          <button type="button" class="text-btn" data-action data-work="nebula-turtles" data-field="action">Commission one like this</button>
         </div>
       </div>
     </div>
@@ -512,21 +111,21 @@ dialog { border: 0; padding: 0; color: inherit; }
 <!-- ================= PAINTING 2 ================= -->
 <section class="piece piece--portrait" data-room="violet">
   <figure class="work unveil">
-    <button type="button" class="art" data-view data-title="p2_title" style="--ratio:1275/1400; --crop:1.12; --origin:55% 30%">
-      <img src="images/02-watercolor-galaxies.jpg" width="1275" height="1400" alt="Three bookmarks painted with watercolor galaxies" data-i18n-attr="alt:p2_alt" loading="lazy" decoding="async">
+    <button type="button" class="art" data-view data-work="galaxy-bookmarks" style="--ratio:1275/1400; --crop:1.12; --origin:55% 30%">
+      <img src="images/02-watercolor-galaxies.jpg" width="1275" height="1400" alt="Three bookmarks painted with watercolor galaxies" data-work="galaxy-bookmarks" data-field="alt" loading="lazy" decoding="async">
       <span class="sheen" aria-hidden="true"></span>
       <span class="closer" aria-hidden="true" data-i18n="look_closer">Look closer</span>
     </button>
   </figure>
   <div class="placard reveal">
     <div>
-      <h2 data-i18n="p2_title">Galaxy Bookmarks</h2>
-      <p class="medium" data-i18n="p2_m1">Watercolor on paper, set of three</p>
+      <h2 data-work="galaxy-bookmarks" data-field="title">Galaxy Bookmarks</h2>
+      <p class="medium" data-work="galaxy-bookmarks" data-field="medium">Watercolor on paper, set of three</p>
     </div>
-    <p class="desc" data-i18n="p2_desc">Three strips of night sky, small enough to live in a book.</p>
+    <p class="desc" data-work="galaxy-bookmarks" data-field="desc">Three strips of night sky, small enough to live in a book.</p>
     <div class="placard-foot">
-      <span class="status is-available" data-i18n="status_available">Available</span>
-      <button type="button" class="text-btn" data-commission="p2_title" data-i18n="commission_similar">Commission one like this</button>
+      <span class="status is-available" data-work="galaxy-bookmarks" data-field="status">Available</span>
+      <button type="button" class="text-btn" data-action data-work="galaxy-bookmarks" data-field="action">Ask to buy</button>
     </div>
   </div>
 </section>
@@ -534,24 +133,34 @@ dialog { border: 0; padding: 0; color: inherit; }
 <!-- ================= PAINTING 3 ================= -->
 <section class="piece piece--landscape" data-room="dusk">
   <figure class="work unveil">
-    <button type="button" class="art" data-view data-title="p3_title" style="--ratio:1980/1370; --crop:1.09; --origin:60% 25%">
-      <img src="images/03-sunset-mountains.jpg" width="1980" height="1370" alt="Layered blue mountain ridges under an orange and pink sunset" data-i18n-attr="alt:p3_alt" loading="lazy" decoding="async">
+    <button type="button" class="art" data-view data-work="sunset-mountains" style="--ratio:1980/1370; --crop:1.09; --origin:60% 25%">
+      <img src="images/03-sunset-mountains.jpg" width="1980" height="1370" alt="Layered blue mountain ridges under an orange and pink sunset" data-work="sunset-mountains" data-field="alt" loading="lazy" decoding="async">
       <span class="sheen" aria-hidden="true"></span>
       <span class="closer" aria-hidden="true" data-i18n="look_closer">Look closer</span>
     </button>
   </figure>
   <div class="placard reveal">
     <div>
-      <h2 data-i18n="p3_title">Sunset Mountains</h2>
-      <p class="medium" data-i18n="p3_m1">Acrylic on canvas, palette knife</p>
+      <h2 data-work="sunset-mountains" data-field="title">Sunset Mountains</h2>
+      <p class="medium" data-work="sunset-mountains" data-field="medium">Acrylic on canvas, palette knife</p>
     </div>
-    <p class="desc" data-i18n="p3_desc">Ridge after ridge of blue under an orange sky, laid on thick with a palette knife.</p>
+    <p class="desc" data-work="sunset-mountains" data-field="desc">Ridge after ridge of blue under an orange sky, laid on thick with a palette knife.</p>
     <div class="placard-foot">
-      <span class="status" data-i18n="status_sold">Sold</span>
-      <button type="button" class="text-btn" data-commission="p3_title" data-i18n="commission_similar">Commission one like this</button>
+      <span class="status" data-work="sunset-mountains" data-field="status">Sold</span>
+      <button type="button" class="text-btn" data-action data-work="sunset-mountains" data-field="action">Commission one like this</button>
     </div>
   </div>
 </section>
+
+<!-- ================= MORE WORK ================= -->
+<!-- Filled from works.js with pieces that are for sale and not already shown above; stays hidden when there are none. -->
+<section class="band" id="availableBand" hidden>
+  <h2 data-i18n-html="band_title">Available <em>now</em></h2>
+  <p class="band-sub" data-i18n="band_sub">Each is one of a kind. Ask about one and I'll confirm it's still available.</p>
+  <div class="band-row" id="bandRow"></div>
+</section>
+
+<p class="more"><a class="big-link" href="gallery.html" data-i18n="see_all">See the whole gallery</a></p>
 
 <!-- ================= STATEMENT ================= -->
 <section class="statement" data-room="ink">
@@ -625,492 +234,10 @@ dialog { border: 0; padding: 0; color: inherit; }
   <p data-i18n="privacy_note">No analytics, no ad tracking. Your language choice is stored in this browser. Fonts load from Google Fonts; the inquiry form is run by Tally.</p>
 </footer>
 
-<!-- ================= CLOSE-UP VIEWER ================= -->
-<dialog class="viewer" id="viewer" aria-labelledby="viewerTitle">
-  <button type="button" class="x" id="viewerClose" aria-label="Close" data-i18n-attr="aria-label:close">×</button>
-  <div class="viewer-scroll" id="viewerScroll">
-    <button type="button" class="viewer-frame" id="viewerFrame" aria-label="Zoom" data-i18n-attr="aria-label:zoom_hint">
-      <img id="viewerImg" alt="">
-    </button>
-  </div>
-  <p class="viewer-bar"><strong id="viewerTitle"></strong><span data-i18n="zoom_hint">Click the painting to zoom</span></p>
-</dialog>
+<!-- The close-up viewer and the inquiry form dialog are created by site.js, shared with gallery.html. -->
 
-<!-- ================= INQUIRY (Tally embed) ================= -->
-<dialog class="sheet" id="inquiry" aria-labelledby="inquiryTitle">
-  <div class="sheet-head">
-    <h3 id="inquiryTitle" data-i18n="modal_title">Commission inquiry</h3>
-    <button type="button" class="x" id="inquiryClose" aria-label="Close" data-i18n-attr="aria-label:close">×</button>
-  </div>
-  <div class="sheet-body">
-    <p class="sheet-sub" data-i18n="modal_sub">Tell me what you have in mind. I'll write back and we'll sort out the details.</p>
-
-    <!-- This bilingual form is shared by both language modes. -->
-    <iframe
-      class="tally-frame"
-      id="tallyFrame"
-      data-tally-src="https://tally.so/embed/YjRN2J?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
-      title="Commission inquiry form"
-      data-i18n-attr="title:form_title"
-      loading="lazy"></iframe>
-
-    <p class="sheet-fallback">
-      <span data-i18n="modal_fallback">Form not loading?</span>
-      <a id="tallyFallbackLink" href="https://tally.so/r/YjRN2J" target="_blank" rel="noopener" data-i18n="modal_open_tab">Open it in a new tab →</a>
-    </p>
-  </div>
-</dialog>
-
-<script>
-/* =====================================================
-   I18N DICTIONARY: edit texts here, both languages.
-   The English strings are also in the HTML above (for
-   crawlers and no-JS); keep the two in sync.
-   ===================================================== */
-const I18N = {
-  en: {
-    desc: "Original paintings in acrylic and watercolor, made to order. No prints, no AI.",
-    page_title: "ciesielska.art | Original paintings, made to order",
-    og_desc: "Original paintings in acrylic and watercolor, made to order. No prints, no AI.",
-    lang_label_en: "Switch to English",
-    lang_label_pl: "Switch to Polish",
-    language_group: "Language",
-    cta_top: "Commission",
-
-    hero_kicker: "Acrylic & watercolor, made to order",
-    hero_title: 'Your idea, <em>in real paint.</em>',
-    hero_lede: "Original paintings, made to order. No prints, no AI. Every piece is a one-off and comes with a certificate of originality.",
-    hero_cta1: "Commission a painting",
-    hero_cta2: "See the work",
-    scroll_hint: "Scroll to step back",
-
-    p1_title: "Nebula Turtles",
-    p1_desc: "Six sea turtles, one nebula. Deep water and deep space turn out to be the same blue.",
-    p1_m1: "Acrylic on canvas",
-    p1_alt: "Six sea turtles swimming through a blue nebula",
-
-    p2_title: "Galaxy Bookmarks",
-    p2_desc: "Three strips of night sky, small enough to live in a book.",
-    p2_m1: "Watercolor on paper, set of three",
-    p2_alt: "Three bookmarks painted with watercolor galaxies",
-
-    p3_title: "Sunset Mountains",
-    p3_desc: "Ridge after ridge of blue under an orange sky, laid on thick with a palette knife.",
-    p3_m1: "Acrylic on canvas, palette knife",
-    p3_alt: "Layered blue mountain ridges under an orange and pink sunset",
-
-    status_available: "Available",
-    status_sold: "Sold",
-    commission_similar: "Commission one like this",
-    look_closer: "Look closer",
-    zoom_hint: "Click the painting to zoom",
-    close: "Close",
-
-    statement: "No prints. No AI. Just paint, a brush and a few weeks of patience.",
-    fact1: "Painted by hand",
-    fact2: "Certificate of originality",
-    fact3: "Your subject, size and colors",
-
-    process_title: 'From idea <em>to your wall</em>',
-    s1_title: "We talk",
-    s1_desc: "Over coffee, Google Meet or WhatsApp. We settle the subject, the size and the colors.",
-    s2_title: "I sketch",
-    s2_desc: "You get a digital sketch. We adjust it until the composition is right.",
-    s3_title: "You book a slot",
-    s3_desc: "Once you approve the sketch, a 20% deposit holds your place in the calendar.",
-    s4_title: "I paint",
-    s4_desc: "A few weeks at the easel. I can send progress photos along the way.",
-    s4_note: "No changes once painting starts.",
-    s5_title: "It comes home",
-    s5_desc: "Varnished, then shipped insured or handed over in person, certificate included.",
-
-    closing_title: 'Got an idea? <em>Tell me about it.</em>',
-    cta_footer: "Commission a painting",
-    footer_text: "Commissions are open.",
-    footer_legal: "© 2026 ciesielska.art. Prices are agreed individually.",
-    privacy_note: "No analytics, no ad tracking. Your language choice is stored in this browser. Fonts load from Google Fonts; the inquiry form is run by Tally.",
-
-    form_title: "Commission inquiry form",
-    modal_title: "Commission inquiry",
-    modal_sub: "Tell me what you have in mind. I'll write back and we'll sort out the details.",
-    modal_fallback: "Form not loading?",
-    modal_open_tab: "Open it in a new tab →",
-
-    tally_en: "YjRN2J",
-    tally_pl: "YjRN2J"
-  },
-
-  pl: {
-    desc: "Obrazy akrylowe i akwarele malowane na zamówienie. Bez wydruków, bez AI.",
-    page_title: "ciesielska.art | Obrazy malowane na zamówienie",
-    og_desc: "Obrazy akrylowe i akwarele malowane na zamówienie. Bez wydruków, bez AI.",
-    lang_label_en: "Przełącz na angielski",
-    lang_label_pl: "Przełącz na polski",
-    language_group: "Język",
-    cta_top: "Zamów obraz",
-
-    hero_kicker: "Akryl i akwarela na zamówienie",
-    hero_title: 'Twój pomysł, <em>prawdziwą farbą.</em>',
-    hero_lede: "Obrazy malowane na zamówienie. Bez wydruków, bez AI. Każdy powstaje w jednym egzemplarzu i ma certyfikat oryginalności.",
-    hero_cta1: "Zamów obraz",
-    hero_cta2: "Zobacz prace",
-    scroll_hint: "Przewiń i zrób krok w tył",
-
-    p1_title: "Żółwie w mgławicy",
-    p1_desc: "Sześć żółwi morskich i jedna mgławica. Głębia oceanu i głębia kosmosu mają ten sam błękit.",
-    p1_m1: "Akryl na płótnie",
-    p1_alt: "Sześć żółwi morskich płynących przez niebieską mgławicę",
-
-    p2_title: "Galaktyczne zakładki",
-    p2_desc: "Trzy paski nocnego nieba, w sam raz do książki.",
-    p2_m1: "Akwarela na papierze, zestaw trzech",
-    p2_alt: "Trzy zakładki z galaktykami malowanymi akwarelą",
-
-    p3_title: "Góry o zachodzie słońca",
-    p3_desc: "Pasmo za pasmem błękitnych gór pod pomarańczowym niebem, kładzione grubo szpachelką.",
-    p3_m1: "Akryl na płótnie, szpachelka",
-    p3_alt: "Warstwy błękitnych gór pod pomarańczowo-różowym zachodem słońca",
-
-    status_available: "Dostępne",
-    status_sold: "Sprzedany",
-    commission_similar: "Zamów podobny",
-    look_closer: "Zobacz z bliska",
-    zoom_hint: "Kliknij obraz, żeby przybliżyć",
-    close: "Zamknij",
-
-    statement: "Bez wydruków. Bez AI. Tylko farba, pędzel i kilka tygodni cierpliwości.",
-    fact1: "Malowane ręcznie",
-    fact2: "Certyfikat oryginalności",
-    fact3: "Twój temat, format i kolory",
-
-    process_title: 'Od pomysłu <em>do ściany</em>',
-    s1_title: "Rozmawiamy",
-    s1_desc: "Przy kawie, na Google Meet albo WhatsAppie. Ustalamy temat, wymiary i kolory.",
-    s2_title: "Szkicuję",
-    s2_desc: "Dostajesz cyfrowy szkic. Poprawiamy go, aż kompozycja będzie taka, jak trzeba.",
-    s3_title: "Rezerwujesz termin",
-    s3_desc: "Po akceptacji szkicu 20% zaliczki rezerwuje miejsce w kalendarzu.",
-    s4_title: "Maluję",
-    s4_desc: "Kilka tygodni przy sztaludze. Jeśli chcesz, wysyłam zdjęcia postępów.",
-    s4_note: "Na tym etapie nie wprowadzam już zmian.",
-    s5_title: "Obraz jedzie do Ciebie",
-    s5_desc: "Zawerniksowany, wysłany z ubezpieczeniem albo przekazany osobiście, razem z certyfikatem.",
-
-    closing_title: 'Masz pomysł? <em>Opowiedz mi o nim.</em>',
-    cta_footer: "Zamów obraz",
-    footer_text: "Przyjmuję zamówienia.",
-    footer_legal: "© 2026 ciesielska.art. Ceny ustalamy indywidualnie.",
-    privacy_note: "Bez analityki i śledzenia reklamowego. Wybór języka zapisuje się w tej przeglądarce. Czcionki ładują się z Google Fonts, a formularz obsługuje Tally.",
-
-    form_title: "Formularz zapytania o zamówienie",
-    modal_title: "Zapytanie o zamówienie",
-    modal_sub: "Napisz, co masz na myśli. Odpiszę i ustalimy szczegóły.",
-    modal_fallback: "Formularz się nie ładuje?",
-    modal_open_tab: "Otwórz w nowej karcie →",
-
-    tally_en: "YjRN2J",
-    tally_pl: "YjRN2J"
-  }
-};
-
-const $ = (sel, root = document) => root.querySelector(sel);
-const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-const root = document.documentElement;
-const motion = root.classList.contains('motion');
-const clamp = (v, lo = 0, hi = 1) => Math.min(hi, Math.max(lo, v));
-const currentCopy = () => I18N[root.lang] || I18N.en;
-// A view transition that gets skipped (hidden tab, interrupted) rejects its promises; the DOM change still applies.
-const quiet = transition => {
-  [transition.ready, transition.finished, transition.updateCallbackDone].forEach(p => p.catch(() => {}));
-  return transition;
-};
-
-/* =====================================================
-   LANGUAGE
-   ===================================================== */
-function applyLang(lang) {
-  const copy = I18N[lang];
-  root.lang = lang;
-
-  $$('[data-i18n]').forEach(el => {
-    const value = copy[el.dataset.i18n];
-    if (value !== undefined) el.textContent = value;
-  });
-  $$('[data-i18n-html]').forEach(el => {
-    const value = copy[el.dataset.i18nHtml];
-    if (value !== undefined) el.innerHTML = value;
-  });
-  $$('[data-i18n-attr]').forEach(el => {
-    const [attribute, key] = el.dataset.i18nAttr.split(':');
-    if (attribute && copy[key] !== undefined) el.setAttribute(attribute, copy[key]);
-  });
-
-  // Each word of the statement gets its own span so it can ink in on scroll.
-  $$('[data-split]').forEach(el => {
-    const words = el.textContent.trim().split(/\s+/);
-    el.textContent = '';
-    words.forEach((word, i) => {
-      const span = document.createElement('span');
-      span.className = 'w';
-      span.style.setProperty('--i', i);
-      span.textContent = word;
-      el.append(span, ' ');
-    });
-  });
-
-  $$('[data-view]').forEach(el => {
-    el.setAttribute('aria-label', `${copy.look_closer}: ${copy[el.dataset.title]}`);
-  });
-
-  document.title = copy.page_title;
-  $('meta[name="description"]')?.setAttribute('content', copy.desc);
-  $('meta[property="og:title"]')?.setAttribute('content', copy.page_title);
-  $('meta[property="og:description"]')?.setAttribute('content', copy.og_desc);
-
-  // Tally form per language
-  const frame = $('#tallyFrame');
-  const formId = copy[lang === 'pl' ? 'tally_pl' : 'tally_en'];
-  if (frame && formId) {
-    frame.dataset.tallySrc = `https://tally.so/embed/${encodeURIComponent(formId)}?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1`;
-    $('#tallyFallbackLink').href = `https://tally.so/r/${formId}`;
-  }
-
-  $$('.lang button').forEach(button => {
-    button.setAttribute('aria-pressed', String(button.dataset.lang === lang));
-    button.setAttribute('aria-label', copy[`lang_label_${button.dataset.lang}`]);
-  });
-}
-
-function setLang(lang, { persist = true, animate = true } = {}) {
-  if (!Object.hasOwn(I18N, lang)) lang = 'en';
-  if (animate && motion && document.startViewTransition && lang !== root.lang) {
-    quiet(document.startViewTransition(() => applyLang(lang)));
-  } else {
-    applyLang(lang);
-  }
-  if (persist) {
-    try { localStorage.setItem('lang', lang); } catch (_) { /* Storage may be disabled. */ }
-  }
-}
-
-let savedLang = null;
-try { savedLang = localStorage.getItem('lang'); } catch (_) { /* Storage may be disabled. */ }
-const browserLang = (navigator.language || 'en').toLowerCase().startsWith('pl') ? 'pl' : 'en';
-setLang(savedLang || browserLang, { persist: false, animate: false });
-
-$$('.lang button').forEach(button => button.addEventListener('click', () => setLang(button.dataset.lang)));
-
-/* =====================================================
-   HERO: scroll steps you back from the paint to the wall
-   ===================================================== */
-const hero = $('.hero');
-const stage = $('.hero-stage');
-const canvas = $('.hero-canvas');
-
-if (motion) {
-  let coverScale = 1;
-  let span = 1;
-  let queued = false;
-
-  const render = () => {
-    queued = false;
-    const p = clamp(-hero.getBoundingClientRect().top / span);
-    const zoom = clamp(p / 0.8);
-    // Interpolating the exponent keeps the zoom speed even to the eye.
-    hero.style.setProperty('--s', Math.pow(coverScale, 1 - zoom).toFixed(4));
-    hero.style.setProperty('--copy', (1 - clamp(p / 0.2)).toFixed(3));
-    hero.style.setProperty('--scrim', (1 - clamp(p / 0.45)).toFixed(3));
-    hero.style.setProperty('--label', clamp((p - 0.7) / 0.18).toFixed(3));
-    hero.classList.toggle('past', p > 0.2);
-    hero.classList.toggle('hung', p > 0.8);
-  };
-
-  const measure = () => {
-    const vw = stage.clientWidth, vh = stage.clientHeight;
-    const w = canvas.offsetWidth, h = canvas.offsetHeight;
-    const cx = canvas.offsetLeft + w / 2, cy = canvas.offsetTop + h / 2;
-    // Smallest scale at which the canvas, growing from its own centre, covers the viewport.
-    coverScale = Math.max(2 * Math.max(cx, vw - cx) / w, 2 * Math.max(cy, vh - cy) / h, 1) * 1.03;
-    span = Math.max(1, hero.offsetHeight - vh);
-    render();
-  };
-
-  addEventListener('scroll', () => {
-    if (!queued) { queued = true; requestAnimationFrame(render); }
-  }, { passive: true });
-  new ResizeObserver(measure).observe(stage);
-  new ResizeObserver(measure).observe($('.hero-label'));
-  measure();
-
-  $('#seeWork').addEventListener('click', e => {
-    e.preventDefault();
-    scrollTo({ top: hero.offsetTop + span * 0.94, behavior: 'smooth' });
-  });
-}
-
-/* =====================================================
-   TOP BAR: tucks away while scrolling down past the hero
-   ===================================================== */
-{
-  const topbar = $('.topbar');
-  let lastY = scrollY;
-  addEventListener('scroll', () => {
-    const y = scrollY;
-    if (Math.abs(y - lastY) < 6) return;
-    topbar.classList.toggle('tucked', y > lastY && y > hero.offsetTop + hero.offsetHeight - innerHeight * 0.5);
-    lastY = y;
-  }, { passive: true });
-}
-
-/* =====================================================
-   ROOMS: the wall takes its colour from the painting in view
-   ===================================================== */
-const ROOM_COLORS = { sea: '#0a1322', violet: '#120f2a', dusk: '#1c1220', ink: '#0e0f14', ember: '#17110f' };
-const themeMeta = $('meta[name="theme-color"]');
-const roomWatcher = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (!entry.isIntersecting) return;
-    const room = entry.target.dataset.room;
-    root.dataset.room = room;
-    themeMeta.setAttribute('content', ROOM_COLORS[room]);
-  });
-}, { rootMargin: '-50% 0px -50% 0px' });
-$$('main [data-room]').forEach(el => roomWatcher.observe(el));
-
-/* =====================================================
-   SCROLL REVEALS
-   ===================================================== */
-if (motion) {
-  const revealer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('in');
-      revealer.unobserve(entry.target);
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
-  $$('.reveal, .unveil').forEach(el => revealer.observe(el));
-}
-
-/* =====================================================
-   GALLERY LIGHT: sheen and a slight tilt under the pointer
-   ===================================================== */
-if (motion && matchMedia('(hover: hover) and (pointer: fine)').matches) {
-  $$('.art').forEach(art => {
-    art.addEventListener('pointermove', e => {
-      const r = art.getBoundingClientRect();
-      const x = clamp((e.clientX - r.left) / r.width), y = clamp((e.clientY - r.top) / r.height);
-      art.style.setProperty('--mx', `${(x * 100).toFixed(1)}%`);
-      art.style.setProperty('--my', `${(y * 100).toFixed(1)}%`);
-      art.style.setProperty('--tx', (x - 0.5).toFixed(3));
-      art.style.setProperty('--ty', (y - 0.5).toFixed(3));
-    });
-    art.addEventListener('pointerleave', () => {
-      art.style.setProperty('--tx', 0);
-      art.style.setProperty('--ty', 0);
-    });
-  });
-}
-
-/* =====================================================
-   CLOSE-UP VIEWER
-   ===================================================== */
-const viewer = $('#viewer');
-const viewerFrame = $('#viewerFrame');
-const viewerImg = $('#viewerImg');
-const viewerScroll = $('#viewerScroll');
-let viewerSource = null;
-
-// Morph one element into another with a view transition where available.
-function morph(from, to, change) {
-  if (!motion || !document.startViewTransition || !from || !to) { change(); return; }
-  from.style.viewTransitionName = 'art';
-  const transition = document.startViewTransition(() => {
-    from.style.viewTransitionName = '';
-    to.style.viewTransitionName = 'art';
-    change();
-  });
-  // A skipped transition (hidden tab, interrupted) rejects; the change itself has still been applied.
-  quiet(transition);
-  transition.finished.catch(() => {}).finally(() => { to.style.viewTransitionName = ''; });
-}
-
-function openViewer(art) {
-  const img = $('img', art);
-  viewerSource = art;
-  viewerImg.src = img.currentSrc || img.src;
-  viewerImg.alt = img.alt;
-  ['--ratio', '--crop', '--origin'].forEach(name => viewerFrame.style.setProperty(name, art.style.getPropertyValue(name)));
-  $('#viewerTitle').textContent = currentCopy()[art.dataset.title];
-  viewer.classList.remove('zoomed');
-  morph(art, viewerFrame, () => viewer.showModal());
-}
-
-function closeViewer() {
-  if (!viewer.open) return;
-  viewer.classList.remove('zoomed');
-  morph(viewerFrame, viewerSource, () => viewer.close());
-}
-
-$$('[data-view]').forEach(art => art.addEventListener('click', () => openViewer(art)));
-$('#viewerClose').addEventListener('click', closeViewer);
-viewer.addEventListener('cancel', e => { e.preventDefault(); closeViewer(); });
-viewerScroll.addEventListener('click', e => { if (e.target === viewerScroll) closeViewer(); });
-
-viewerFrame.addEventListener('click', e => {
-  const r = viewerFrame.getBoundingClientRect();
-  // Keyboard activation has no pointer position; zoom on the centre then.
-  const fx = e.detail ? clamp((e.clientX - r.left) / r.width) : 0.5;
-  const fy = e.detail ? clamp((e.clientY - r.top) / r.height) : 0.5;
-  if (viewer.classList.toggle('zoomed')) {
-    viewerScroll.scrollLeft = fx * viewerScroll.scrollWidth - viewerScroll.clientWidth / 2;
-    viewerScroll.scrollTop = fy * viewerScroll.scrollHeight - viewerScroll.clientHeight / 2;
-  }
-});
-
-/* =====================================================
-   INQUIRY DIALOG (Tally embed)
-   ===================================================== */
-const inquiry = $('#inquiry');
-
-function loadTallyEmbed() {
-  if (window.Tally && typeof window.Tally.loadEmbeds === 'function') {
-    window.Tally.loadEmbeds();
-    return;
-  }
-  if ($('script[data-tally-embed]')) return;
-  const script = document.createElement('script');
-  script.src = 'https://tally.so/widgets/embed.js';
-  script.async = true;
-  script.dataset.tallyEmbed = '';
-  document.body.appendChild(script);
-}
-
-function openInquiry(artwork = '') {
-  if (inquiry.open) return;
-  if (viewer.open) viewer.close();
-
-  const frame = $('#tallyFrame');
-  const formUrl = new URL(frame.dataset.tallySrc);
-  if (artwork) formUrl.searchParams.set('reference', artwork);
-  else formUrl.searchParams.delete('reference');
-  frame.dataset.tallySrc = formUrl.toString();
-  frame.removeAttribute('src');
-  loadTallyEmbed();
-
-  inquiry.showModal();
-}
-
-$$('[data-commission]').forEach(button => {
-  button.addEventListener('click', () => openInquiry(currentCopy()[button.dataset.commission] || ''));
-});
-$('#inquiryClose').addEventListener('click', () => inquiry.close());
-inquiry.addEventListener('click', e => { if (e.target === inquiry) inquiry.close(); });
-
-/* ---- Auto-close after Tally submission ---- */
-window.addEventListener('Tally.FormSubmitted', () => {
-  if (inquiry.open) setTimeout(() => inquiry.close(), 1200);
-});
-</script>
+<script src="works.js"></script>
+<script src="site.js"></script>
 
 </body>
 </html>
