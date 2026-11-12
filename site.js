@@ -18,7 +18,10 @@ const I18N = {
     lang_label_pl: "Switch to Polish",
     language_group: "Language",
     nav_gallery: "Gallery",
+    nav_about: "About",
     nav_contact: "Contact",
+    page_title_about: "About | ciesielska.art",
+    desc_about: "Marta Ciesielska, painter. A few words about who paints the pictures on ciesielska.art.",
     cta_top: "Commission",
     page_title_contact: "Contact | ciesielska.art",
     desc_contact: "Contact ciesielska.art about paintings, commissions, or a question.",
@@ -60,22 +63,33 @@ const I18N = {
     filter_commission: "Commissions",
     more_coming: "More paintings are waiting for their photos and will hang here soon.",
     gallery_noscript: "The gallery needs JavaScript to show the paintings.",
+    about_title: 'About <em>me</em>',
+    about_lead: "I have always liked unique and beautiful things. Paintings fit both.",
+    about_p1: "I'm honoured that so many of you like my paintings, too, as I'm often too critical of myself.",
+    about_p2: "My name is Marta Ciesielska. I hate bragging or talking about myself, so I promise to keep it short. For my whole life, I have been chasing creative journeys, and my recent love is painting. I'm not the best in the world, but I'm good enough.",
+    about_p3: "I'm selling my paintings because I love to paint and want to share these beautiful and unique things. Painting something someone dreams of, so they can hang it on their wall, is one of the best things I've done in my life. Also, my flat is running out of wall space, so I'm glad you like the paintings I've already made!",
+    about_photo_alt: "Marta Ciesielska smiling under a rainbow umbrella on a rainy night, one arm raised",
+
     contact_title: 'Say hello. <em>Let’s talk.</em>',
     contact_intro: "Questions about a painting, a commission, or something else? Choose the way that feels easiest.",
     contact_options: "Contact options",
     contact_reference: "Question about",
+    contact_about: "You're asking about",
     contact_email_title: "Email",
     contact_email_copy: "For questions about a painting, its dimensions, or a commission.",
     contact_email_action: "Email",
     contact_whatsapp_title: "WhatsApp",
-    contact_whatsapp_copy: "Send me a direct message using my WhatsApp username.",
+    contact_whatsapp_copy: "Message me directly. Usually the quickest way to reach me.",
     contact_whatsapp_action: "WhatsApp",
     contact_instagram_title: "Instagram",
     contact_instagram_copy: "See new work and send me a direct message.",
     contact_instagram_action: "Instagram",
+    contact_form_title: "Inquiry form",
+    contact_form_copy: "Prefer a form? Answer a few questions and I'll write back.",
+    contact_see_painting: "See the painting",
     contact_back: "Back to the gallery",
 
-    statement: "Just paint, a brush and a few weeks of patience. Each painting is one off and done just for you.",
+    statement: "Just paint, a brush and a few weeks of patience. Each painting is a one-off, made just for you.",
     fact1: "Painted by hand",
     fact2: "Certificate of originality",
     fact3: "Your subject, size and colors",
@@ -124,7 +138,10 @@ const I18N = {
     lang_label_pl: "Przełącz na polski",
     language_group: "Język",
     nav_gallery: "Galeria",
+    nav_about: "O mnie",
     nav_contact: "Kontakt",
+    page_title_about: "O mnie | ciesielska.art",
+    desc_about: "Marta Ciesielska, malarka. Kilka słów o tym, kto maluje obrazy na ciesielska.art.",
     cta_top: "Zamów obraz",
     page_title_contact: "Kontakt | ciesielska.art",
     desc_contact: "Skontaktuj się z ciesielska.art w sprawie obrazu, zamówienia lub pytania.",
@@ -166,22 +183,33 @@ const I18N = {
     filter_commission: "Na zamówienie",
     more_coming: "Kolejne obrazy czekają na zdjęcia i wkrótce tu zawisną.",
     gallery_noscript: "Galeria wymaga JavaScriptu, żeby pokazać obrazy.",
+    about_title: 'O <em>mnie</em>',
+    about_lead: "Zawsze lubiłam rzeczy wyjątkowe i piękne. Obrazy są jednym i drugim.",
+    about_p1: "To dla mnie zaszczyt, że tak wielu z Was też lubi moje obrazy, bo sama bywam wobec siebie zbyt krytyczna.",
+    about_p2: "Nazywam się Marta Ciesielska. Nie znoszę się chwalić ani mówić o sobie, więc obiecuję, że będzie krótko. Całe życie gonię za twórczymi przygodami, a moją najnowszą miłością jest malarstwo. Nie jestem najlepsza na świecie, ale jestem wystarczająco dobra.",
+    about_p3: "Sprzedaję swoje obrazy, bo kocham malować i chcę dzielić się tymi pięknymi i wyjątkowymi rzeczami. Namalować coś, o czym ktoś marzy, żeby mógł to powiesić na swojej ścianie, to jedna z najlepszych rzeczy, jakie zrobiłam w życiu. Poza tym w moim mieszkaniu kończy się miejsce na ścianach, więc cieszę się, że podobają się Wam obrazy, które już namalowałam!",
+    about_photo_alt: "Marta Ciesielska uśmiecha się pod tęczowym parasolem w deszczową noc, z uniesioną ręką",
+
     contact_title: 'Napisz do mnie. <em>Porozmawiajmy.</em>',
     contact_intro: "Masz pytanie o obraz, zamówienie albo coś innego? Wybierz najwygodniejszy sposób kontaktu.",
     contact_options: "Sposoby kontaktu",
     contact_reference: "Pytanie o",
+    contact_about: "Pytasz o",
     contact_email_title: "E-mail",
     contact_email_copy: "W sprawie obrazu, jego wymiarów lub zamówienia.",
     contact_email_action: "E-mail",
     contact_whatsapp_title: "WhatsApp",
-    contact_whatsapp_copy: "Napisz do mnie bezpośrednio przez nazwę użytkownika WhatsApp.",
+    contact_whatsapp_copy: "Napisz do mnie bezpośrednio. Zwykle tak najszybciej mnie złapiesz.",
     contact_whatsapp_action: "WhatsApp",
     contact_instagram_title: "Instagram",
     contact_instagram_copy: "Zobacz nowe prace i napisz do mnie w wiadomości prywatnej.",
     contact_instagram_action: "Instagram",
+    contact_form_title: "Formularz",
+    contact_form_copy: "Wolisz formularz? Odpowiedz na kilka pytań, a odpiszę.",
+    contact_see_painting: "Zobacz obraz",
     contact_back: "Wróć do galerii",
 
-    statement: "Tylko farba, pędzel i kilka tygodni cierpliwości.",
+    statement: "Tylko farba, pędzel i kilka tygodni cierpliwości. Każdy obraz powstaje w jednym egzemplarzu, tylko dla Ciebie.",
     fact1: "Malowane ręcznie",
     fact2: "Certyfikat oryginalności",
     fact3: "Twój temat, format i kolory",
@@ -240,27 +268,47 @@ const isAvailable = work => work.status === 'available';
 const statusLabel = work => t(isAvailable(work) ? 'status_available' : 'status_sold');
 const priceLabel = work => isAvailable(work) ? (work.price || t('price_request')) : '';
 const actionLabel = work => t(isAvailable(work) ? 'ask_to_buy' : 'commission_similar');
+// Buying is a conversation, not a checkout: the contact page opens with the painting attached.
+const contactHref = work => `contact.html?work=${encodeURIComponent(work.id)}`;
 
 function fillContactReference() {
-  const reference = $('#contactReference');
   const email = $('#contactEmail');
+  if (!email) return; // not the contact page
   const whatsapp = $('#contactWhatsapp');
-  if (!reference || !email) return;
-
+  const about = $('#contactAbout');
   const work = workById(new URLSearchParams(location.search).get('work'));
+
+  about.hidden = !work;
+  $('.contact-body').classList.toggle('has-work', Boolean(work));
   if (!work) {
-    reference.hidden = true;
     email.href = 'mailto:marta@ciesielska.art';
-    if (whatsapp) whatsapp.href = 'https://wa.me/ciesielska.art';
+    whatsapp.href = 'https://wa.me/ciesielska.art';
     return;
   }
 
   const title = workText(work, 'title');
   const message = `${t('contact_reference')}: ${title}`;
-  reference.textContent = message;
-  reference.hidden = false;
   email.href = `mailto:marta@ciesielska.art?subject=${encodeURIComponent(message)}`;
-  if (whatsapp) whatsapp.href = `https://wa.me/ciesielska.art?text=${encodeURIComponent(message)}`;
+  whatsapp.href = `https://wa.me/ciesielska.art?text=${encodeURIComponent(message)}`;
+
+  const art = $('#contactArt');
+  art.href = `gallery.html#${work.id}`;
+  art.style.setProperty('--ratio', (work.w / work.h).toFixed(4));
+  art.style.setProperty('--crop', work.crop || 1);
+  art.style.setProperty('--origin', work.origin || '50% 50%');
+  art.setAttribute('aria-label', `${t('contact_see_painting')}: ${title}`);
+  const img = $('img', art);
+  if (img.getAttribute('src') !== (work.thumb || work.img)) img.src = work.thumb || work.img;
+  img.alt = workText(work, 'alt');
+  $('#contactWorkTitle').textContent = title;
+  $('#contactWorkMedium').textContent = workDetails(work);
+  const status = $('#contactWorkStatus');
+  status.textContent = statusLabel(work);
+  status.classList.toggle('is-available', isAvailable(work));
+  $('#contactWorkPrice').textContent = isAvailable(work) ? (work.price || '') : '';
+  const note = $('#contactWorkNote');
+  note.hidden = !isAvailable(work);
+  note.textContent = `${t('avail_note')} ${t('delivery_note')}`;
 }
 
 // A view transition that gets skipped (hidden tab, interrupted) rejects its promises; the DOM change still applies.
@@ -482,7 +530,7 @@ if (hero && motion) {
 /* =====================================================
    ROOMS: the wall takes its colour from the painting in view
    ===================================================== */
-const ROOM_COLORS = { sea: '#0a1322', violet: '#120f2a', dusk: '#1c1220', ink: '#0e0f14', ember: '#17110f' };
+const ROOM_COLORS = { sea: '#0a1322', reef: '#07202c', violet: '#120f2a', dusk: '#1c1220', ink: '#0e0f14', ember: '#17110f' };
 const themeMeta = $('meta[name="theme-color"]');
 let pageRoom = root.dataset.room;       // what the page itself asks for
 let viewerRoom = null;                  // overrides it while a painting is open
@@ -555,6 +603,9 @@ function makeTile(work, { settled = false } = {}) {
   art.style.setProperty('--ratio', (work.w / work.h).toFixed(4));
   art.style.setProperty('--crop', work.crop || 1);
   if (work.origin) art.style.setProperty('--origin', work.origin);
+  // Thumbnails start close on the painting's best detail (see .tile .art img in site.css).
+  art.style.setProperty('--focus', work.focus || work.origin || '50% 50%');
+  art.style.setProperty('--zoom', work.zoom || 1.8);
   art.setAttribute('aria-label', `${t('look_closer')}: ${workText(work, 'title')}`);
 
   const img = new Image();
@@ -593,7 +644,7 @@ function makeTile(work, { settled = false } = {}) {
   price.className = isAvailable(work) ? 'price-link' : 'price';
   price.textContent = priceLabel(work);
   if (isAvailable(work)) {
-    price.href = `contact.html?work=${encodeURIComponent(work.id)}`;
+    price.href = contactHref(work);
     price.setAttribute('aria-label', `${priceLabel(work)}: ${workText(work, 'title')}`);
   }
   foot.append(status, price);
@@ -851,7 +902,9 @@ $('#viewerShare').addEventListener('click', async e => {
 });
 
 $('#viewerAction').addEventListener('click', () => {
-  if (viewing) openInquiry({ work: viewing, buy: isAvailable(viewing) });
+  if (!viewing) return;
+  if (isAvailable(viewing)) location.assign(contactHref(viewing));
+  else openInquiry({ work: viewing });
 });
 
 /* =====================================================
@@ -906,10 +959,17 @@ document.addEventListener('click', e => {
   const action = e.target.closest('[data-action][data-work]');
   if (action) {
     const work = workById(action.dataset.work);
-    if (work) openInquiry({ work, buy: isAvailable(work) });
+    if (!work) return;
+    if (isAvailable(work)) location.assign(contactHref(work));
+    else openInquiry({ work });
     return;
   }
   if (e.target.closest('[data-commission]')) openInquiry();
+});
+// Contact page: the form is one of the ways to write, and carries the painting along if there is one.
+$('#contactForm')?.addEventListener('click', () => {
+  const work = workById(new URLSearchParams(location.search).get('work'));
+  openInquiry({ work, buy: Boolean(work && isAvailable(work)) });
 });
 $('#inquiryClose').addEventListener('click', () => inquiry.close());
 inquiry.addEventListener('click', e => { if (e.target === inquiry) inquiry.close(); });

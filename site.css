@@ -17,7 +17,7 @@
   --sans: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 
   --pad: clamp(20px, 5vw, 72px);
-  --hung-w: min(92vw, 1080px, calc((100svh - 300px) * 1.438));
+  --hung-w: min(92vw, 1080px, calc((100svh - 300px) * 1.4286));
 }
 
 html {
@@ -27,6 +27,7 @@ html {
   -webkit-text-size-adjust: 100%;
   scrollbar-gutter: stable;
 }
+html[data-room="reef"]   { --wall: #07202c; --glow: #1f93b4; }
 html[data-room="violet"] { --wall: #120f2a; --glow: #5b3fae; }
 html[data-room="dusk"]   { --wall: #1c1220; --glow: #c4523a; }
 html[data-room="ink"]    { --wall: #0e0f14; --glow: #3a3f66; }
@@ -287,6 +288,25 @@ em { font-style: italic; }
 }
 .price-link:hover { border-color: var(--fg); background: var(--fg); color: #14151c; transform: translateY(-2px); }
 
+/* Thumbnails open close on the painting's best detail and step back to the whole
+   picture as the tile scrolls into view; hovering leans back in. The timeline is
+   named on the tile because the painting's own clipping box would otherwise be
+   treated as the scroller. */
+.motion .tile .art img { transform-origin: var(--focus, 50% 50%); transition: scale .9s cubic-bezier(.2, .7, .2, 1); }
+.motion .tile .art:hover img, .motion .tile .art:focus-visible img { scale: 1.07; }
+@supports (animation-timeline: view()) {
+  .motion .tile { view-timeline: --tile block; }
+  .motion .tile .art img { animation: step-back linear both; animation-timeline: --tile; animation-range: entry 15% cover 45%; }
+  @keyframes step-back {
+    from { transform: scale(calc(var(--crop, 1) * var(--zoom, 1.8))); }
+    to { transform: scale(var(--crop, 1)); }
+  }
+}
+@supports not (animation-timeline: view()) {
+  .motion .tile .art img { transition: transform 1.6s cubic-bezier(.2, .7, .2, 1), scale .9s cubic-bezier(.2, .7, .2, 1); }
+  .motion .tile.reveal:not(.in) .art img { transform: scale(calc(var(--crop, 1) * var(--zoom, 1.8))); }
+}
+
 /* ============ HOMEPAGE: more work ============ */
 .band { max-width: 1240px; margin: 0 auto; padding: 0 var(--pad) clamp(60px, 10svh, 120px); }
 .band h2 { font-size: clamp(2.2rem, 6vw, 4rem); line-height: 1; }
@@ -309,26 +329,68 @@ em { font-style: italic; }
 .page-head h1 { font-size: clamp(3.6rem, 14vw, 9.5rem); line-height: .9; letter-spacing: -.02em; }
 .page-head h1 em { color: var(--ochre); }
 .page-head p { max-width: 44ch; color: var(--fg-soft); margin-top: 22px; text-wrap: pretty; }
-.contact-head { max-width: 1000px; padding-top: clamp(110px, 17svh, 160px); padding-bottom: clamp(30px, 6svh, 64px); text-align: center; }
-.contact-head h1 { font-size: clamp(3rem, 9vw, 7rem); }
-.contact-head > p:not(.contact-reference) { margin: 18px auto 0; }
-.contact-reference {
-  width: fit-content; max-width: 100%; margin: 24px auto 0; padding: 12px 18px; border: 1px solid var(--rule); border-left: 2px solid var(--ochre);
-  color: var(--ochre) !important; background: rgba(227, 182, 103, .08); text-align: left;
+
+/* ============ ABOUT PAGE ============ */
+.about-head { padding-bottom: clamp(26px, 5svh, 52px); }
+.about-body {
+  max-width: 1240px; margin: 0 auto; padding: 0 var(--pad) clamp(40px, 8svh, 90px);
+  display: grid; gap: clamp(36px, 6vw, 84px); align-items: start;
 }
-.contact-options {
-  max-width: 920px; margin: 0 auto; padding: 0 var(--pad) clamp(90px, 14svh, 150px);
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 2.4vw, 28px);
+.about-photo { width: min(100%, 420px); }
+.about-photo .art { cursor: default; }
+.about-text { display: grid; gap: 20px; max-width: 58ch; }
+.about-text p { color: var(--fg-soft); font-size: 1.08rem; line-height: 1.65; text-wrap: pretty; }
+.about-text .about-lead {
+  font-family: var(--serif); font-size: clamp(2rem, 4.6vw, 3.3rem); line-height: 1.08; letter-spacing: -.01em;
+  color: var(--fg); max-width: 16ch; margin-bottom: 8px; text-wrap: balance;
 }
-.contact-action {
-  min-height: 64px; width: 100%; padding: 12px clamp(10px, 2vw, 26px); margin: 0; display: flex; align-items: center; justify-content: center;
-  border-radius: 999px; font-size: clamp(.78rem, 1.35vw, .96rem); text-align: center; white-space: nowrap;
+.about-more { margin-top: 18px; }
+@media (min-width: 860px) {
+  .about-body { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); }
+  .about-photo { position: sticky; top: 100px; justify-self: start; }
 }
-@media (max-width: 800px) {
-  .contact-options { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding-bottom: 90px; }
-  .contact-action { min-height: 54px; padding: 10px 6px; font-size: clamp(.67rem, 2.8vw, .9rem); }
-  .contact-head { padding-top: clamp(100px, 15svh, 140px); }
-  .contact-head h1 { font-size: clamp(2.7rem, 10vw, 5rem); }
+
+/* ============ CONTACT PAGE ============ */
+.contact-head { padding-bottom: clamp(26px, 5svh, 52px); }
+.contact-head h1 { font-size: clamp(3.2rem, 11vw, 8rem); }
+.contact-body {
+  max-width: 1240px; margin: 0 auto; padding: 0 var(--pad) clamp(90px, 14svh, 170px);
+  display: grid; gap: clamp(36px, 6vw, 84px); align-items: start;
+}
+/* The painting the visitor came from, hung with its label. */
+.contact-about { display: grid; grid-template-columns: minmax(0, 132px) minmax(0, 1fr); gap: 20px; align-items: end; }
+.contact-about .art { cursor: pointer; }
+.contact-about .placard { gap: 8px; padding-top: 14px; }
+.contact-about .placard h2 { font-size: clamp(1.7rem, 4vw, 2.3rem); }
+.contact-about .kicker { margin-bottom: 0; font-size: .72rem; }
+.contact-about .viewer-note { margin-top: 4px; }
+
+/* Ways to get in touch, as rows you can't miss. */
+.contact-list { list-style: none; max-width: 860px; border-top: 1px solid var(--rule); }
+.contact-row {
+  display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; align-items: center; gap: 4px 20px;
+  width: 100%; padding: 24px 4px; border-bottom: 1px solid var(--rule);
+  color: var(--fg); text-align: left; text-decoration: none;
+  transition: padding .4s cubic-bezier(.2, .7, .2, 1), border-color .2s;
+}
+.contact-icon {
+  grid-row: 1 / span 2; width: 46px; height: 46px; display: grid; place-items: center;
+  border: 1px solid var(--rule); border-radius: 50%; color: var(--fg-soft); transition: color .2s, border-color .2s;
+}
+.contact-icon svg { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.contact-icon .dot { fill: currentColor; stroke: none; }
+.contact-name { grid-column: 2; font-family: var(--serif); font-size: clamp(1.9rem, 4.6vw, 2.8rem); line-height: 1.05; transition: color .2s; }
+.contact-copy { grid-column: 2; font-size: .95rem; color: var(--fg-soft); max-width: 46ch; text-wrap: pretty; }
+.contact-go { grid-column: 3; grid-row: 1 / span 2; font-size: 1.6rem; color: var(--fg-faint); transition: transform .3s, color .2s; }
+.contact-row:hover, .contact-row:focus-visible { padding-left: 16px; border-color: var(--ochre); }
+.contact-row:hover .contact-name, .contact-row:focus-visible .contact-name { color: var(--ochre); }
+.contact-row:hover .contact-icon, .contact-row:focus-visible .contact-icon { color: var(--ochre); border-color: var(--ochre); }
+.contact-row:hover .contact-go, .contact-row:focus-visible .contact-go { color: var(--ochre); transform: translateX(6px); }
+
+@media (min-width: 900px) {
+  .contact-body.has-work { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+  .contact-about { grid-template-columns: none; gap: 22px; max-width: 340px; position: sticky; top: 110px; }
+  .contact-about .art { max-width: 230px; }
 }
 
 .filters { max-width: 1240px; margin: 0 auto; padding: 6px var(--pad) 0; display: flex; flex-wrap: wrap; gap: 8px; }
@@ -502,10 +564,15 @@ dialog { border: 0; padding: 0; color: inherit; }
 /* ============ SMALL / SHORT SCREENS ============ */
 @media (max-width: 560px) {
   .topbar-cta { display: none; }
+  /* Three links plus the language switch have to share one line on a phone. */
+  .topbar-right { gap: clamp(8px, 2.6vw, 14px); }
+  .nav-link { font-size: .84rem; }
+  .lang button { min-width: 30px; }
+  .wordmark { font-size: 1.2rem; }
   .hero-actions .btn { flex: 1 1 100%; }
 }
 @media (max-height: 540px) and (orientation: landscape) {
-  :root { --hung-w: min(54vw, calc((100svh - 100px) * 1.438)); }
+  :root { --hung-w: min(54vw, calc((100svh - 100px) * 1.4286)); }
   .hero-stage, .motion .hero-stage { flex-direction: row; gap: 28px; }
   .hero-label { width: auto; flex: 1; min-width: 0; }
   .hero h1 { font-size: clamp(2.4rem, 12svh, 4rem); }

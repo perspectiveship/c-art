@@ -1,0 +1,4 @@
+# Local working files, never published
+tmp/
+.claude/
+.DS_Store

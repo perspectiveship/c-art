@@ -15,10 +15,13 @@
      w, h      pixel size of the full-size photo
      crop      optional zoom to hide easel or desk edges (1 = none)
      origin    optional point the crop zooms towards ("x% y%")
-     room      wall colour while it is open: sea, violet, dusk, ink, ember
+     focus     the most striking detail ("x% y%"). Gallery thumbnails open
+               zoomed in on it and ease back to the whole painting.
+     zoom      optional, how far in the thumbnail starts (default 1.8)
+     room      wall colour while it is open: sea, reef, violet, dusk, ink, ember
      status    "available" or "sold"
      price     optional, e.g. "450 zł". Leave "" to show "Price on request".
-     size      optional, e.g. "70 × 50 cm"
+     size      optional, width × height, e.g. "70 × 50 cm"
      year      optional, e.g. 2025
      commission  optional, true if it was painted to order
      en / pl   title, medium, desc (one or two sentences), alt (what the image shows)
@@ -28,7 +31,7 @@ window.WORKS = [
     id: "nebula-turtles",
     img: "images/01-nebula-turtles.jpg",
     thumb: "images/sm/01-nebula-turtles.jpg",
-    w: 2100, h: 1460, crop: 1.07, origin: "55% 30%",
+    w: 2000, h: 1400, focus: "19% 37%", zoom: 2,
     room: "sea",
     status: "sold",
     price: "", size: "100 × 70 cm", year: "",
@@ -46,31 +49,31 @@ window.WORKS = [
     }
   },
   {
-    id: "galaxy-bookmarks",
-    img: "images/02-watercolor-galaxies.jpg",
-    thumb: "images/sm/02-watercolor-galaxies.jpg",
-    w: 1275, h: 1400, crop: 1.12, origin: "55% 30%",
-    room: "violet",
+    id: "seahorse",
+    img: "images/04-seahorse.jpg",
+    thumb: "images/sm/04-seahorse.jpg",
+    w: 1500, h: 2000, focus: "47% 36%", zoom: 2,
+    room: "reef",
     status: "available",
-    price: "", size: "55 × 200 mm", year: "",
+    price: "", size: "30 × 40 cm", year: "",
     en: {
-      title: "Galaxy Bookmarks",
-      medium: "Watercolor on paper, set of three",
-      desc: "Three strips of night sky, small enough to live in a book.",
-      alt: "Three bookmarks painted with watercolor galaxies"
+      title: "Seahorse",
+      medium: "Acrylic on canvas",
+      desc: "A lone seahorse in the shallows, with sunlight breaking through the surface above.",
+      alt: "An orange seahorse in blue water with seaweed and coral, sunlight coming through the surface"
     },
     pl: {
-      title: "Galaktyczne zakładki",
-      medium: "Akwarela na papierze, zestaw trzech",
-      desc: "Trzy paski nocnego nieba, w sam raz do książki.",
-      alt: "Trzy zakładki z galaktykami malowanymi akwarelą"
+      title: "Konik morski",
+      medium: "Akryl na płótnie",
+      desc: "Samotny konik morski na płyciźnie, a nad nim słońce przebijające się przez taflę wody.",
+      alt: "Pomarańczowy konik morski w błękitnej wodzie wśród wodorostów i koralowca, z góry wpada światło słońca"
     }
   },
   {
     id: "sunset-mountains",
     img: "images/03-sunset-mountains.jpg",
     thumb: "images/sm/03-sunset-mountains.jpg",
-    w: 1980, h: 1370, crop: 1.09, origin: "60% 25%",
+    w: 2000, h: 1400, focus: "31% 30%", zoom: 1.9,
     room: "dusk",
     status: "sold",
     price: "", size: "100 × 70 cm", year: "",
@@ -85,6 +88,69 @@ window.WORKS = [
       medium: "Akryl na płótnie, szpachelka",
       desc: "Pasmo za pasmem błękitnych gór pod pomarańczowym niebem, kładzione grubo szpachelką.",
       alt: "Warstwy błękitnych gór pod pomarańczowo-różowym zachodem słońca"
+    }
+  },
+  {
+    id: "color-me-surprised",
+    img: "images/05-color-me-surprised.jpg",
+    thumb: "images/sm/05-color-me-surprised.jpg",
+    w: 1520, h: 1840, focus: "60% 66%", zoom: 1.7,
+    room: "ember",
+    status: "available",
+    price: "", size: "38 × 46 cm", year: "",
+    en: {
+      title: "Color Me Surprised",
+      medium: "Acrylic on canvas",
+      desc: "A figure in pinks and blues against dripping yellow. Natural skin tones were never the plan.",
+      alt: "Expressive female nude torso in pink, blue and violet on a yellow and teal background"
+    },
+    pl: {
+      title: "Color Me Surprised",
+      medium: "Akryl na płótnie",
+      desc: "Sylwetka w różach i błękitach na tle spływającej żółci. Naturalne kolory skóry nie były w planie.",
+      alt: "Ekspresyjny akt kobiecy w różach, błękitach i fioletach na żółto-turkusowym tle"
+    }
+  },
+  {
+    id: "whale",
+    img: "images/06-whale.jpg",
+    thumb: "images/sm/06-whale.jpg",
+    w: 1600, h: 1984, focus: "42% 47%", zoom: 1.8,
+    room: "violet",
+    status: "available",
+    price: "", size: "40 × 50 cm", year: "",
+    en: {
+      title: "Whale",
+      medium: "Acrylic on canvas",
+      desc: "A humpback rising through water that can't decide between sea and aurora.",
+      alt: "A humpback whale swimming upward through swirling teal, violet and red water"
+    },
+    pl: {
+      title: "Wieloryb",
+      medium: "Akryl na płótnie",
+      desc: "Humbak wynurza się z wody, która nie może się zdecydować, czy jest morzem, czy zorzą.",
+      alt: "Humbak płynący ku górze przez wirującą turkusową, fioletową i czerwoną wodę"
+    }
+  },
+  {
+    id: "galaxy-bookmarks",
+    img: "images/02-watercolor-galaxies.jpg",
+    thumb: "images/sm/02-watercolor-galaxies.jpg",
+    w: 1275, h: 1400, crop: 1.12, origin: "55% 30%", zoom: 1.5,
+    room: "violet",
+    status: "available",
+    price: "", size: "55 × 200 mm", year: "",
+    en: {
+      title: "Galaxy Bookmarks",
+      medium: "Watercolor on paper, set of three",
+      desc: "Three strips of night sky, small enough to live in a book.",
+      alt: "Three bookmarks painted with watercolor galaxies"
+    },
+    pl: {
+      title: "Galaktyczne zakładki",
+      medium: "Akwarela na papierze, zestaw trzech",
+      desc: "Trzy paski nocnego nieba, w sam raz do książki.",
+      alt: "Trzy zakładki z galaktykami malowanymi akwarelą"
     }
   }
 ];
