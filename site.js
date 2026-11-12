@@ -18,7 +18,10 @@ const I18N = {
     lang_label_pl: "Switch to Polish",
     language_group: "Language",
     nav_gallery: "Gallery",
+    nav_contact: "Contact",
     cta_top: "Commission",
+    page_title_contact: "Contact | ciesielska.art",
+    desc_contact: "Contact ciesielska.art about paintings, commissions, or a question.",
 
     hero_kicker: "Acrylic & watercolor, made to order",
     hero_title: 'Your idea, <em>in paint.</em>',
@@ -57,6 +60,20 @@ const I18N = {
     filter_commission: "Commissions",
     more_coming: "More paintings are waiting for their photos and will hang here soon.",
     gallery_noscript: "The gallery needs JavaScript to show the paintings.",
+    contact_title: 'Say hello. <em>Let’s talk.</em>',
+    contact_intro: "Questions about a painting, a commission, or something else? Choose the way that feels easiest.",
+    contact_options: "Contact options",
+    contact_reference: "Question about",
+    contact_email_title: "Email",
+    contact_email_copy: "For questions about a painting, its dimensions, or a commission.",
+    contact_email_action: "Write an email",
+    contact_whatsapp_title: "WhatsApp",
+    contact_whatsapp_copy: "Send me a direct message using my WhatsApp username.",
+    contact_whatsapp_action: "Message on WhatsApp",
+    contact_instagram_title: "Instagram",
+    contact_instagram_copy: "See new work and send me a direct message.",
+    contact_instagram_action: "Open Instagram",
+    contact_back: "Back to the gallery",
 
     statement: "Just paint, a brush and a few weeks of patience. Each painting is one off and done just for you.",
     fact1: "Painted by hand",
@@ -103,7 +120,10 @@ const I18N = {
     lang_label_pl: "Przełącz na polski",
     language_group: "Język",
     nav_gallery: "Galeria",
+    nav_contact: "Kontakt",
     cta_top: "Zamów obraz",
+    page_title_contact: "Kontakt | ciesielska.art",
+    desc_contact: "Skontaktuj się z ciesielska.art w sprawie obrazu, zamówienia lub pytania.",
 
     hero_kicker: "Akryl i akwarela na zamówienie",
     hero_title: 'Twój pomysł, <em>moją farbą.</em>',
@@ -142,6 +162,20 @@ const I18N = {
     filter_commission: "Na zamówienie",
     more_coming: "Kolejne obrazy czekają na zdjęcia i wkrótce tu zawisną.",
     gallery_noscript: "Galeria wymaga JavaScriptu, żeby pokazać obrazy.",
+    contact_title: 'Napisz do mnie. <em>Porozmawiajmy.</em>',
+    contact_intro: "Masz pytanie o obraz, zamówienie albo coś innego? Wybierz najwygodniejszy sposób kontaktu.",
+    contact_options: "Sposoby kontaktu",
+    contact_reference: "Pytanie o",
+    contact_email_title: "E-mail",
+    contact_email_copy: "W sprawie obrazu, jego wymiarów lub zamówienia.",
+    contact_email_action: "Napisz e-mail",
+    contact_whatsapp_title: "WhatsApp",
+    contact_whatsapp_copy: "Napisz do mnie bezpośrednio przez nazwę użytkownika WhatsApp.",
+    contact_whatsapp_action: "Napisz na WhatsAppie",
+    contact_instagram_title: "Instagram",
+    contact_instagram_copy: "Zobacz nowe prace i napisz do mnie w wiadomości prywatnej.",
+    contact_instagram_action: "Otwórz Instagram",
+    contact_back: "Wróć do galerii",
 
     statement: "Tylko farba, pędzel i kilka tygodni cierpliwości.",
     fact1: "Malowane ręcznie",
@@ -198,6 +232,28 @@ const isAvailable = work => work.status === 'available';
 const statusLabel = work => t(isAvailable(work) ? 'status_available' : 'status_sold');
 const priceLabel = work => isAvailable(work) ? (work.price || t('price_request')) : '';
 const actionLabel = work => t(isAvailable(work) ? 'ask_to_buy' : 'commission_similar');
+
+function fillContactReference() {
+  const reference = $('#contactReference');
+  const email = $('#contactEmail');
+  const whatsapp = $('#contactWhatsapp');
+  if (!reference || !email) return;
+
+  const work = workById(new URLSearchParams(location.search).get('work'));
+  if (!work) {
+    reference.hidden = true;
+    email.href = 'mailto:marta@ciesielska.art';
+    if (whatsapp) whatsapp.href = 'https://wa.me/ciesielska.art';
+    return;
+  }
+
+  const title = workText(work, 'title');
+  const message = `${t('contact_reference')}: ${title}`;
+  reference.textContent = message;
+  reference.hidden = false;
+  email.href = `mailto:marta@ciesielska.art?subject=${encodeURIComponent(message)}`;
+  if (whatsapp) whatsapp.href = `https://wa.me/ciesielska.art?text=${encodeURIComponent(message)}`;
+}
 
 // A view transition that gets skipped (hidden tab, interrupted) rejects its promises; the DOM change still applies.
 const quiet = transition => {
@@ -318,6 +374,7 @@ function applyLang(lang) {
   });
 
   fillWorkFields();
+  fillContactReference();
 
   document.title = copy[`page_title_${page}`];
   $('meta[name="description"]')?.setAttribute('content', copy[`desc_${page}`]);
@@ -524,9 +581,13 @@ function makeTile(work, { settled = false } = {}) {
   const status = document.createElement('span');
   status.className = isAvailable(work) ? 'status is-available' : 'status';
   status.textContent = statusLabel(work);
-  const price = document.createElement('span');
-  price.className = 'price';
+  const price = document.createElement(isAvailable(work) ? 'a' : 'span');
+  price.className = isAvailable(work) ? 'price-link' : 'price';
   price.textContent = priceLabel(work);
+  if (isAvailable(work)) {
+    price.href = `contact.html?work=${encodeURIComponent(work.id)}`;
+    price.setAttribute('aria-label', `${priceLabel(work)}: ${workText(work, 'title')}`);
+  }
   foot.append(status, price);
   caption.append(title, medium, size, foot);
 
