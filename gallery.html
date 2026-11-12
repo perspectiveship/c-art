@@ -23,7 +23,7 @@
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]motion=on\b/.test(location.search)) document.documentElement.classList.add('motion');
 </script>
 
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="site.css?v=footer-1">
 </head>
 <body data-page="gallery">
 
@@ -72,6 +72,11 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]motion=on\b/
 
 <footer>
   <a class="wordmark" href="./">ciesielska<em>.art</em></a>
+  <nav class="footer-social" aria-label="Contact links" data-i18n-attr="aria-label:footer_contact">
+    <a href="mailto:marta@ciesielska.art" aria-label="Email Marta" data-i18n-attr="aria-label:footer_email"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect><path d="m4.5 7 7.5 6 7.5-6"></path></svg></a>
+    <a href="https://wa.me/ciesielska.art" target="_blank" rel="noopener noreferrer" aria-label="Message Marta on WhatsApp" data-i18n-attr="aria-label:footer_whatsapp"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.7a8 8 0 0 1-11.8 7L4 20l1.3-4A8 8 0 1 1 20 11.7Z"></path><path d="M9 8.5c.4 2.4 2.1 4.2 4.6 5l1.1-1.1 2 .8c-.2 1.2-1.1 2-2.3 2-3.7-.2-7.2-3.7-7.3-7.3 0-1.1.8-2.1 2-2.3l.8 2L9 8.5Z"></path></svg></a>
+    <a href="https://www.instagram.com/ciesielska.art/" target="_blank" rel="noopener noreferrer" aria-label="ciesielska.art on Instagram" data-i18n-attr="aria-label:footer_instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle class="footer-social-dot" cx="17.6" cy="6.7" r=".8"></circle></svg></a>
+  </nav>
   <p data-i18n="footer_legal">© 2026 ciesielska.art. Prices are agreed individually.</p>
   <p data-i18n="privacy_note">No analytics, no ad tracking. Your language choice is stored in this browser. Fonts load from Google Fonts; the inquiry form is run by Tally.</p>
 </footer>
@@ -79,7 +84,7 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]motion=on\b/
 <!-- The close-up viewer and the inquiry form dialog are created by site.js, shared with index.html. -->
 
 <script src="works.js"></script>
-<script src="site.js"></script>
+<script src="site.js?v=footer-1"></script>
 
 </body>
 </html>

@@ -98,6 +98,10 @@ const I18N = {
     footer_text: "Commissions are open.",
     footer_legal: "© 2026 ciesielska.art. Prices are agreed individually.",
     privacy_note: "No analytics, no ad tracking. Your language choice is stored in this browser. Fonts load from Google Fonts; the inquiry form is run by Tally.",
+    footer_contact: "Contact links",
+    footer_email: "Email Marta",
+    footer_whatsapp: "Message Marta on WhatsApp",
+    footer_instagram: "ciesielska.art on Instagram",
 
     form_title: "Inquiry form",
     modal_title: "Commission inquiry",
@@ -200,6 +204,10 @@ const I18N = {
     footer_text: "Przyjmuję zamówienia.",
     footer_legal: "© 2026 ciesielska.art. Ceny ustalamy indywidualnie.",
     privacy_note: "Bez analityki i śledzenia reklamowego. Wybór języka zapisuje się w tej przeglądarce. Czcionki ładują się z Google Fonts, a formularz obsługuje Tally.",
+    footer_contact: "Linki kontaktowe",
+    footer_email: "Napisz e-mail do Marty",
+    footer_whatsapp: "Napisz do Marty na WhatsAppie",
+    footer_instagram: "ciesielska.art na Instagramie",
 
     form_title: "Formularz zapytania",
     modal_title: "Zapytanie o zamówienie",
