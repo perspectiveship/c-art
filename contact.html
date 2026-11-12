@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" data-room="ink">
+<html lang="pl" data-room="ink">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0e0f14">
-<meta name="description" content="Contact ciesielska.art about paintings, commissions, or a question.">
+<meta name="description" content="Skontaktuj się z Martą Ciesielską w sprawie obrazów i zamówień.">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Contact | ciesielska.art">
-<meta property="og:description" content="Contact ciesielska.art about paintings, commissions, or a question.">
+<meta property="og:title" content="Kontakt | ciesielska.art">
+<meta property="og:description" content="Skontaktuj się z Martą Ciesielską w sprawie obrazów i zamówień.">
 <meta property="og:image" content="https://ciesielska.art/images/01-nebula-turtles.jpg">
 
-<title>Contact | ciesielska.art</title>
+<title>Kontakt | ciesielska.art</title>
 
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%230a1322'/%3E%3Cpath d='M7 20c2-9 9-13 17-11-1 8-6 14-14 15-2 0-3-2-3-4z' fill='%23e2633c'/%3E%3C/svg%3E">
 
@@ -22,7 +22,7 @@
 if (!matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]motion=on\b/.test(location.search)) document.documentElement.classList.add('motion');
 </script>
 
-<link rel="stylesheet" href="site.css">
+<link rel="stylesheet" href="site.css?v=contact-2">
 </head>
 <body data-page="contact">
 
@@ -33,65 +33,43 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]motion=on\b/
 <header class="topbar">
   <a class="wordmark" href="./">ciesielska<em>.art</em></a>
   <div class="topbar-right">
-    <a class="nav-link" href="gallery.html" data-i18n="nav_gallery">Gallery</a>
-    <a class="nav-link" href="contact.html" aria-current="page" data-i18n="nav_contact">Contact</a>
-    <div class="lang" role="group" aria-label="Language" data-i18n-attr="aria-label:language_group">
-      <button type="button" data-lang="en" aria-pressed="true" aria-label="Switch to English">EN</button>
-      <button type="button" data-lang="pl" aria-pressed="false" aria-label="Switch to Polish">PL</button>
+    <a class="nav-link" href="gallery.html" data-i18n="nav_gallery">Galeria</a>
+    <a class="nav-link" href="contact.html" aria-current="page" data-i18n="nav_contact">Kontakt</a>
+    <div class="lang" role="group" aria-label="Język" data-i18n-attr="aria-label:language_group">
+      <button type="button" data-lang="en" aria-pressed="false" aria-label="Switch to English">EN</button>
+      <button type="button" data-lang="pl" aria-pressed="true" aria-label="Przełącz na polski">PL</button>
     </div>
-    <button type="button" class="topbar-cta" data-commission data-i18n="cta_top">Commission</button>
+    <button type="button" class="topbar-cta" data-commission data-i18n="cta_top">Zamów obraz</button>
   </div>
 </header>
 
 <main>
   <section class="page-head contact-head" data-room="ember">
-    <h1 data-i18n-html="contact_title">Say hello. <em>Let’s talk.</em></h1>
-    <p data-i18n="contact_intro">Questions about a painting, a commission, or something else? Choose the way that feels easiest.</p>
+    <h1 data-i18n-html="contact_title">Napisz do mnie. <em>Porozmawiajmy.</em></h1>
+    <p data-i18n="contact_intro">Masz pytanie o obraz, zamówienie albo coś innego? Wybierz najwygodniejszy sposób kontaktu.</p>
     <p class="contact-reference" id="contactReference" aria-live="polite" hidden></p>
   </section>
 
-  <section class="contact-options" aria-label="Contact options" data-i18n-attr="aria-label:contact_options" data-room="ink">
-    <article class="contact-card">
-      <span class="contact-number" aria-hidden="true">01</span>
-      <h2 data-i18n="contact_email_title">Email</h2>
-      <p data-i18n="contact_email_copy">For questions about a painting, its dimensions, or a commission.</p>
-      <a class="btn btn-line contact-action" id="contactEmail" href="mailto:marta@ciesielska.art">
-        <span data-i18n="contact_email_action">Write an email</span>
+  <section class="contact-options" aria-label="Sposoby kontaktu" data-i18n-attr="aria-label:contact_options" data-room="ink">
+    <a class="btn btn-line contact-action" id="contactEmail" href="mailto:marta@ciesielska.art">
+        <span data-i18n="contact_email_action">E-mail</span>
       </a>
-      <a class="contact-address" href="mailto:marta@ciesielska.art">marta@ciesielska.art</a>
-    </article>
-
-    <article class="contact-card">
-      <span class="contact-number" aria-hidden="true">02</span>
-      <h2 data-i18n="contact_whatsapp_title">WhatsApp</h2>
-      <p data-i18n="contact_whatsapp_copy">Send me a direct message using my WhatsApp username.</p>
-      <a class="btn btn-line contact-action" id="contactWhatsapp" href="https://wa.me/ciesielska.art" target="_blank" rel="noopener noreferrer">
-        <span data-i18n="contact_whatsapp_action">Message on WhatsApp</span>
+    <a class="btn btn-line contact-action" id="contactWhatsapp" href="https://wa.me/ciesielska.art" target="_blank" rel="noopener noreferrer">
+        <span data-i18n="contact_whatsapp_action">WhatsApp</span>
       </a>
-      <span class="contact-address">@ciesielska.art</span>
-    </article>
-
-    <article class="contact-card">
-      <span class="contact-number" aria-hidden="true">03</span>
-      <h2 data-i18n="contact_instagram_title">Instagram</h2>
-      <p data-i18n="contact_instagram_copy">See new work and send me a direct message.</p>
-      <a class="btn btn-line contact-action" href="https://www.instagram.com/ciesielska.art/" target="_blank" rel="noopener noreferrer">
-        <span data-i18n="contact_instagram_action">Open Instagram</span>
+    <a class="btn btn-line contact-action" href="https://www.instagram.com/ciesielska.art/" target="_blank" rel="noopener noreferrer">
+        <span data-i18n="contact_instagram_action">Instagram</span>
       </a>
-      <a class="contact-address" href="https://www.instagram.com/ciesielska.art/" target="_blank" rel="noopener noreferrer">@ciesielska.art</a>
-    </article>
   </section>
-
-  <p class="contact-back"><a class="big-link" href="gallery.html" data-i18n="contact_back">Back to the gallery</a></p>
 </main>
 
 <footer>
   <a class="wordmark" href="./">ciesielska<em>.art</em></a>
-  <p data-i18n="footer_legal">© 2026 ciesielska.art. Prices are agreed individually.</p>
-  <p data-i18n="privacy_note">No analytics, no ad tracking. Your language choice is stored in this browser. Fonts load from Google Fonts; the inquiry form is run by Tally.</p>
+  <p data-i18n="footer_legal">© 2026 ciesielska.art. Ceny ustalam indywidualnie.</p>
+  <p data-i18n="privacy_note">Bez analityki i śledzenia reklam. Wybrany język zapisuje się w tej przeglądarce. Czcionki pochodzą z Google Fonts, a formularz działa przez Tally.</p>
 </footer>
 
-<script src="works.js"></script>
-<script src="site.js"></script>
+<script src="works.js?v=contact-2"></script>
+<script src="site.js?v=contact-2"></script>
 </body>
 </html>
