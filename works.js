@@ -31,7 +31,7 @@ window.WORKS = [
     w: 2100, h: 1460, crop: 1.07, origin: "55% 30%",
     room: "sea",
     status: "sold",
-    price: "", size: "", year: "",
+    price: "", size: "100 × 70 cm", year: "",
     en: {
       title: "Nebula Turtles",
       medium: "Acrylic on canvas",
@@ -52,7 +52,7 @@ window.WORKS = [
     w: 1275, h: 1400, crop: 1.12, origin: "55% 30%",
     room: "violet",
     status: "available",
-    price: "", size: "", year: "",
+    price: "", size: "55 × 200 mm", year: "",
     en: {
       title: "Galaxy Bookmarks",
       medium: "Watercolor on paper, set of three",
@@ -73,7 +73,7 @@ window.WORKS = [
     w: 1980, h: 1370, crop: 1.09, origin: "60% 25%",
     room: "dusk",
     status: "sold",
-    price: "", size: "", year: "",
+    price: "", size: "100 × 70 cm", year: "",
     en: {
       title: "Sunset Mountains",
       medium: "Acrylic on canvas, palette knife",
