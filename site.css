@@ -309,30 +309,26 @@ em { font-style: italic; }
 .page-head h1 { font-size: clamp(3.6rem, 14vw, 9.5rem); line-height: .9; letter-spacing: -.02em; }
 .page-head h1 em { color: var(--ochre); }
 .page-head p { max-width: 44ch; color: var(--fg-soft); margin-top: 22px; text-wrap: pretty; }
-.contact-head { padding-bottom: 48px; }
+.contact-head { max-width: 1000px; padding-top: clamp(110px, 17svh, 160px); padding-bottom: clamp(30px, 6svh, 64px); text-align: center; }
+.contact-head h1 { font-size: clamp(3rem, 9vw, 7rem); }
+.contact-head > p:not(.contact-reference) { margin: 18px auto 0; }
 .contact-reference {
-  width: fit-content; padding: 10px 14px; border-left: 2px solid var(--ochre);
-  color: var(--ochre) !important; background: rgba(227, 182, 103, .08);
+  width: fit-content; max-width: 100%; margin: 24px auto 0; padding: 12px 18px; border: 1px solid var(--rule); border-left: 2px solid var(--ochre);
+  color: var(--ochre) !important; background: rgba(227, 182, 103, .08); text-align: left;
 }
 .contact-options {
-  max-width: 1240px; margin: 0 auto; padding: 0 var(--pad) clamp(80px, 12svh, 140px);
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(14px, 2vw, 24px);
+  max-width: 920px; margin: 0 auto; padding: 0 var(--pad) clamp(90px, 14svh, 150px);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(10px, 2.4vw, 28px);
 }
-.contact-card {
-  min-height: 310px; padding: clamp(22px, 3vw, 34px); display: flex; flex-direction: column; align-items: flex-start;
-  border: 1px solid var(--rule); border-radius: 18px;
-  background: linear-gradient(145deg, color-mix(in srgb, var(--glow) 18%, transparent), transparent 68%);
+.contact-action {
+  min-height: 64px; width: 100%; padding: 12px clamp(10px, 2vw, 26px); margin: 0; display: flex; align-items: center; justify-content: center;
+  border-radius: 999px; font-size: clamp(.78rem, 1.35vw, .96rem); text-align: center; white-space: nowrap;
 }
-.contact-number { color: var(--ochre); font-size: .75rem; font-weight: 600; letter-spacing: .14em; }
-.contact-card h2 { margin-top: 24px; font-size: clamp(2rem, 3vw, 2.65rem); line-height: 1; }
-.contact-card > p { margin: 12px 0 24px; color: var(--fg-soft); font-size: .95rem; max-width: 34ch; }
-.contact-action { margin-top: auto; }
-.contact-address { display: inline-block; margin-top: 14px; color: var(--fg-faint); font-size: .82rem; text-decoration: none; }
-.contact-address[href]:hover { color: var(--ochre); }
-.contact-back { max-width: 1240px; margin: 0 auto; padding: 0 var(--pad) clamp(50px, 8svh, 90px); text-align: right; }
 @media (max-width: 800px) {
-  .contact-options { grid-template-columns: 1fr; }
-  .contact-card { min-height: 270px; }
+  .contact-options { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; padding-bottom: 90px; }
+  .contact-action { min-height: 54px; padding: 10px 6px; font-size: clamp(.67rem, 2.8vw, .9rem); }
+  .contact-head { padding-top: clamp(100px, 15svh, 140px); }
+  .contact-head h1 { font-size: clamp(2.7rem, 10vw, 5rem); }
 }
 
 .filters { max-width: 1240px; margin: 0 auto; padding: 6px var(--pad) 0; display: flex; flex-wrap: wrap; gap: 8px; }
