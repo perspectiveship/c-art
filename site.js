@@ -29,6 +29,7 @@ const I18N = {
 
     status_available: "Available",
     status_sold: "Sold",
+    dimensions: "Dimensions",
     price_request: "Price on request",
     commission_similar: "Commission one like this",
     ask_to_buy: "Ask to buy",
@@ -113,6 +114,7 @@ const I18N = {
 
     status_available: "Dostępne",
     status_sold: "Sprzedane",
+    dimensions: "Wymiary",
     price_request: "Zapytaj o cenę",
     commission_similar: "Zamów podobny",
     ask_to_buy: "Zapytaj o zakup",
@@ -512,7 +514,11 @@ function makeTile(work, { settled = false } = {}) {
   title.textContent = workText(work, 'title');
   const medium = document.createElement('p');
   medium.className = 'medium';
-  medium.textContent = workDetails(work);
+  medium.textContent = workText(work, 'medium');
+  const size = document.createElement('p');
+  size.className = 'tile-size';
+  size.textContent = work.size ? `${t('dimensions')}: ${work.size}` : '';
+  size.hidden = !work.size;
   const foot = document.createElement('p');
   foot.className = 'tile-foot';
   const status = document.createElement('span');
@@ -522,7 +528,7 @@ function makeTile(work, { settled = false } = {}) {
   price.className = 'price';
   price.textContent = priceLabel(work);
   foot.append(status, price);
-  caption.append(title, medium, foot);
+  caption.append(title, medium, size, foot);
 
   tile.append(art, caption);
   return tile;
