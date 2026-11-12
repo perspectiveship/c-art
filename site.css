@@ -414,9 +414,15 @@ em { font-style: italic; }
 .open-note { display: inline-flex; align-items: center; gap: 10px; font-size: .92rem; color: var(--fg-soft); }
 .open-note::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #86d6a0; box-shadow: 0 0 0 4px rgba(134, 214, 160, .18); }
 
-footer { max-width: 1240px; margin: 0 auto; padding: 26px var(--pad) calc(34px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--rule); display: grid; gap: 10px; }
+footer { max-width: 1240px; margin: 0 auto; padding: 26px var(--pad) calc(34px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--rule); display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 10px 20px; }
 footer .wordmark { color: var(--fg); }
-footer p { font-size: .78rem; color: var(--fg-faint); max-width: 74ch; }
+.footer-social { display: flex; align-items: center; gap: 8px; }
+.footer-social a { width: 34px; height: 34px; display: grid; place-items: center; border: 1px solid var(--rule); border-radius: 50%; color: var(--fg-faint); transition: color .2s, border-color .2s, background .2s; }
+.footer-social a:hover, .footer-social a:focus-visible { color: var(--ochre); border-color: var(--ochre); background: rgba(227, 182, 103, .06); }
+.footer-social a:focus-visible { outline: 2px solid var(--ochre); outline-offset: 3px; }
+.footer-social svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.footer-social .footer-social-dot { fill: currentColor; stroke: none; }
+footer p { grid-column: 1 / -1; font-size: .78rem; color: var(--fg-faint); max-width: 74ch; }
 
 /* ============ DIALOGS ============ */
 dialog { border: 0; padding: 0; color: inherit; }
