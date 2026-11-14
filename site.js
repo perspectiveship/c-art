@@ -47,6 +47,9 @@ const I18N = {
     close: "Close",
     prev: "Previous painting",
     next: "Next painting",
+    photo_count: "Photo",
+    photo_prev: "Previous photo",
+    photo_next: "Next photo",
     copy_link: "Copy link",
     link_copied: "Link copied",
 
@@ -167,6 +170,9 @@ const I18N = {
     close: "Zamknij",
     prev: "Poprzedni obraz",
     next: "Następny obraz",
+    photo_count: "Zdjęcie",
+    photo_prev: "Poprzednie zdjęcie",
+    photo_next: "Następne zdjęcie",
     copy_link: "Kopiuj link",
     link_copied: "Skopiowano",
 
@@ -334,6 +340,11 @@ document.body.insertAdjacentHTML('beforeend', `
     <h2 id="viewerTitle"></h2>
     <p class="medium" id="viewerMedium"></p>
     <p class="desc" id="viewerDesc"></p>
+    <div class="viewer-photo-nav" id="viewerPhotoNav" hidden>
+      <button type="button" class="x" id="viewerPhotoPrev" data-i18n-attr="aria-label:photo_prev">←</button>
+      <span id="viewerPhotoCount" aria-live="polite"></span>
+      <button type="button" class="x" id="viewerPhotoNext" data-i18n-attr="aria-label:photo_next">→</button>
+    </div>
     <p class="viewer-status"><span class="status" id="viewerStatus"></span><span class="price" id="viewerPrice"></span></p>
     <p class="viewer-note" id="viewerNote"></p>
     <div class="viewer-actions">
@@ -761,6 +772,7 @@ const viewer = $('#viewer');
 const viewerFrame = $('#viewerFrame');
 const viewerStage = $('#viewerStage');
 let viewing = null;          // the work on show
+let viewerPhotoIndex = 0;
 
 const sourceOf = id => $(`main [data-view][data-work="${id}"]`);
 const onScreen = el => {
@@ -785,12 +797,18 @@ function morph(from, to, change) {
 function fillViewer() {
   const work = viewing;
   if (!work) return;
+  const photos = work.photos?.length ? work.photos : [{ src: work.img, w: work.w, h: work.h }];
+  viewerPhotoIndex = Math.min(viewerPhotoIndex, photos.length - 1);
+  const photo = photos[viewerPhotoIndex];
   const img = $('#viewerImg');
-  if (img.getAttribute('src') !== work.img) img.src = work.img;
-  img.alt = workText(work, 'alt');
-  viewerFrame.style.setProperty('--ratio', (work.w / work.h).toFixed(4));
+  if (img.getAttribute('src') !== photo.src) img.src = photo.src;
+  img.alt = photo.alt?.[root.lang] || workText(work, 'alt');
+  viewerFrame.style.setProperty('--ratio', (photo.w / photo.h).toFixed(4));
   viewerFrame.style.setProperty('--crop', work.crop || 1);
   viewerFrame.style.setProperty('--origin', work.origin || '50% 50%');
+
+  $('#viewerPhotoNav').hidden = photos.length < 2;
+  $('#viewerPhotoCount').textContent = `${t('photo_count')} ${viewerPhotoIndex + 1} / ${photos.length}`;
 
   $('#viewerTitle').textContent = workText(work, 'title');
   $('#viewerMedium').textContent = workDetails(work);
@@ -821,6 +839,7 @@ function openViewer(id, { animate = true } = {}) {
   const work = workById(id);
   if (!work) return;
   viewing = work;
+  viewerPhotoIndex = 0;
   fillViewer();
   if (viewer.open) return;
   if (animate) morph(sourceOf(id), viewerFrame, () => viewer.showModal());
@@ -847,7 +866,16 @@ function stepViewer(direction) {
   const order = wallOrder.includes(viewing.id) ? wallOrder : WORKS.map(w => w.id);
   if (order.length < 2) return;
   const next = order[(order.indexOf(viewing.id) + direction + order.length) % order.length];
-  withTransition(() => { viewing = workById(next); fillViewer(); });
+  withTransition(() => { viewing = workById(next); viewerPhotoIndex = 0; fillViewer(); });
+}
+
+function stepViewerPhoto(direction) {
+  if (!viewing) return;
+  const photos = viewing.photos || [];
+  if (photos.length < 2) return;
+  viewerPhotoIndex = (viewerPhotoIndex + direction + photos.length) % photos.length;
+  viewer.classList.remove('zoomed');
+  withTransition(fillViewer);
 }
 
 // Paintings are clickable wherever they hang, including tiles drawn later.
@@ -859,6 +887,8 @@ document.addEventListener('click', e => {
 $('#viewerClose').addEventListener('click', closeViewer);
 $('#viewerPrev').addEventListener('click', () => stepViewer(-1));
 $('#viewerNext').addEventListener('click', () => stepViewer(1));
+$('#viewerPhotoPrev').addEventListener('click', () => stepViewerPhoto(-1));
+$('#viewerPhotoNext').addEventListener('click', () => stepViewerPhoto(1));
 viewer.addEventListener('cancel', e => { e.preventDefault(); closeViewer(); });
 viewerStage.addEventListener('click', e => { if (e.target === viewerStage) closeViewer(); });
 viewer.addEventListener('keydown', e => {

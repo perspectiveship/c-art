@@ -513,6 +513,8 @@ dialog { border: 0; padding: 0; color: inherit; }
 }
 .viewer-panel h2 { font-size: clamp(2rem, 5vw, 2.7rem); line-height: 1.02; text-wrap: balance; }
 .viewer-panel .medium { margin-top: -6px; }
+.viewer-photo-nav { display: flex; align-items: center; gap: 12px; color: var(--fg-faint); font-size: .8rem; font-variant-numeric: tabular-nums; }
+.viewer-photo-nav .x { width: 36px; height: 36px; font-size: 1rem; }
 .viewer-status { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px; }
 .price { font-size: .9rem; color: var(--fg-soft); }
 .viewer-note { font-size: .86rem; color: var(--fg-soft); padding-left: 12px; border-left: 2px solid var(--ochre); max-width: 40ch; }
