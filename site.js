@@ -272,7 +272,14 @@ const workText = (work, field) => (work[root.lang] || work.en)[field] || work.en
 const workDetails = work => [workText(work, 'medium'), work.size, work.year].filter(Boolean).join(' · ');
 const isAvailable = work => work.status === 'available';
 const statusLabel = work => t(isAvailable(work) ? 'status_available' : 'status_sold');
-const priceLabel = work => isAvailable(work) ? (work.price || t('price_request')) : '';
+const priceLabel = work => {
+  const price = work.price;
+  if (typeof price === 'string') return price;
+  if (price?.label) return price.label[root.lang] || price.label.en || '';
+  const from = price?.tier && window.PRICE_FROM?.[price.tier];
+  if (Number.isFinite(from)) return root.lang === 'pl' ? `Od ${from} zł` : `From PLN ${from}`;
+  return isAvailable(work) ? t('price_request') : '';
+};
 const actionLabel = work => t(isAvailable(work) ? 'ask_to_buy' : 'commission_similar');
 // Buying is a conversation, not a checkout: the contact page opens with the painting attached.
 const contactHref = work => `contact.html?work=${encodeURIComponent(work.id)}`;
@@ -311,7 +318,7 @@ function fillContactReference() {
   const status = $('#contactWorkStatus');
   status.textContent = statusLabel(work);
   status.classList.toggle('is-available', isAvailable(work));
-  $('#contactWorkPrice').textContent = isAvailable(work) ? (work.price || '') : '';
+  $('#contactWorkPrice').textContent = priceLabel(work);
   const note = $('#contactWorkNote');
   note.hidden = !isAvailable(work);
   note.textContent = `${t('avail_note')} ${t('delivery_note')}`;

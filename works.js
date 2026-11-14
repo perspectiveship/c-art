@@ -21,12 +21,14 @@
      photos    optional alternate photos, each with src, w, h, and bilingual alt
      room      wall colour while it is open: sea, reef, violet, dusk, ink, ember
      status    "available" or "sold"
-     price     optional, e.g. "450 zł". Leave "" to show "Price on request".
+     price     optional: { tier: "small" } for commission pricing, or
+               { label: { en, pl } } for a fixed product price.
      size      optional, width × height, e.g. "70 × 50 cm"
      year      optional, e.g. 2025
      commission  optional, true if it was painted to order
      en / pl   title, medium, desc (one or two sentences), alt (what the image shows)
    ===================================================== */
+window.PRICE_FROM = { small: 200, medium: 500, large: 800 };
 window.WORKS = [
   {
     id: "nebula-turtles",
@@ -35,7 +37,7 @@ window.WORKS = [
     w: 2000, h: 1400, focus: "19% 37%", zoom: 2,
     room: "sea",
     status: "sold",
-    price: "", size: "100 × 70 cm", year: "",
+    price: { tier: "large" }, size: "100 × 70 cm", year: "",
     en: {
       title: "Nebula Turtles",
       medium: "Acrylic on canvas",
@@ -56,7 +58,7 @@ window.WORKS = [
     w: 1500, h: 2000, focus: "47% 36%", zoom: 2,
     room: "reef",
     status: "available",
-    price: "", size: "30 × 40 cm", year: "",
+    price: { tier: "small" }, size: "30 × 40 cm", year: "",
     en: {
       title: "Seahorse",
       medium: "Acrylic on canvas",
@@ -77,7 +79,7 @@ window.WORKS = [
     w: 2000, h: 1400, focus: "31% 30%", zoom: 1.9,
     room: "dusk",
     status: "sold",
-    price: "", size: "100 × 70 cm", year: "",
+    price: { tier: "large" }, size: "100 × 70 cm", year: "",
     en: {
       title: "Sunset Mountains",
       medium: "Acrylic on canvas, palette knife",
@@ -98,7 +100,7 @@ window.WORKS = [
     w: 1520, h: 1840, focus: "60% 66%", zoom: 1.7,
     room: "ember",
     status: "available",
-    price: "", size: "38 × 46 cm", year: "",
+    price: { tier: "small" }, size: "38 × 46 cm", year: "",
     en: {
       title: "Color Me Surprised",
       medium: "Acrylic on canvas",
@@ -119,7 +121,7 @@ window.WORKS = [
     w: 1600, h: 1984, focus: "42% 47%", zoom: 1.8,
     room: "violet",
     status: "available",
-    price: "", size: "40 × 50 cm", year: "",
+    price: { tier: "small" }, size: "40 × 50 cm", year: "",
     en: {
       title: "Whale",
       medium: "Acrylic on canvas",
@@ -156,17 +158,22 @@ window.WORKS = [
     ],
     room: "violet",
     status: "available",
-    price: "", size: "55 × 200 mm", year: "",
+    price: {
+      label: {
+        en: "PLN 80 / set of 3 · PLN 30 each",
+        pl: "80 zł / zestaw 3 szt. · 30 zł / szt."
+      }
+    }, size: "55 × 200 mm", year: "",
     en: {
       title: "Galaxy Bookmarks",
-      medium: "Watercolor on paper, set of three",
-      desc: "A set of three watercolor bookmarks painted with galaxies and starlight.",
+      medium: "Watercolor on paper, sold individually or in sets of three",
+      desc: "Watercolor bookmarks painted with galaxies and starlight.",
       alt: "Three bookmarks painted with watercolor galaxies"
     },
     pl: {
       title: "Galaktyczne zakładki",
-      medium: "Akwarela na papierze, zestaw trzech",
-      desc: "Zestaw trzech akwarelowych zakładek z galaktykami i gwiezdnym pyłem.",
+      medium: "Akwarela na papierze, pojedynczo lub w zestawie trzech",
+      desc: "Akwarelowe zakładki z galaktykami i gwiezdnym pyłem.",
       alt: "Trzy zakładki z galaktykami malowanymi akwarelą"
     }
   },
@@ -193,17 +200,22 @@ window.WORKS = [
     ],
     room: "ember",
     status: "available",
-    price: "", size: "55 × 200 mm", year: "",
+    price: {
+      label: {
+        en: "PLN 80 / set of 3 · PLN 30 each",
+        pl: "80 zł / zestaw 3 szt. · 30 zł / szt."
+      }
+    }, size: "55 × 200 mm", year: "",
     en: {
       title: "Flower Meadow",
-      medium: "Watercolor on paper, set of three",
-      desc: "A set of three light, colorful bookmarks with delicate meadow flowers.",
+      medium: "Watercolor on paper, sold individually or in sets of three",
+      desc: "Light, colorful bookmarks with delicate meadow flowers.",
       alt: "Three watercolor bookmarks decorated with delicate meadow flowers"
     },
     pl: {
       title: "Kwietna łąka",
-      medium: "Akwarela na papierze, zestaw trzech",
-      desc: "Zestaw trzech jasnych, kolorowych zakładek z delikatnymi kwiatami łąkowymi.",
+      medium: "Akwarela na papierze, pojedynczo lub w zestawie trzech",
+      desc: "Jasne, kolorowe zakładki z delikatnymi kwiatami łąkowymi.",
       alt: "Trzy akwarelowe zakładki ozdobione delikatnymi kwiatami łąkowymi"
     }
   }
