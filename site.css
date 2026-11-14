@@ -484,6 +484,7 @@ footer .wordmark { color: var(--fg); }
 .footer-social a:focus-visible { outline: 2px solid var(--ochre); outline-offset: 3px; }
 .footer-social svg { width: 16px; height: 16px; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
 .footer-social .footer-social-dot { fill: currentColor; stroke: none; }
+.footer-social .footer-social-pinterest { fill: currentColor; stroke: none; }
 footer p { grid-column: 1 / -1; font-size: .78rem; color: var(--fg-faint); max-width: 74ch; }
 
 /* ============ DIALOGS ============ */

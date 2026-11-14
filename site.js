@@ -119,6 +119,7 @@ const I18N = {
     footer_email: "Email Marta",
     footer_whatsapp: "Message Marta on WhatsApp",
     footer_instagram: "ciesielska.art on Instagram",
+    footer_pinterest: "Marta Ciesielska on Pinterest",
 
     form_title: "Inquiry form",
     modal_title: "Commission inquiry",
@@ -242,6 +243,7 @@ const I18N = {
     footer_email: "Napisz e-mail do Marty",
     footer_whatsapp: "Napisz do Marty na WhatsAppie",
     footer_instagram: "ciesielska.art na Instagramie",
+    footer_pinterest: "Marta Ciesielska na Pintereście",
 
     form_title: "Formularz zapytania",
     modal_title: "Zapytanie o zamówienie",
