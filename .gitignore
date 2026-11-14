@@ -1,4 +1,9 @@
 # Local working files, never published
 tmp/
-.claude/
+.claude/*
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/add-gallery-artwork/
+.claude/skills/add-gallery-artwork/*
+!.claude/skills/add-gallery-artwork/SKILL.md
 .DS_Store

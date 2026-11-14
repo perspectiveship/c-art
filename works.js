@@ -21,8 +21,8 @@
      photos    optional alternate photos, each with src, w, h, and bilingual alt
      room      wall colour while it is open: sea, reef, violet, dusk, ink, ember
      status    "available" or "sold"
-     price     optional: { tier: "small" } for commission pricing, or
-               { label: { en, pl } } for a fixed product price.
+     price     optional: { tier: "small" } for tiered pricing, or
+               { label: { en, pl } } for a fixed displayed price.
      size      optional, width × height, e.g. "70 × 50 cm"
      year      optional, e.g. 2025
      commission  optional, true if it was painted to order
@@ -217,6 +217,93 @@ window.WORKS = [
       medium: "Akwarela na papierze, pojedynczo lub w zestawie trzech",
       desc: "Jasne, kolorowe zakładki z delikatnymi kwiatami łąkowymi.",
       alt: "Trzy akwarelowe zakładki ozdobione delikatnymi kwiatami łąkowymi"
+    }
+  },
+  {
+    id: "galaxy-variation",
+    img: "images/11-galaxy-variation.jpg",
+    thumb: "images/sm/11-galaxy-variation.jpg",
+    w: 1401, h: 2000, focus: "50% 50%", zoom: 1.35,
+    room: "violet",
+    status: "available",
+    price: { label: { en: "PLN 100", pl: "100 zł" } },
+    size: "21 × 30 cm", year: "",
+    en: {
+      title: "Variation on a Galaxy",
+      medium: "Watercolor on 100% cotton paper",
+      desc: "A golden planet emerges from galactic blue, surrounded by pink currents and flecks of gold.",
+      alt: "A golden ringed planet amid a blue and violet galaxy"
+    },
+    pl: {
+      title: "Wariacja o galaktyce",
+      medium: "Akwarela na papierze bawełnianym (100% bawełny)",
+      desc: "Złota planeta wyłania się z galaktycznego błękitu, otoczona różowymi smugami i złotymi drobinami.",
+      alt: "Złota planeta z pierścieniami na tle niebiesko-fioletowej galaktyki"
+    }
+  },
+  {
+    id: "what-the-owl",
+    img: "images/12-what-the-owl.jpg",
+    thumb: "images/sm/12-what-the-owl.jpg",
+    w: 1386, h: 2000, focus: "50% 45%", zoom: 1.3,
+    room: "reef",
+    status: "available",
+    price: { label: { en: "PLN 100", pl: "100 zł" } },
+    size: "21 × 30 cm", year: "",
+    en: {
+      title: "What the Owl?",
+      medium: "Watercolor on 100% cotton paper",
+      desc: "A wide-eyed owl looks straight at the viewer, its pale plumage set against layered blues.",
+      alt: "A pale owl with large dark blue eyes and a pink beak against a blue background"
+    },
+    pl: {
+      title: "Co się sowisz?",
+      medium: "Akwarela na papierze bawełnianym (100% bawełny)",
+      desc: "Sowa o szeroko otwartych, granatowych oczach patrzy prosto na odbiorcę na tle błękitu.",
+      alt: "Jasna sowa z dużymi granatowymi oczami i różowym dziobem na błękitnym tle"
+    }
+  },
+  {
+    id: "sea-stories-bookmarks",
+    img: "images/13-sea-stories-bookmarks.jpg",
+    thumb: "images/sm/13-sea-stories-bookmarks.jpg",
+    w: 930, h: 1230, focus: "50% 45%", zoom: 1.15,
+    photos: [
+      {
+        src: "images/13-sea-stories-bookmarks.jpg", w: 930, h: 1230,
+        alt: {
+          en: "Three watercolor bookmarks with seaside scenes held in a hand",
+          pl: "Trzy zakładki z akwarelowymi scenami morskimi trzymane w dłoni"
+        }
+      },
+      {
+        src: "images/14-sea-stories-bookmarks-detail.jpg", w: 1613, h: 2000,
+        alt: {
+          en: "Three watercolor bookmarks with seaside scenes laid side by side",
+          pl: "Trzy zakładki z akwarelowymi scenami morskimi ułożone obok siebie"
+        }
+      }
+    ],
+    room: "reef",
+    status: "available",
+    price: {
+      label: {
+        en: "PLN 80 / set of 3 · PLN 30 each",
+        pl: "80 zł / zestaw 3 szt. · 30 zł / szt."
+      }
+    },
+    size: "55 × 200 mm", year: "",
+    en: {
+      title: "Sea Stories",
+      medium: "Watercolor on 100% cotton paper, sold individually or in sets of three",
+      desc: "Three watercolor bookmarks with little seaside scenes, from turquoise waves to a sandy shore.",
+      alt: "Three long watercolor bookmarks painted with turquoise sea and sandy shore scenes"
+    },
+    pl: {
+      title: "Morskie opowieści",
+      medium: "Akwarela na papierze bawełnianym (100% bawełny), pojedynczo lub w zestawie trzech",
+      desc: "Trzy zakładki z akwarelowymi scenami morskimi: od turkusowych fal po piaszczysty brzeg.",
+      alt: "Trzy długie zakładki akwarelowe z turkusowym morzem i piaszczystym brzegiem"
     }
   }
 ];
