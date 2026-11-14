@@ -79,13 +79,16 @@ if (!matchMedia('(prefers-reduced-motion: reduce)').matches || /[?&]motion=on\b/
     <a href="https://www.instagram.com/ciesielska.art/" target="_blank" rel="noopener noreferrer" aria-label="ciesielska.art on Instagram" data-i18n-attr="aria-label:footer_instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="5"></rect><circle cx="12" cy="12" r="4"></circle><circle class="footer-social-dot" cx="17.6" cy="6.7" r=".8"></circle></svg></a>
   </nav>
   <p data-i18n="footer_legal">© 2026 ciesielska.art. Prices are agreed individually.</p>
-  <p data-i18n="privacy_note">No analytics, no ad tracking. Your language choice is stored in this browser. Fonts load from Google Fonts; the inquiry form is run by Tally.</p>
+  <p data-i18n="privacy_note">Anonymous, cookie-free visit statistics are collected with Cloudflare Web Analytics. Your language choice is stored in this browser. Fonts load from Google Fonts; the inquiry form is run by Tally.</p>
 </footer>
 
 <!-- The close-up viewer and the inquiry form dialog are created by site.js, shared with index.html. -->
 
 <script src="works.js?v=gallery-photos-1"></script>
-<script src="site.js?v=gallery-photos-1"></script>
+<!-- Cloudflare Web Analytics -->
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "a05330feb74148c6be19420d87e3172e"}'></script>
+<!-- End Cloudflare Web Analytics -->
+<script src="site.js?v=analytics-1"></script>
 
 </body>
 </html>
