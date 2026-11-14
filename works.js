@@ -18,6 +18,7 @@
      focus     the most striking detail ("x% y%"). Gallery thumbnails open
                zoomed in on it and ease back to the whole painting.
      zoom      optional, how far in the thumbnail starts (default 1.8)
+     photos    optional alternate photos, each with src, w, h, and bilingual alt
      room      wall colour while it is open: sea, reef, violet, dusk, ink, ember
      status    "available" or "sold"
      price     optional, e.g. "450 zł". Leave "" to show "Price on request".
@@ -134,23 +135,76 @@ window.WORKS = [
   },
   {
     id: "galaxy-bookmarks",
-    img: "images/02-watercolor-galaxies.jpg",
-    thumb: "images/sm/02-watercolor-galaxies.jpg",
-    w: 1275, h: 1400, crop: 1.12, origin: "55% 30%", zoom: 1.5,
+    img: "images/07-galaxy-bookmarks.jpg",
+    thumb: "images/sm/07-galaxy-bookmarks.jpg",
+    w: 1760, h: 2200, focus: "50% 50%", zoom: 1.5,
+    photos: [
+      {
+        src: "images/07-galaxy-bookmarks.jpg", w: 1760, h: 2200,
+        alt: {
+          en: "Three galaxy bookmarks laid side by side on patterned fabric",
+          pl: "Trzy galaktyczne zakładki ułożone obok siebie na wzorzystym materiale"
+        }
+      },
+      {
+        src: "images/09-galaxy-bookmarks-detail.jpg", w: 1760, h: 2200,
+        alt: {
+          en: "Three galaxy bookmarks held up in front of a window",
+          pl: "Trzy galaktyczne zakładki trzymane na tle okna"
+        }
+      }
+    ],
     room: "violet",
     status: "available",
     price: "", size: "55 × 200 mm", year: "",
     en: {
       title: "Galaxy Bookmarks",
       medium: "Watercolor on paper, set of three",
-      desc: "Three strips of night sky, small enough to live in a book.",
+      desc: "A set of three watercolor bookmarks painted with galaxies and starlight.",
       alt: "Three bookmarks painted with watercolor galaxies"
     },
     pl: {
       title: "Galaktyczne zakładki",
       medium: "Akwarela na papierze, zestaw trzech",
-      desc: "Trzy paski nocnego nieba, w sam raz do książki.",
+      desc: "Zestaw trzech akwarelowych zakładek z galaktykami i gwiezdnym pyłem.",
       alt: "Trzy zakładki z galaktykami malowanymi akwarelą"
+    }
+  },
+  {
+    id: "flower-meadow",
+    img: "images/08-flower-meadow.jpg",
+    thumb: "images/sm/08-flower-meadow.jpg",
+    w: 1650, h: 2200, focus: "50% 50%", zoom: 1.5,
+    photos: [
+      {
+        src: "images/08-flower-meadow.jpg", w: 1650, h: 2200,
+        alt: {
+          en: "Three watercolor bookmarks with small flowers on a patterned fabric",
+          pl: "Trzy akwarelowe zakładki w drobne kwiaty na wzorzystym materiale"
+        }
+      },
+      {
+        src: "images/10-flower-meadow-detail.jpg", w: 1650, h: 2200,
+        alt: {
+          en: "Three floral watercolor bookmarks held in a hand",
+          pl: "Trzy kwiatowe zakładki akwarelowe trzymane w dłoni"
+        }
+      }
+    ],
+    room: "ember",
+    status: "available",
+    price: "", size: "55 × 200 mm", year: "",
+    en: {
+      title: "Flower Meadow",
+      medium: "Watercolor on paper, set of three",
+      desc: "A set of three light, colorful bookmarks with delicate meadow flowers.",
+      alt: "Three watercolor bookmarks decorated with delicate meadow flowers"
+    },
+    pl: {
+      title: "Kwietna łąka",
+      medium: "Akwarela na papierze, zestaw trzech",
+      desc: "Zestaw trzech jasnych, kolorowych zakładek z delikatnymi kwiatami łąkowymi.",
+      alt: "Trzy akwarelowe zakładki ozdobione delikatnymi kwiatami łąkowymi"
     }
   }
 ];
