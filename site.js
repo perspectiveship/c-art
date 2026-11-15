@@ -279,7 +279,7 @@ const priceLabel = work => {
   if (typeof price === 'string') return price;
   if (price?.label) return price.label[root.lang] || price.label.en || '';
   const from = price?.tier && window.PRICE_FROM?.[price.tier];
-  if (Number.isFinite(from)) return root.lang === 'pl' ? `Od ${from} zł` : `From PLN ${from}`;
+  if (Number.isFinite(from)) return root.lang === 'pl' ? `Od ${from} zł` : `From ${from} EUR`;
   return isAvailable(work) ? t('price_request') : '';
 };
 const actionLabel = work => t(isAvailable(work) ? 'ask_to_buy' : 'commission_similar');
