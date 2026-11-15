@@ -37,7 +37,7 @@ window.WORKS = [
     w: 2000, h: 1400, focus: "19% 37%", zoom: 2,
     room: "sea",
     status: "sold",
-    price: { tier: "large" }, size: "100 × 70 cm", year: "",
+    price: { label: { en: "From 1200 EUR", pl: "Od 1200 zł" } }, size: "100 × 70 cm", year: "",
     en: {
       title: "Nebula Turtles",
       medium: "Acrylic on canvas",
@@ -160,7 +160,7 @@ window.WORKS = [
     status: "available",
     price: {
       label: {
-        en: "PLN 80 / set of 3 · PLN 30 each",
+        en: "80 EUR / set of 3 · 30 EUR each",
         pl: "80 zł / zestaw 3 szt. · 30 zł / szt."
       }
     }, size: "55 × 200 mm", year: "",
@@ -202,7 +202,7 @@ window.WORKS = [
     status: "available",
     price: {
       label: {
-        en: "PLN 80 / set of 3 · PLN 30 each",
+        en: "80 EUR / set of 3 · 30 EUR each",
         pl: "80 zł / zestaw 3 szt. · 30 zł / szt."
       }
     }, size: "55 × 200 mm", year: "",
@@ -226,7 +226,7 @@ window.WORKS = [
     w: 1401, h: 2000, focus: "50% 50%", zoom: 1.35,
     room: "violet",
     status: "available",
-    price: { label: { en: "PLN 100", pl: "100 zł" } },
+    price: { label: { en: "100 EUR", pl: "100 zł" } },
     size: "21 × 30 cm", year: "",
     en: {
       title: "Variation on a Galaxy",
@@ -248,7 +248,7 @@ window.WORKS = [
     w: 1386, h: 2000, focus: "50% 45%", zoom: 1.3,
     room: "reef",
     status: "available",
-    price: { label: { en: "PLN 100", pl: "100 zł" } },
+    price: { label: { en: "100 EUR", pl: "100 zł" } },
     size: "21 × 30 cm", year: "",
     en: {
       title: "What the Owl?",
@@ -288,7 +288,7 @@ window.WORKS = [
     status: "available",
     price: {
       label: {
-        en: "PLN 80 / set of 3 · PLN 30 each",
+        en: "80 EUR / set of 3 · 30 EUR each",
         pl: "80 zł / zestaw 3 szt. · 30 zł / szt."
       }
     },
