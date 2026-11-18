@@ -157,22 +157,17 @@ window.WORKS = [
       }
     ],
     room: "violet",
-    status: "available",
-    price: {
-      label: {
-        en: "80 EUR / set of 3 · 30 EUR each",
-        pl: "80 zł / zestaw 3 szt. · 30 zł / szt."
-      }
-    }, size: "55 × 200 mm", year: "",
+    status: "sold",
+    price: "", size: "55 × 200 mm", year: "",
     en: {
       title: "Galaxy Bookmarks",
-      medium: "Watercolor on paper, sold individually or in sets of three",
+      medium: "Watercolor on paper, set of three",
       desc: "Watercolor bookmarks painted with galaxies and starlight.",
       alt: "Three bookmarks painted with watercolor galaxies"
     },
     pl: {
       title: "Galaktyczne zakładki",
-      medium: "Akwarela na papierze, pojedynczo lub w zestawie trzech",
+      medium: "Akwarela na papierze, zestaw trzech",
       desc: "Akwarelowe zakładki z galaktykami i gwiezdnym pyłem.",
       alt: "Trzy zakładki z galaktykami malowanymi akwarelą"
     }
