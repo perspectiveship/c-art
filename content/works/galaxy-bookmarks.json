@@ -1,0 +1,44 @@
+{
+  "en": {
+    "id": "galaxy-bookmarks",
+    "order": 60,
+    "status": "sold",
+    "price_type": "none",
+    "size": "55 × 200 mm",
+    "year": "",
+    "title": "Galaxy Bookmarks",
+    "medium": "Watercolor on paper, set of three",
+    "desc": "Watercolor bookmarks painted with galaxies and starlight.",
+    "img": "/images/07-galaxy-bookmarks.jpg",
+    "alt": "Three bookmarks painted with watercolor galaxies",
+    "photos": [
+      {
+        "src": "/images/07-galaxy-bookmarks.jpg",
+        "alt": "Three galaxy bookmarks laid side by side on patterned fabric"
+      },
+      {
+        "src": "/images/09-galaxy-bookmarks-detail.jpg",
+        "alt": "Three galaxy bookmarks held up in front of a window"
+      }
+    ],
+    "room": "violet",
+    "focus": "50% 50%",
+    "zoom": 1.5
+  },
+  "pl": {
+    "title": "Galaktyczne zakładki",
+    "medium": "Akwarela na papierze, zestaw trzech",
+    "desc": "Akwarelowe zakładki z galaktykami i gwiezdnym pyłem.",
+    "alt": "Trzy zakładki z galaktykami malowanymi akwarelą",
+    "photos": [
+      {
+        "src": "/images/07-galaxy-bookmarks.jpg",
+        "alt": "Trzy galaktyczne zakładki ułożone obok siebie na wzorzystym materiale"
+      },
+      {
+        "src": "/images/09-galaxy-bookmarks-detail.jpg",
+        "alt": "Trzy galaktyczne zakładki trzymane na tle okna"
+      }
+    ]
+  }
+}

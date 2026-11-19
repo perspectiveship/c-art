@@ -1,0 +1,8 @@
+{
+  "price_from": {
+    "small": 200,
+    "medium": 500,
+    "large": 800
+  },
+  "more_coming": true
+}

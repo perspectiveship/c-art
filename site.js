@@ -21,7 +21,6 @@ const I18N = {
     nav_about: "About",
     nav_contact: "Contact",
     page_title_about: "About | ciesielska.art",
-    desc_about: "Marta Ciesielska, painter. A few words about who paints the pictures on ciesielska.art.",
     cta_top: "Commission",
     page_title_contact: "Contact | ciesielska.art",
     desc_contact: "Contact ciesielska.art about paintings, commissions, or a question.",
@@ -66,12 +65,6 @@ const I18N = {
     filter_commission: "Commissions",
     more_coming: "More paintings are waiting for their photos and will hang here soon.",
     gallery_noscript: "The gallery needs JavaScript to show the paintings.",
-    about_title: 'About <em>me</em>',
-    about_lead: "I have always liked unique and beautiful things. Paintings fit both.",
-    about_p1: "I'm honoured that so many of you like my paintings, too, as I'm often too critical of myself.",
-    about_p2: "My name is Marta Ciesielska. I hate bragging or talking about myself, so I promise to keep it short. For my whole life, I have been chasing creative journeys, and my recent love is painting. I'm not the best in the world, but I'm good enough.",
-    about_p3: "I'm selling my paintings because I love to paint and want to share these beautiful and unique things. Painting something someone dreams of, so they can hang it on their wall, is one of the best things I've done in my life. Also, my flat is running out of wall space, so I'm glad you like the paintings I've already made!",
-    about_photo_alt: "Marta Ciesielska smiling under a rainbow umbrella on a rainy night, one arm raised",
 
     contact_title: 'Say hello. <em>Let’s talk.</em>',
     contact_intro: "Questions about a painting, a commission, or something else? Choose the way that feels easiest.",
@@ -145,7 +138,6 @@ const I18N = {
     nav_about: "O mnie",
     nav_contact: "Kontakt",
     page_title_about: "O mnie | ciesielska.art",
-    desc_about: "Marta Ciesielska, malarka. Kilka słów o tym, kto maluje obrazy na ciesielska.art.",
     cta_top: "Zamów obraz",
     page_title_contact: "Kontakt | ciesielska.art",
     desc_contact: "Skontaktuj się z ciesielska.art w sprawie obrazu, zamówienia lub pytania.",
@@ -190,12 +182,6 @@ const I18N = {
     filter_commission: "Na zamówienie",
     more_coming: "Kolejne obrazy czekają na zdjęcia i wkrótce tu zawisną.",
     gallery_noscript: "Galeria wymaga JavaScriptu, żeby pokazać obrazy.",
-    about_title: 'O <em>mnie</em>',
-    about_lead: "Zawsze lubiłam rzeczy wyjątkowe i piękne. Obrazy są jednym i drugim.",
-    about_p1: "To dla mnie zaszczyt, że tak wielu z Was też lubi moje obrazy, bo sama bywam wobec siebie zbyt krytyczna.",
-    about_p2: "Nazywam się Marta Ciesielska. Nie znoszę się chwalić ani mówić o sobie, więc obiecuję, że będzie krótko. Całe życie gonię za twórczymi przygodami, a moją najnowszą miłością jest malarstwo. Nie jestem najlepsza na świecie, ale jestem wystarczająco dobra.",
-    about_p3: "Sprzedaję swoje obrazy, bo kocham malować i chcę dzielić się tymi pięknymi i wyjątkowymi rzeczami. Namalować coś, o czym ktoś marzy, żeby mógł to powiesić na swojej ścianie, to jedna z najlepszych rzeczy, jakie zrobiłam w życiu. Poza tym w moim mieszkaniu kończy się miejsce na ścianach, więc cieszę się, że podobają się Wam obrazy, które już namalowałam!",
-    about_photo_alt: "Marta Ciesielska uśmiecha się pod tęczowym parasolem w deszczową noc, z uniesioną ręką",
 
     contact_title: 'Napisz do mnie. <em>Porozmawiajmy.</em>',
     contact_intro: "Masz pytanie o obraz, zamówienie albo coś innego? Wybierz najwygodniejszy sposób kontaktu.",
@@ -257,6 +243,9 @@ const I18N = {
     tally_pl: "YjRN2J"
   }
 };
+
+// Page texts edited in the panel (content/about.json …) arrive from the build as window.SITE_TEXT.
+for (const [lang, text] of Object.entries(window.SITE_TEXT || {})) Object.assign(I18N[lang] || {}, text);
 
 const $ = (sel, scope = document) => scope.querySelector(sel);
 const $$ = (sel, scope = document) => [...scope.querySelectorAll(sel)];

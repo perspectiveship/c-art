@@ -1,0 +1,25 @@
+{
+  "en": {
+    "id": "color-me-surprised",
+    "order": 40,
+    "status": "available",
+    "price_type": "tier",
+    "price_tier": "small",
+    "size": "38 × 46 cm",
+    "year": "",
+    "title": "Color Me Surprised",
+    "medium": "Acrylic on canvas",
+    "desc": "A figure in pinks and blues against dripping yellow. Natural skin tones were never the plan.",
+    "img": "/images/05-color-me-surprised.jpg",
+    "alt": "Expressive female nude torso in pink, blue and violet on a yellow and teal background",
+    "room": "ember",
+    "focus": "60% 66%",
+    "zoom": 1.7
+  },
+  "pl": {
+    "title": "Color Me Surprised",
+    "medium": "Akryl na płótnie",
+    "desc": "Sylwetka w różach i błękitach na tle spływającej żółci. Naturalne kolory skóry nie były w planie.",
+    "alt": "Ekspresyjny akt kobiecy w różach, błękitach i fioletach na żółto-turkusowym tle"
+  }
+}
