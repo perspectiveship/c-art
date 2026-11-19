@@ -1,0 +1,26 @@
+{
+  "en": {
+    "id": "nebula-turtles",
+    "order": 10,
+    "status": "sold",
+    "price_type": "label",
+    "price_label": "From 1200 EUR",
+    "size": "100 × 70 cm",
+    "year": "",
+    "title": "Nebula Turtles",
+    "medium": "Acrylic on canvas",
+    "desc": "Six sea turtles, one nebula. Deep water and deep space turn out to be the same blue.",
+    "img": "/images/01-nebula-turtles.jpg",
+    "alt": "Six sea turtles swimming through a blue nebula",
+    "room": "sea",
+    "focus": "19% 37%",
+    "zoom": 2
+  },
+  "pl": {
+    "title": "Żółwie w mgławicy",
+    "medium": "Akryl na płótnie",
+    "desc": "Sześć żółwi morskich i jedna mgławica. Głębia oceanu i głębia kosmosu mają ten sam błękit.",
+    "alt": "Sześć żółwi morskich płynących przez niebieską mgławicę",
+    "price_label": "Od 1200 zł"
+  }
+}

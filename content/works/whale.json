@@ -1,0 +1,25 @@
+{
+  "en": {
+    "id": "whale",
+    "order": 50,
+    "status": "available",
+    "price_type": "tier",
+    "price_tier": "small",
+    "size": "40 × 50 cm",
+    "year": "",
+    "title": "Whale",
+    "medium": "Acrylic on canvas",
+    "desc": "A humpback rising through water that can't decide between sea and aurora.",
+    "img": "/images/06-whale.jpg",
+    "alt": "A humpback whale swimming upward through swirling teal, violet and red water",
+    "room": "violet",
+    "focus": "42% 47%",
+    "zoom": 1.8
+  },
+  "pl": {
+    "title": "Wieloryb",
+    "medium": "Akryl na płótnie",
+    "desc": "Humbak wynurza się z wody, która nie może się zdecydować, czy jest morzem, czy zorzą.",
+    "alt": "Humbak płynący ku górze przez wirującą turkusową, fioletową i czerwoną wodę"
+  }
+}

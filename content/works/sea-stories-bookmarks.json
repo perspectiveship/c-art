@@ -1,0 +1,46 @@
+{
+  "en": {
+    "id": "sea-stories-bookmarks",
+    "order": 100,
+    "status": "available",
+    "price_type": "label",
+    "price_label": "80 EUR / set of 3 · 30 EUR each",
+    "size": "55 × 200 mm",
+    "year": "",
+    "title": "Sea Stories",
+    "medium": "Watercolor on 100% cotton paper, sold individually or in sets of three",
+    "desc": "Three watercolor bookmarks with little seaside scenes, from turquoise waves to a sandy shore.",
+    "img": "/images/13-sea-stories-bookmarks.jpg",
+    "alt": "Three long watercolor bookmarks painted with turquoise sea and sandy shore scenes",
+    "photos": [
+      {
+        "src": "/images/13-sea-stories-bookmarks.jpg",
+        "alt": "Three watercolor bookmarks with seaside scenes held in a hand"
+      },
+      {
+        "src": "/images/14-sea-stories-bookmarks-detail.jpg",
+        "alt": "Three watercolor bookmarks with seaside scenes laid side by side"
+      }
+    ],
+    "room": "reef",
+    "focus": "50% 45%",
+    "zoom": 1.15
+  },
+  "pl": {
+    "title": "Morskie opowieści",
+    "medium": "Akwarela na papierze bawełnianym (100% bawełny), pojedynczo lub w zestawie trzech",
+    "desc": "Trzy zakładki z akwarelowymi scenami morskimi: od turkusowych fal po piaszczysty brzeg.",
+    "alt": "Trzy długie zakładki akwarelowe z turkusowym morzem i piaszczystym brzegiem",
+    "price_label": "80 zł / zestaw 3 szt. · 30 zł / szt.",
+    "photos": [
+      {
+        "src": "/images/13-sea-stories-bookmarks.jpg",
+        "alt": "Trzy zakładki z akwarelowymi scenami morskimi trzymane w dłoni"
+      },
+      {
+        "src": "/images/14-sea-stories-bookmarks-detail.jpg",
+        "alt": "Trzy zakładki z akwarelowymi scenami morskimi ułożone obok siebie"
+      }
+    ]
+  }
+}

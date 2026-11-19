@@ -1,0 +1,246 @@
+# Sveltia CMS configuration for ciesielska.art
+# Docs: https://sveltiacms.app/en/docs
+#
+# Saving in the panel commits to `main`; GitHub Actions then builds and publishes
+# the site (scripts/build.mjs). Locally, use "Work with Local Repository".
+
+backend:
+  name: github
+  repo: perspectiveship/c-art
+  branch: main
+
+site_url: https://ciesielska.art
+display_url: https://ciesielska.art
+
+media_folder: images
+public_folder: /images
+
+i18n:
+  structure: single_file
+  locales: [en, pl]
+  default_locale: en
+
+collections:
+  - name: works
+    label: Paintings
+    label_singular: Painting
+    description: Everything in the gallery. Text fields have an English and a Polish version; switch language at the top right.
+    folder: content/works
+    extension: json
+    format: json
+    create: true
+    delete: true
+    slug: "{{fields.id}}"
+    identifier_field: title
+    summary: "{{fields.title}} — {{fields.status}}"
+    sortable_fields:
+      fields: [order, title, status]
+      default:
+        field: order
+        direction: ascending
+    i18n: true
+    fields:
+      - name: title
+        label: Title
+        widget: string
+        i18n: true
+
+      - name: status
+        label: Status
+        widget: select
+        options:
+          - { label: Available, value: available }
+          - { label: Sold, value: sold }
+        default: available
+
+      - name: price_type
+        label: Price
+        widget: select
+        hint: "None: available works show “Price on request”, sold works show nothing. Starting price: uses the amounts under Settings. Fixed: write the exact text."
+        options:
+          - { label: None, value: none }
+          - { label: Starting price (small / medium / large), value: tier }
+          - { label: Fixed price text, value: label }
+        default: none
+
+      - name: price_tier
+        label: Starting price size
+        widget: select
+        required: false
+        hint: Only used when Price is “Starting price”.
+        options:
+          - { label: Small, value: small }
+          - { label: Medium, value: medium }
+          - { label: Large, value: large }
+
+      - name: price_label
+        label: Fixed price text
+        widget: string
+        required: false
+        i18n: true
+        hint: Only used when Price is “Fixed price text”, e.g. “100 EUR” / “100 zł”.
+
+      - name: size
+        label: Size
+        widget: string
+        required: false
+        hint: Width × height, e.g. “40 × 50 cm”.
+
+      - name: year
+        label: Year
+        widget: string
+        required: false
+
+      - name: commission
+        label: Painted to order
+        widget: boolean
+        required: false
+        default: false
+
+      - name: medium
+        label: Technique
+        widget: string
+        i18n: true
+        hint: e.g. “Acrylic on canvas” / “Akryl na płótnie”.
+
+      - name: desc
+        label: Description
+        widget: text
+        i18n: true
+        hint: One or two sentences.
+
+      - name: img
+        label: Main photo
+        widget: image
+        hint: Crop to the painting before uploading, and turn off location in the camera. Large photos are resized automatically.
+
+      - name: alt
+        label: Main photo description (for screen readers)
+        widget: string
+        i18n: true
+
+      - name: photos
+        label: Extra photos
+        label_singular: Photo
+        widget: list
+        required: false
+        i18n: true
+        hint: Optional. Shown in the close-up viewer; include the main photo first if you add any.
+        fields:
+          - { name: src, label: Photo, widget: image, i18n: duplicate }
+          - { name: alt, label: Photo description, widget: string, i18n: true }
+
+      - name: id
+        label: Link name (advanced)
+        widget: string
+        pattern: ['^[a-z0-9]+(-[a-z0-9]+)*$', 'Lowercase letters, numbers and dashes only, e.g. sunset-mountains']
+        hint: Used in links like gallery.html#sunset-mountains and as the file name. Set once; don't change after publishing.
+
+      - name: order
+        label: Position in the gallery (advanced)
+        widget: number
+        value_type: int
+        hint: Lower numbers come first. Existing works use steps of 10, so a new one can go in between.
+
+      - name: room
+        label: Wall colour (advanced)
+        widget: select
+        default: ink
+        options:
+          - { label: Sea (deep blue), value: sea }
+          - { label: Reef (bright blue), value: reef }
+          - { label: Violet, value: violet }
+          - { label: Dusk (warm purple), value: dusk }
+          - { label: Ink (neutral dark), value: ink }
+          - { label: Ember (warm brown), value: ember }
+
+      - name: focus
+        label: Thumbnail focus point (advanced)
+        widget: string
+        required: false
+        hint: Where the gallery thumbnail zooms in first, as “x% y%”, e.g. “50% 40%”.
+
+      - name: zoom
+        label: Thumbnail zoom (advanced)
+        widget: number
+        value_type: float
+        required: false
+        hint: How close the thumbnail starts, e.g. 1.8. Leave empty for the default.
+
+      - name: crop
+        label: Display crop (advanced)
+        widget: number
+        value_type: float
+        required: false
+        hint: Rarely needed. Zooms the displayed photo slightly to hide edges, e.g. 1.05.
+
+      - name: origin
+        label: Display crop point (advanced)
+        widget: string
+        required: false
+        hint: Point the display crop zooms towards, as “x% y%”.
+
+  - name: pages
+    label: Pages
+    description: Text on the site's pages. Each text has an English and a Polish version.
+    i18n: true
+    files:
+      - name: about
+        label: About page
+        file: content/about.json
+        format: json
+        i18n: true
+        fields:
+          - name: title
+            label: Headline
+            widget: string
+            i18n: true
+            hint: Put *stars* around words to show them in the gold accent, e.g. “About *me*”.
+
+          - name: lead
+            label: Opening line
+            widget: text
+            i18n: true
+            hint: Shown large, above the rest of the text.
+
+          - name: body
+            label: Text
+            widget: text
+            i18n: true
+            hint: Leave an empty line between paragraphs.
+
+          - name: photo
+            label: Photo
+            widget: image
+            hint: Portrait photos work best. Turn off location in the camera before uploading; large photos are resized automatically.
+
+          - name: photo_alt
+            label: Photo description (for screen readers)
+            widget: string
+            i18n: true
+
+          - name: description
+            label: Search and link preview text
+            widget: text
+            i18n: true
+            hint: One sentence shown by Google and when the page link is shared.
+
+  - name: settings
+    label: Settings
+    files:
+      - name: site
+        label: Prices and gallery
+        file: content/settings.json
+        format: json
+        fields:
+          - name: price_from
+            label: Starting prices
+            widget: object
+            hint: Shown as “From …” on works whose Price is “Starting price”. English shows EUR, Polish shows zł.
+            fields:
+              - { name: small, label: Small, widget: number, value_type: int }
+              - { name: medium, label: Medium, widget: number, value_type: int }
+              - { name: large, label: Large, widget: number, value_type: int }
+          - name: more_coming
+            label: Show “more paintings coming soon” at the end of the gallery
+            widget: boolean

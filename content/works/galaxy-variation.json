@@ -1,0 +1,26 @@
+{
+  "en": {
+    "id": "galaxy-variation",
+    "order": 80,
+    "status": "available",
+    "price_type": "label",
+    "price_label": "100 EUR",
+    "size": "21 × 30 cm",
+    "year": "",
+    "title": "Variation on a Galaxy",
+    "medium": "Watercolor on 100% cotton paper",
+    "desc": "A golden planet emerges from galactic blue, surrounded by pink currents and flecks of gold.",
+    "img": "/images/11-galaxy-variation.jpg",
+    "alt": "A golden ringed planet amid a blue and violet galaxy",
+    "room": "violet",
+    "focus": "50% 50%",
+    "zoom": 1.35
+  },
+  "pl": {
+    "title": "Wariacja o galaktyce",
+    "medium": "Akwarela na papierze bawełnianym (100% bawełny)",
+    "desc": "Złota planeta wyłania się z galaktycznego błękitu, otoczona różowymi smugami i złotymi drobinami.",
+    "alt": "Złota planeta z pierścieniami na tle niebiesko-fioletowej galaktyki",
+    "price_label": "100 zł"
+  }
+}

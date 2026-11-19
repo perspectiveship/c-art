@@ -1,0 +1,46 @@
+{
+  "en": {
+    "id": "flower-meadow",
+    "order": 70,
+    "status": "available",
+    "price_type": "label",
+    "price_label": "80 EUR / set of 3 · 30 EUR each",
+    "size": "55 × 200 mm",
+    "year": "",
+    "title": "Flower Meadow",
+    "medium": "Watercolor on paper, sold individually or in sets of three",
+    "desc": "Light, colorful bookmarks with delicate meadow flowers.",
+    "img": "/images/08-flower-meadow.jpg",
+    "alt": "Three watercolor bookmarks decorated with delicate meadow flowers",
+    "photos": [
+      {
+        "src": "/images/08-flower-meadow.jpg",
+        "alt": "Three watercolor bookmarks with small flowers on a patterned fabric"
+      },
+      {
+        "src": "/images/10-flower-meadow-detail.jpg",
+        "alt": "Three floral watercolor bookmarks held in a hand"
+      }
+    ],
+    "room": "ember",
+    "focus": "50% 50%",
+    "zoom": 1.5
+  },
+  "pl": {
+    "title": "Kwietna łąka",
+    "medium": "Akwarela na papierze, pojedynczo lub w zestawie trzech",
+    "desc": "Jasne, kolorowe zakładki z delikatnymi kwiatami łąkowymi.",
+    "alt": "Trzy akwarelowe zakładki ozdobione delikatnymi kwiatami łąkowymi",
+    "price_label": "80 zł / zestaw 3 szt. · 30 zł / szt.",
+    "photos": [
+      {
+        "src": "/images/08-flower-meadow.jpg",
+        "alt": "Trzy akwarelowe zakładki w drobne kwiaty na wzorzystym materiale"
+      },
+      {
+        "src": "/images/10-flower-meadow-detail.jpg",
+        "alt": "Trzy kwiatowe zakładki akwarelowe trzymane w dłoni"
+      }
+    ]
+  }
+}

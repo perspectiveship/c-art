@@ -1,0 +1,25 @@
+{
+  "en": {
+    "id": "seahorse",
+    "order": 20,
+    "status": "available",
+    "price_type": "tier",
+    "price_tier": "small",
+    "size": "30 × 40 cm",
+    "year": "",
+    "title": "Seahorse",
+    "medium": "Acrylic on canvas",
+    "desc": "A lone seahorse in the shallows, with sunlight breaking through the surface above.",
+    "img": "/images/04-seahorse.jpg",
+    "alt": "An orange seahorse in blue water with seaweed and coral, sunlight coming through the surface",
+    "room": "reef",
+    "focus": "47% 36%",
+    "zoom": 2
+  },
+  "pl": {
+    "title": "Konik morski",
+    "medium": "Akryl na płótnie",
+    "desc": "Samotny konik morski na płyciźnie, a nad nim słońce przebijające się przez taflę wody.",
+    "alt": "Pomarańczowy konik morski w błękitnej wodzie wśród wodorostów i koralowca, z góry wpada światło słońca"
+  }
+}

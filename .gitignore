@@ -7,3 +7,9 @@ tmp/
 .claude/skills/add-gallery-artwork/*
 !.claude/skills/add-gallery-artwork/SKILL.md
 .DS_Store
+
+# Build output (scripts/build.mjs): never committed, published by GitHub Actions
+_site/
+_site.tmp-*/
+works.js
+images/sm/

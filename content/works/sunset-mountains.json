@@ -1,0 +1,25 @@
+{
+  "en": {
+    "id": "sunset-mountains",
+    "order": 30,
+    "status": "sold",
+    "price_type": "tier",
+    "price_tier": "large",
+    "size": "100 × 70 cm",
+    "year": "",
+    "title": "Sunset Mountains",
+    "medium": "Acrylic on canvas, palette knife",
+    "desc": "Ridge after ridge of blue under an orange sky, laid on thick with a palette knife.",
+    "img": "/images/03-sunset-mountains.jpg",
+    "alt": "Layered blue mountain ridges under an orange and pink sunset",
+    "room": "dusk",
+    "focus": "31% 30%",
+    "zoom": 1.9
+  },
+  "pl": {
+    "title": "Góry o zachodzie słońca",
+    "medium": "Akryl na płótnie, szpachelka",
+    "desc": "Pasmo za pasmem błękitnych gór pod pomarańczowym niebem, kładzione grubo szpachelką.",
+    "alt": "Warstwy błękitnych gór pod pomarańczowo-różowym zachodem słońca"
+  }
+}
