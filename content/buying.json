@@ -1,0 +1,14 @@
+{
+  "en": {
+    "avail_note": "One of a kind. I'll confirm it's still available when I reply.",
+    "delivery_note": "Delivery or pickup is arranged individually.",
+    "modal_sub": "Tell me what you have in mind. I'll write back and we'll sort out the details.",
+    "modal_sub_buy": "Tell me you'd like it and where you are. I'll confirm it's still available, then we'll agree payment and delivery."
+  },
+  "pl": {
+    "avail_note": "Jedyny egzemplarz. W odpowiedzi potwierdzę, czy jest jeszcze dostępny.",
+    "delivery_note": "Dostawę lub odbiór ustalamy indywidualnie.",
+    "modal_sub": "Napisz, co masz na myśli. Odpiszę i ustalimy szczegóły.",
+    "modal_sub_buy": "Napisz, że chcesz ten obraz i skąd jesteś. Potwierdzę, czy jest jeszcze dostępny, a potem ustalimy płatność i odbiór."
+  }
+}

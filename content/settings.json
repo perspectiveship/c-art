@@ -4,5 +4,11 @@
     "medium": 500,
     "large": 800
   },
-  "more_coming": true
+  "more_coming": true,
+  "contact": {
+    "email": "marta@ciesielska.art",
+    "whatsapp": "https://wa.me/ciesielska.art",
+    "instagram": "https://www.instagram.com/ciesielska.art/",
+    "pinterest": "https://pl.pinterest.com/martaciesielskaart/"
+  }
 }

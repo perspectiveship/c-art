@@ -1,0 +1,18 @@
+{
+  "en": {
+    "contact_title": "Say hello. *Let’s talk.*",
+    "contact_intro": "Questions about a painting, a commission, or something else? Choose the way that feels easiest.",
+    "contact_email_copy": "For questions about a painting, its dimensions, or a commission.",
+    "contact_whatsapp_copy": "Message me directly. Usually the quickest way to reach me.",
+    "contact_instagram_copy": "See new work and send me a direct message.",
+    "contact_form_copy": "Prefer a form? Answer a few questions and I'll write back."
+  },
+  "pl": {
+    "contact_title": "Napisz do mnie. *Porozmawiajmy.*",
+    "contact_intro": "Masz pytanie o obraz, zamówienie albo coś innego? Wybierz najwygodniejszy sposób kontaktu.",
+    "contact_email_copy": "W sprawie obrazu, jego wymiarów lub zamówienia.",
+    "contact_whatsapp_copy": "Napisz do mnie bezpośrednio. Zwykle tak najszybciej mnie złapiesz.",
+    "contact_instagram_copy": "Zobacz nowe prace i napisz do mnie w wiadomości prywatnej.",
+    "contact_form_copy": "Wolisz formularz? Odpowiedz na kilka pytań, a odpiszę."
+  }
+}

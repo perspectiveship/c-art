@@ -1,0 +1,11 @@
+{
+  "en": {
+    "open": true,
+    "open_text": "Commissions are open.",
+    "closed_text": "Commissions are closed for now. Write anyway and I'll tell you when the next slot opens."
+  },
+  "pl": {
+    "open_text": "Przyjmuję zamówienia.",
+    "closed_text": "Zamówienia są teraz wstrzymane. Napisz mimo to, a dam znać, kiedy zwolni się termin."
+  }
+}

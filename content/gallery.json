@@ -1,0 +1,16 @@
+{
+  "en": {
+    "gallery_title": "The *gallery*",
+    "gallery_intro": "Everything painted so far. Some pieces are for sale, the rest already hang on someone's wall.",
+    "band_title": "Available *now*",
+    "band_sub": "Each is one of a kind. Ask about one and I'll confirm it's still available.",
+    "more_coming": "More paintings are waiting for their photos and will hang here soon."
+  },
+  "pl": {
+    "gallery_title": "*Galeria*",
+    "gallery_intro": "Wszystko, co dotąd powstało. Część prac można kupić, reszta wisi już na czyjejś ścianie.",
+    "band_title": "Dostępne *teraz*",
+    "band_sub": "Każda praca istnieje w jednym egzemplarzu. Zapytaj, a potwierdzę, czy jest jeszcze dostępna.",
+    "more_coming": "Kolejne obrazy czekają na zdjęcia i wkrótce tu zawisną."
+  }
+}

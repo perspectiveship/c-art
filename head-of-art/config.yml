@@ -182,7 +182,7 @@ collections:
 
   - name: pages
     label: Pages
-    description: Text on the site's pages. Each text has an English and a Polish version.
+    description: Texts on the site's pages and the homepage paintings. Each text has an English and a Polish version.
     i18n: true
     files:
       - name: about
@@ -225,11 +225,285 @@ collections:
             i18n: true
             hint: One sentence shown by Google and when the page link is shared.
 
+      - name: home
+        label: Homepage
+        file: content/home.json
+        format: json
+        i18n: true
+        fields:
+          - name: featured_hero
+            label: Opening painting
+            widget: relation
+            collection: works
+            value_field: id
+            search_fields: [title]
+            display_fields: [title]
+            hint: The painting the homepage opens inside and zooms out from. Landscape works best.
+
+          - name: featured_second
+            label: Second painting
+            widget: relation
+            collection: works
+            value_field: id
+            search_fields: [title]
+            display_fields: [title]
+            hint: Hung below the opening painting.
+
+          - name: featured_third
+            label: Third painting
+            widget: relation
+            collection: works
+            value_field: id
+            search_fields: [title]
+            display_fields: [title]
+            hint: Hung after the second one.
+
+          - name: hero_kicker
+            label: Top line (small, gold)
+            widget: string
+            i18n: true
+
+          - name: hero_title
+            label: Headline
+            widget: string
+            i18n: true
+            hint: Put *stars* around words to show them in the gold accent.
+
+          - name: hero_lede
+            label: Intro
+            widget: text
+            i18n: true
+
+          - name: statement
+            label: Statement (large text below the paintings)
+            widget: text
+            i18n: true
+
+          - name: fact1
+            label: Fact 1
+            widget: string
+            i18n: true
+
+          - name: fact2
+            label: Fact 2
+            widget: string
+            i18n: true
+
+          - name: fact3
+            label: Fact 3
+            widget: string
+            i18n: true
+
+          - name: process_title
+            label: "Commission steps: headline"
+            widget: string
+            i18n: true
+            hint: Put *stars* around words to show them in the gold accent.
+
+          - name: s1_title
+            label: "Step 1: title"
+            widget: string
+            i18n: true
+
+          - name: s1_desc
+            label: "Step 1: text"
+            widget: text
+            i18n: true
+
+          - name: s2_title
+            label: "Step 2: title"
+            widget: string
+            i18n: true
+
+          - name: s2_desc
+            label: "Step 2: text"
+            widget: text
+            i18n: true
+
+          - name: s3_title
+            label: "Step 3: title"
+            widget: string
+            i18n: true
+
+          - name: s3_desc
+            label: "Step 3: text"
+            widget: text
+            i18n: true
+
+          - name: s4_title
+            label: "Step 4: title"
+            widget: string
+            i18n: true
+
+          - name: s4_desc
+            label: "Step 4: text"
+            widget: text
+            i18n: true
+
+          - name: s4_note
+            label: "Step 4: note (shown with a line beside it)"
+            widget: string
+            i18n: true
+
+          - name: s5_title
+            label: "Step 5: title"
+            widget: string
+            i18n: true
+
+          - name: s5_desc
+            label: "Step 5: text"
+            widget: text
+            i18n: true
+
+          - name: closing_title
+            label: Closing headline
+            widget: string
+            i18n: true
+            hint: Also used at the bottom of the Gallery and About pages. Put *stars* around words to show them in the gold accent.
+
+      - name: gallery
+        label: Gallery page
+        file: content/gallery.json
+        format: json
+        i18n: true
+        fields:
+          - name: gallery_title
+            label: Headline
+            widget: string
+            i18n: true
+            hint: Put *stars* around words to show them in the gold accent.
+
+          - name: gallery_intro
+            label: Intro
+            widget: text
+            i18n: true
+
+          - name: band_title
+            label: "“Available now” headline (on the homepage)"
+            widget: string
+            i18n: true
+            hint: Put *stars* around words to show them in the gold accent.
+
+          - name: band_sub
+            label: "“Available now” intro (on the homepage)"
+            widget: text
+            i18n: true
+
+          - name: more_coming
+            label: "“More paintings coming” note"
+            widget: text
+            i18n: true
+            hint: Shown at the end of the gallery when switched on under Settings.
+
+      - name: contact
+        label: Contact page
+        file: content/contact.json
+        format: json
+        i18n: true
+        fields:
+          - name: contact_title
+            label: Headline
+            widget: string
+            i18n: true
+            hint: Put *stars* around words to show them in the gold accent.
+
+          - name: contact_intro
+            label: Intro
+            widget: text
+            i18n: true
+
+          - name: contact_email_copy
+            label: "Email: description"
+            widget: string
+            i18n: true
+
+          - name: contact_whatsapp_copy
+            label: "WhatsApp: description"
+            widget: string
+            i18n: true
+
+          - name: contact_instagram_copy
+            label: "Instagram: description"
+            widget: string
+            i18n: true
+
+          - name: contact_form_copy
+            label: "Form: description"
+            widget: string
+            i18n: true
+
+      - name: buying
+        label: Buying and inquiries
+        file: content/buying.json
+        format: json
+        i18n: true
+        fields:
+          - name: avail_note
+            label: Note on available paintings
+            widget: text
+            i18n: true
+            hint: Shown with every painting that is for sale.
+
+          - name: delivery_note
+            label: Delivery note
+            widget: text
+            i18n: true
+            hint: Follows the note above. Update this once shipping is decided.
+
+          - name: modal_sub
+            label: "Commission form: intro"
+            widget: text
+            i18n: true
+
+          - name: modal_sub_buy
+            label: "Buying form: intro"
+            widget: text
+            i18n: true
+
+      - name: footer
+        label: Footer
+        file: content/footer.json
+        format: json
+        i18n: true
+        fields:
+          - name: footer_legal
+            label: Copyright line
+            widget: string
+            i18n: true
+
+          - name: privacy_note
+            label: Privacy note
+            widget: text
+            i18n: true
+            hint: Keep this accurate if analytics or the form provider change.
+
   - name: settings
     label: Settings
+    i18n: true
     files:
+      - name: commissions
+        label: Commissions open or closed
+        file: content/commissions.json
+        format: json
+        i18n: true
+        fields:
+          - name: open
+            label: Taking commissions
+            widget: boolean
+            hint: Switch off to show the “closed” note on every page instead. The commission buttons stay, so people can still ask about later dates.
+
+          - name: open_text
+            label: Note when open
+            widget: string
+            i18n: true
+
+          - name: closed_text
+            label: Note when closed
+            widget: text
+            i18n: true
+
       - name: site
-        label: Prices and gallery
+        label: Prices, gallery and contact links
         file: content/settings.json
         format: json
         fields:
@@ -244,3 +518,12 @@ collections:
           - name: more_coming
             label: Show “more paintings coming soon” at the end of the gallery
             widget: boolean
+          - name: contact
+            label: Contact links
+            widget: object
+            hint: Used in every footer and on the contact page.
+            fields:
+              - { name: email, label: Email address, widget: string }
+              - { name: whatsapp, label: WhatsApp, widget: string, hint: "Phone number with country code, e.g. +48 600 000 000, or a full https://wa.me/… link." }
+              - { name: instagram, label: Instagram link, widget: string, hint: "Full link, starting with https://" }
+              - { name: pinterest, label: Pinterest link, widget: string, hint: "Full link, starting with https://" }
